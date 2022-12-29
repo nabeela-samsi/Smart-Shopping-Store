@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios"
 
 import { Product } from "../../type/Product";
@@ -22,26 +22,34 @@ const productSlice = createSlice({
     name: 'productSlice',
     initialState,
     reducers: {
+        filterByCategoryID: (state: Product[], action: PayloadAction<number>) => {
+            console.log("action", action)
+            if(action.payload > 0) {
+                return [...state].filter(item => item.category.id === action.payload)
+            }
+            return state
+        }
     },
     extraReducers: (builder) => {
-        builder.addCase(getAllProducts.pending, (state, action ) => {
-            console.log("data is loading")
-            return state
-        } )
-        builder.addCase(getAllProducts.rejected, (state,action) => {
-            console.log("Something went wrong while loading the data")
-            return state
-        })
-        builder.addCase(getAllProducts.fulfilled, (state,action) => {
-            if(action.payload && "message" in action.payload) {
-                return state
-            } else if(!action.payload) {
+        builder.addCase(getAllProducts.fulfilled, (state, action) => {
+            if(action.payload && "message" in action.payload){
+                console.log("state1")
                 return state
             }
+           return action.payload
+        })
+        builder.addCase(getAllProducts.pending, (state,action) => {
+            console.log("category data is loading")
+            return state
+        })
+        builder.addCase(getAllProducts.rejected, (state,action) => {
+            console.log("something went wrong while loading categories")
+            return state
         })
     }
 })
 
 const productReducer = productSlice.reducer
 
+export const {filterByCategoryID} = productSlice.actions
 export default productReducer

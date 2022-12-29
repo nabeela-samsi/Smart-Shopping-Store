@@ -1,4 +1,3 @@
-import React from "react";
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from "@mui/icons-material/Search";
@@ -6,9 +5,21 @@ import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone';
 import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import Brightness4SharpIcon from '@mui/icons-material/Brightness4Sharp';
-import { Box } from "@mui/material";
+import { Autocomplete, Box } from "@mui/material";
+import { useContext, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHook';
+import { getAllProducts } from '../redux/reducers/productReducer';
+import { ThemeContext } from '@emotion/react';
 
 const Header = () => {
+    const dispatch = useAppDispatch()
+    const products = useAppSelector(state => state.productReducer)
+    // const {isDarkTheme, toggleTheme} = useContext(ThemeContext)
+
+
+    useEffect(() => {
+        dispatch(getAllProducts())
+    },[dispatch])
     return (
         <header>
             <Box sx={{ display: "flex", flexDirection:"row", alignItems:"center", columnGap:'2%', justifyContent:"center", p:1, m:1}}>
@@ -18,7 +29,6 @@ const Header = () => {
                 <div className="header__query">
                     <TextField
                         placeholder="search for products"
-                        variant="outlined"
                         fullWidth
                         color="primary"
                         InputProps={{
@@ -31,6 +41,7 @@ const Header = () => {
                         }}
 
                     />
+
                 </div>
                 <div className="header__action">
                     <PersonOutlineTwoToneIcon color="info" fontSize="large" sx={{mr: "1em"}}/>
