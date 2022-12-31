@@ -18,14 +18,13 @@ export const getAllCategories = createAsyncThunk(
     }
 )
 
-const categorySlice = createSlice({
+export const categorySlice = createSlice({
     name: 'categorySlice',
     initialState: initialState,
     reducers:{},
     extraReducers: (builder) => {
         builder.addCase(getAllCategories.fulfilled, (state, action) => {
             if(action.payload && "message" in action.payload){
-                console.log("state1")
                 return state
             }
            return action.payload

@@ -18,17 +18,10 @@ export const getAllProducts = createAsyncThunk(
     }
 )
 
-const productSlice = createSlice({
+export const productSlice = createSlice({
     name: 'productSlice',
     initialState,
     reducers: {
-        filterByCategoryID: (state: Product[], action: PayloadAction<number>) => {
-            console.log("action", action)
-            if(action.payload > 0) {
-                return [...state].filter(item => item.category.id === action.payload)
-            }
-            return state
-        }
     },
     extraReducers: (builder) => {
         builder.addCase(getAllProducts.fulfilled, (state, action) => {
@@ -51,5 +44,5 @@ const productSlice = createSlice({
 
 const productReducer = productSlice.reducer
 
-export const {filterByCategoryID} = productSlice.actions
+// export const {filterByCategoryID} = productSlice.actions
 export default productReducer

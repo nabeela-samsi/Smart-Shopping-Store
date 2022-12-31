@@ -1,84 +1,107 @@
-import { Card, CardActionArea, CardContent, CardMedia, Grid, ImageList, ImageListItem, ImageListItemBar, Pagination, Typography } from "@mui/material"
-import { height } from "@mui/system"
-import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
-import { useAppDispatch, useAppSelector} from "../hooks/reduxHook"
-import { filterByCategoryID } from "../redux/reducers/productReducer"
+import { ChangeEvent, useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
+import { useAppSelector} from "../hooks/reduxHook"
+import { Alert, AlertTitle, Card, CardActionArea, CardContent, CardMedia, Grid, Pagination, Typography } from "@mui/material"
+import ScreenSearchDesktopIcon from '@mui/icons-material/ScreenSearchDesktop';
+
+import { usePagination } from "../hooks/usePagination"
+
+import { Product } from "../type/Product"
 
 const ListOfProducts = () => {
-    const params = useParams()
-    const products = useAppSelector(state => state.productReducer)
-    const dispatch = useAppDispatch()
-    const categoryId = (params.categoryid) ? Number(params.categoryid) : 0
-
+    const getLocation = useLocation().search
+    const categoryId = new URLSearchParams(getLocation).get("id")
+    const productName = new URLSearchParams(getLocation).get("name")
+    const products = useAppSelector(state => state.products)
     const [currentPage, setCurrentPage] = useState(1)
+    const [filteredProducts, setfilteredProducts] = useState<Product[]>([])
+    const pageLimit = 12
+    const pagecount = Math.ceil(filteredProducts.length / pageLimit)
+    const productsPagination = usePagination(filteredProducts, pageLimit)
 
+    const handlePagechange = (_: ChangeEvent<unknown>, p: number) => {
+        setCurrentPage(p);
+        productsPagination.jumpToPage(p)
+    }
 
     useEffect (() => {
-        dispatch(filterByCategoryID(categoryId))
-    },[dispatch])
+        let dataFiltering = products
+        if(Number(categoryId) > 0) {
+            dataFiltering = products.filter(product => product.category.id === Number(categoryId))
+        } else if(productName) {
+            dataFiltering = products.filter(product => product.title.toLowerCase().includes(productName.toLowerCase()))
+        }
+        setfilteredProducts(dataFiltering)
+
+    },[categoryId, productName, products])
 
     return (
         <>
-            {/* <ImageList cols={4} gap={20} sx={{ml:5, mr:5}}>
-                {products.map((item) => (
-                    <ImageListItem key={item.id} sx={{maxWidth: "60%"}}>
-                        <Link to={`/products/${item.id}`}>
-                            <img src={item.images[0]} alt={item.title} loading="lazy" />
-                            <ImageListItemBar
-                                title={item.title}
-                                position="bottom"
-                            />
-                        </Link>
-                    </ImageListItem>
-                ))}
-            </ImageList> */}
-
-
-            <Grid
-                container
-                spacing={3}
-                direction="row"
-                sx={{pr:10, pl:10}}
-            >
-                {products.map(product => (
+            {filteredProducts.length > 0 ?
+                <div>
+                    <Pagination
+                            count = {pagecount}
+                            size="large"
+                            page={currentPage}
+                            variant="outlined"
+                            shape="rounded"
+                            onChange={handlePagechange}
+                            sx={{display:"flex", alignItems:"center", justifyContent: "center", pb:5}}
+                    />
                     <Grid
-                        item
-                        xs={2}
-                        key={product.id}
-
+                        container
+                        spacing={4}
+                        direction="row"
+                        sx={{pr:10, pl:10}}
                     >
-                        <Card>
-                            <CardActionArea>
-                                <CardMedia
-                                    component={"img"}
-                                    image={product.images[0]}
-                                    alt={product.title}
+                        {productsPagination.currentPageData().map((data) => (
+                                <Grid
+                                item
+                                xs={2}
+                                key={data.id}
+                            >
+                                <Card variant="outlined">
 
-                                />
-                                <CardContent>
-                                    <Typography>
-                                        {product.title}
-                                    </Typography>
-                                    <Typography>
-                                        {product.category.name}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
+                                    <CardActionArea>
+                                        <CardMedia
+                                            component={"img"}
+                                            image={data.images[0]}
+                                            alt={data.title}
+                                        />
+                                        <CardContent>
+                                            <Typography fontWeight={"bold"} >
+                                                {data.title}
+                                            </Typography>
+                                            <Typography variant="caption">
+                                                {data.category.name}
+                                            </Typography>
+                                            <Typography fontWeight={"bold"}>
+                                                € {data.price}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                            ))}
                     </Grid>
-                ))}
-            </Grid>
-           {/* <Pagination
-                count={Math.ceil(products.length / 3)}
-                page={currentPage}
-                variant="outlined"
-            /> */}
-
-
+                    <Pagination
+                        count = {pagecount}
+                        size="large"
+                        page={currentPage}
+                        variant="outlined"
+                        shape="rounded"
+                        onChange={handlePagechange}
+                        sx={{display:"flex", alignItems:"center", justifyContent: "center", pb:5, pt:5}}
+                    />
+                </div>
+            :
+                <Alert severity="error">
+                    <AlertTitle>Sorry, no results found!</AlertTitle>
+                    <Typography component={"p"}>Please check the spelling or try searching for something else</Typography>
+                </Alert>
+            }
         </>
     )
-
 }
 
 export default ListOfProducts

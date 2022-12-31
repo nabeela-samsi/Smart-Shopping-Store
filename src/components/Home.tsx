@@ -1,4 +1,4 @@
-import { Grid, ImageList, ImageListItem, ImageListItemBar } from "@mui/material"
+import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
@@ -7,13 +7,12 @@ import { getAllProducts } from "../redux/reducers/productReducer"
 
 const Home = () => {
     const dispatch = useAppDispatch()
-    const categories = useAppSelector(state => state.categoryReducer)
-    const products = useAppSelector(state => state.productReducer)
+    const categories = useAppSelector(state => state.categories)
 
     useEffect(() => {
         dispatch(getAllCategories())
         dispatch(getAllProducts())
-    },[])
+    },[dispatch])
 
     return (
         <div className="home">
@@ -21,21 +20,40 @@ const Home = () => {
                 <img alt="The offer"
                 src="https://www.coredna.com/files/images/blogs/71/961/ecommerce-discount-coupon-strategies-anniversary.png?w=831&h=346" />
             </Grid>
-            <ImageList variant="standard" cols={3} gap={8} sx={{ml:5, mr:5}}>
-                {categories.map((item) => (
-                    <ImageListItem key={item.id}>
-                        <Link to={`/products/${item.id}`}>
-                            <img src={item.image} alt={item.name} loading="lazy" />
-                            <ImageListItemBar
-                                title={item.name}
-                                position="top"
-                            />
+            <Grid
+                container
+                spacing={4}
+                direction="row"
+                sx={{p:10}}
+            >
+                {categories.map((data) => (
+                    <Grid
+                        item
+                        xs={3}
+                        key={data.id}
+                    >
+                        <Link to={`/products/searchByCategory?id=${data.id}`} style={{textDecoration: 'none'}}>
+                            <Card variant="elevation" >
+                                <CardActionArea>
+                                    <CardContent>
+                                    <Typography fontWeight={"bold"}>
+                                        {data.name}
+                                    </Typography>
+                                    </CardContent>
+                                    <CardMedia
+                                        component={"img"}
+                                        image={data.image}
+                                        alt={data.name}
+                                        height="300"
+                                        style={{objectFit:"scale-down"}}
+                                    />
+                                </CardActionArea>
+                            </Card>
                         </Link>
-                    </ImageListItem>
+                    </Grid>
                 ))}
-            </ImageList>
-
-        </ div>
+            </Grid>
+        </div>
     )
 }
 
