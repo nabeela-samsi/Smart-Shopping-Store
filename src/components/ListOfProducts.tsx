@@ -1,8 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { useAppSelector} from "../hooks/reduxHook"
 import { Alert, AlertTitle, Card, CardActionArea, CardContent, CardMedia, Grid, Pagination, Typography } from "@mui/material"
-import ScreenSearchDesktopIcon from '@mui/icons-material/ScreenSearchDesktop';
 
 import { usePagination } from "../hooks/usePagination"
 
@@ -38,15 +37,15 @@ const ListOfProducts = () => {
     return (
         <>
             {filteredProducts.length > 0 ?
-                <div>
+                <>
                     <Pagination
-                            count = {pagecount}
-                            size="large"
-                            page={currentPage}
-                            variant="outlined"
-                            shape="rounded"
-                            onChange={handlePagechange}
-                            sx={{display:"flex", alignItems:"center", justifyContent: "center", pb:5}}
+                        count = {pagecount}
+                        size="large"
+                        page={currentPage}
+                        variant="outlined"
+                        shape="rounded"
+                        onChange={handlePagechange}
+                        sx={{display:"flex", alignItems:"center", justifyContent: "center", pb:5}}
                     />
                     <Grid
                         container
@@ -55,34 +54,35 @@ const ListOfProducts = () => {
                         sx={{pr:10, pl:10}}
                     >
                         {productsPagination.currentPageData().map((data) => (
-                                <Grid
+                            <Grid
                                 item
                                 xs={2}
                                 key={data.id}
                             >
-                                <Card variant="outlined">
-
-                                    <CardActionArea>
-                                        <CardMedia
-                                            component={"img"}
-                                            image={data.images[0]}
-                                            alt={data.title}
-                                        />
-                                        <CardContent>
-                                            <Typography fontWeight={"bold"} >
-                                                {data.title}
-                                            </Typography>
-                                            <Typography variant="caption">
-                                                {data.category.name}
-                                            </Typography>
-                                            <Typography fontWeight={"bold"}>
-                                                € {data.price}
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
+                                <Link to={`/product/${data.id}`} style={{textDecoration: 'none'}}>
+                                    <Card variant="outlined">
+                                        <CardActionArea>
+                                            <CardMedia
+                                                component={"img"}
+                                                image={data.images[0]}
+                                                alt={data.title}
+                                            />
+                                            <CardContent>
+                                                <Typography fontWeight={"bold"} >
+                                                    {data.title}
+                                                </Typography>
+                                                <Typography variant="caption">
+                                                    {data.category.name}
+                                                </Typography>
+                                                <Typography fontWeight={"bold"}>
+                                                    € {data.price}
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Link>
                             </Grid>
-                            ))}
+                        ))}
                     </Grid>
                     <Pagination
                         count = {pagecount}
@@ -93,7 +93,7 @@ const ListOfProducts = () => {
                         onChange={handlePagechange}
                         sx={{display:"flex", alignItems:"center", justifyContent: "center", pb:5, pt:5}}
                     />
-                </div>
+                </>
             :
                 <Alert severity="error">
                     <AlertTitle>Sorry, no results found!</AlertTitle>

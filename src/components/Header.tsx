@@ -10,9 +10,10 @@ import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import Brightness4SharpIcon from '@mui/icons-material/Brightness4Sharp';
 import {Box, IconButton } from "@mui/material";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
+    const getLocation = useLocation().search
     const dispatch = useAppDispatch()
     const [inputValue, setInputValue] = useState("")
     const navigate = useNavigate()
@@ -22,6 +23,13 @@ const Header = () => {
     useEffect(() => {
         dispatch(getAllProducts())
     },[dispatch])
+
+    useEffect(()=>{
+        const productName = new URLSearchParams(getLocation).get("name")
+        if(productName && productName.trim().length > 0) {
+            setInputValue(productName)
+        }
+    },[])
 
     const handleOnKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if(e.key === 'Enter') {
