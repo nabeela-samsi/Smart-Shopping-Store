@@ -9,7 +9,7 @@ import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone';
 import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import Brightness4SharpIcon from '@mui/icons-material/Brightness4Sharp';
-import {Box, IconButton } from "@mui/material";
+import {BottomNavigation, BottomNavigationAction, Box, IconButton } from "@mui/material";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Header = () => {
@@ -65,7 +65,7 @@ const Header = () => {
                     />
                 </div>
                 <div className="header__action">
-                    <PersonOutlineTwoToneIcon color="info" fontSize="large" sx={{mr: "1em"}}/>
+                    <PersonOutlineTwoToneIcon color="info" fontSize="large" sx={{mr: "1em"}} />
                     <ShoppingCartTwoToneIcon color="info" fontSize="large" sx={{mr: "1em"}}/>
                     <FavoriteTwoToneIcon color="info" fontSize="large" sx={{mr: "1em"}}/>
                     <Brightness4SharpIcon fontSize="large" sx={{mr: "1em"}} />

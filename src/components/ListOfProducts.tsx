@@ -8,6 +8,7 @@ import { usePagination } from "../hooks/usePagination"
 import { Product } from "../type/Product"
 
 const ListOfProducts = () => {
+    const {pathname} = useLocation()
     const getLocation = useLocation().search
     const categoryId = new URLSearchParams(getLocation).get("id")
     const productName = new URLSearchParams(getLocation).get("name")
@@ -59,7 +60,11 @@ const ListOfProducts = () => {
                                 xs={2}
                                 key={data.id}
                             >
-                                <Link to={`/product/${data.id}`} style={{textDecoration: 'none'}}>
+                                <Link
+                                    to={`/product/${data.id}`}
+                                    style={{textDecoration: 'none'}}
+                                    state={{previousPath: pathname}}
+                                >
                                     <Card variant="outlined">
                                         <CardActionArea>
                                             <CardMedia
