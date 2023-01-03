@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios"
 
 import { Product } from "../../type/Product";
@@ -26,7 +26,6 @@ export const productSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getAllProducts.fulfilled, (state, action) => {
             if(action.payload && "message" in action.payload){
-                console.log("state1")
                 return state
             }
            return action.payload

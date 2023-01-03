@@ -1,3 +1,9 @@
+export interface ModalType {
+    modalIsOpen: boolean
+    toggle: () => void
+    formType: string
+}
+
 export interface LoginForm {
     email: string
     password: string
@@ -6,10 +12,8 @@ export interface LoginForm {
 export interface FormError {
     error: boolean
     errorMessage: string
-    fieldErrorInfo : Error[]
-}
-
-export interface Error {
-    field: string
-    fieldMessage: string
+    fieldErrorInfo : {
+        "email": string
+        "password": string
+    }
 }

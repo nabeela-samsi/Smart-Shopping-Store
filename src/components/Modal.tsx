@@ -1,16 +1,18 @@
 import { Dialog, DialogTitle } from "@mui/material"
 import LogInForm from "./LoginForm"
+import { ModalType } from "../type/Form"
 
-const Modal = ({modalIsOpen,toggle,formType}:{modalIsOpen:boolean, toggle: () => void,formType: string}) => {
+const Modal = ({modalIsOpen, toggle, formType}: ModalType) => {
     return (
         <>
             <Dialog
                 open={modalIsOpen}
                 onClose={toggle}
-                style={{backgroundColor: 'transparent'}}
 
             >
-                <DialogTitle>{formType}</DialogTitle>
+                <DialogTitle>
+                    {formType}
+                </DialogTitle>
                 <LogInForm />
             </Dialog>
         </>

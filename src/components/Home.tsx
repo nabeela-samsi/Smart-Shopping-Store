@@ -1,7 +1,16 @@
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material"
+import {
+    Card,
+    CardActionArea,
+    CardContent,
+    CardMedia,
+    Grid,
+    Typography
+} from "@mui/material"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
+
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
+
 import { getAllCategories } from "../redux/reducers/categoryReducer"
 import { getAllProducts } from "../redux/reducers/productReducer"
 
@@ -16,9 +25,16 @@ const Home = () => {
 
     return (
         <div className="home">
-            <Grid container justifyContent={"center"} alignItems={"center"} spacing={0}>
-                <img alt="The offer"
-                src="https://www.coredna.com/files/images/blogs/71/961/ecommerce-discount-coupon-strategies-anniversary.png?w=831&h=346" />
+            <Grid
+                container
+                justifyContent={"center"}
+                alignItems={"center"}
+                spacing={0}
+            >
+                <img
+                    alt="The offer"
+                    src="https://www.coredna.com/files/images/blogs/71/961/ecommerce-discount-coupon-strategies-anniversary.png?w=831&h=346"
+                />
             </Grid>
             <Grid
                 container
@@ -32,7 +48,10 @@ const Home = () => {
                         xs={3}
                         key={data.id}
                     >
-                        <Link to={`/products/searchByCategory?id=${data.id}`} style={{textDecoration: 'none'}}>
+                        <Link
+                            to={`/products/searchByCategory?id=${data.id}`}
+                            style={{textDecoration: 'none'}}
+                        >
                             <Card variant="elevation" >
                                 <CardActionArea>
                                     <CardContent>

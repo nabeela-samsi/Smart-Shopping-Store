@@ -1,9 +1,11 @@
-import { Link, useLocation, useParams } from "react-router-dom"
-import { useAppSelector } from "../hooks/reduxHook"
 import { useEffect, useState } from "react"
-import { Product } from "../type/Product"
-import { Breadcrumbs, Button, Grid, MobileStepper, Typography } from "@mui/material"
+import { Link, useLocation, useParams } from "react-router-dom"
+import {  Button, Grid, MobileStepper, Typography } from "@mui/material"
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material"
+
+import { useAppSelector } from "../hooks/reduxHook"
+
+import { Product } from "../type/Product"
 
 const ProductDetails = () => {
     const {state} =  useLocation()
@@ -30,21 +32,20 @@ const ProductDetails = () => {
         setActiveStep(prevActiveStep => prevActiveStep - 1)
     }
 
-    const handleNavigation = () => {
-
-    }
-
     return (
         <>
             {productDetails ?
                 <>
-                    <Link to={state.previousPath} style={{textDecoration: "none"}}>
+                    <Link
+                        to={state.previousPath}
+                        style={{textDecoration: "none"}}
+                    >
                         <Button
                             variant="contained"
                             color="inherit"
                             sx={{m:5}}
                         >
-                            Back to result
+                            Back to results
                         </Button>
                     </Link>
                     <Grid container spacing={2} sx={{ alignItems: "center", justifyContent: "center" }}>

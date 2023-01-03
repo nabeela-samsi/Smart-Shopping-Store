@@ -16,24 +16,12 @@ const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const createStore = () => {
   return configureStore({
-    reducer: persistedReducer,
-    devTools: process.env.NODE_ENV !== 'production',
-    middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        // Ignore these action types
-        ignoredActions: ['your/action/type'],
-        // Ignore these field paths in all actions
-        ignoredActionPaths: ['meta.arg', 'payload.timestamp'],
-        // Ignore these paths in the state
-        ignoredPaths: ['items.dates'],
-      },
-    }),
+    reducer: persistedReducer
   })
 } ;
 
 const store = createStore()
-
+console.log(typeof store)
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<

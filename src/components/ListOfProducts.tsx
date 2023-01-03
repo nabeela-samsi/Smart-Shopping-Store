@@ -1,8 +1,18 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { useAppSelector} from "../hooks/reduxHook"
-import { Alert, AlertTitle, Card, CardActionArea, CardContent, CardMedia, Grid, Pagination, Typography } from "@mui/material"
+import {
+    Alert,
+    AlertTitle,
+    Card,
+    CardActionArea,
+    CardContent,
+    CardMedia,
+    Grid,
+    Pagination,
+    Typography
+} from "@mui/material"
 
+import { useAppSelector} from "../hooks/reduxHook"
 import { usePagination } from "../hooks/usePagination"
 
 import { Product } from "../type/Product"
@@ -32,7 +42,6 @@ const ListOfProducts = () => {
             dataFiltering = products.filter(product => product.title.toLowerCase().includes(productName.toLowerCase()))
         }
         setfilteredProducts(dataFiltering)
-
     },[categoryId, productName, products])
 
     return (
@@ -40,13 +49,13 @@ const ListOfProducts = () => {
             {filteredProducts.length > 0 ?
                 <>
                     <Pagination
+                        className="pagination"
                         count = {pagecount}
                         size="large"
                         page={currentPage}
                         variant="outlined"
                         shape="rounded"
                         onChange={handlePagechange}
-                        sx={{display:"flex", alignItems:"center", justifyContent: "center", pb:5}}
                     />
                     <Grid
                         container
@@ -96,13 +105,16 @@ const ListOfProducts = () => {
                         variant="outlined"
                         shape="rounded"
                         onChange={handlePagechange}
-                        sx={{display:"flex", alignItems:"center", justifyContent: "center", pb:5, pt:5}}
                     />
                 </>
             :
                 <Alert severity="error">
-                    <AlertTitle>Sorry, no results found!</AlertTitle>
-                    <Typography component={"p"}>Please check the spelling or try searching for something else</Typography>
+                    <AlertTitle>
+                        Sorry, no results found!
+                    </AlertTitle>
+                    <Typography component={"p"}>
+                        Please check the spelling or try searching for something else
+                    </Typography>
                 </Alert>
             }
         </>

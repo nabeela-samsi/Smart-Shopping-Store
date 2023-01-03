@@ -1,20 +1,14 @@
-import { ThemeProvider, createTheme, makeStyles } from "@mui/material"
+import { ThemeProvider } from "@mui/material"
 import "./compiled/styles.css"
 
 import router from "./router/router"
 import { RouterProvider } from "react-router-dom"
+import { appTheme } from "./utilities/appTheme"
 
 const App = () => {
-  const defaultTheme = createTheme({
-      typography:{
-        button: {
-          textTransform: "none"
-        }
-      }
-  })
   return (
     <>
-      <ThemeProvider theme={defaultTheme}>
+      <ThemeProvider theme={appTheme}>
         <RouterProvider router={router} />
         </ThemeProvider>
     </>

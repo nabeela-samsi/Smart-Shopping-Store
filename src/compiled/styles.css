@@ -1,5 +1,7 @@
-.header {
-  background-color: rgb(255, 55, 0) !important;
+.home__timeline {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .footer {
@@ -8,12 +10,6 @@
   text-align: center;
   padding-bottom: 10;
   margin-right: 10;
-}
-
-.home__timeline {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /*# sourceMappingURL=styles.css.map */
