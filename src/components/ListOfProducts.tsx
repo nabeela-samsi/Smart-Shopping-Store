@@ -15,7 +15,7 @@ import {
 import { useAppSelector} from "../hooks/reduxHook"
 import { usePagination } from "../hooks/usePagination"
 
-import { Product } from "../type/Product"
+import { Product } from "../type/Reducers"
 
 const ListOfProducts = () => {
     const {pathname} = useLocation()
@@ -82,13 +82,13 @@ const ListOfProducts = () => {
                                                 alt={data.title}
                                             />
                                             <CardContent>
-                                                <Typography fontWeight={"bold"} >
+                                                <Typography fontWeight={"bold"} component="span">
                                                     {data.title}
                                                 </Typography>
-                                                <Typography variant="caption">
+                                                <Typography variant="caption" component="span">
                                                     {data.category.name}
                                                 </Typography>
-                                                <Typography fontWeight={"bold"}>
+                                                <Typography fontWeight={"bold"} component="span">
                                                     € {data.price}
                                                 </Typography>
                                             </CardContent>
@@ -112,7 +112,7 @@ const ListOfProducts = () => {
                     <AlertTitle>
                         Sorry, no results found!
                     </AlertTitle>
-                    <Typography>
+                    <Typography component="span">
                         Please check the spelling or try searching for something else
                     </Typography>
                 </Alert>

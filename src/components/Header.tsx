@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../hooks/reduxHook';
-import { getAllProducts } from '../redux/reducers/productReducer';
+import { getAllProducts } from '../redux/methods/productMethods';
 
 import { Box } from "@mui/material";
-import SearchBar from './SearchBar';
-import NavigationBar from './NavigationBar';
 import { useLocation } from 'react-router-dom';
-import Logo from './Logo';
+import { Logo, SearchBar, NavigationBar } from './HeaderItems';
 
 const Header = () => {
     const dispatch = useAppDispatch()

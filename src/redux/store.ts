@@ -5,6 +5,9 @@ import { persistReducer } from 'redux-persist';
 import productReducer from './reducers/productReducer';
 import categoryReducer from './reducers/categoryReducer';
 import userReducer from './reducers/userReducer';
+import authReducer from './reducers/authReducers';
+import cartReducer from './reducers/cartReducers';
+import wishListReducer from './reducers/wishListReducers';
 
 const persistConfig = {
   key: 'root',
@@ -16,7 +19,10 @@ const reducers = combineReducers(
   {
     products: productReducer,
     categories: categoryReducer,
-    users: userReducer
+    users: userReducer,
+    auth: authReducer,
+    cart: cartReducer,
+    wishList: wishListReducer
   }
 )
 const persistedReducer = persistReducer(persistConfig, reducers)

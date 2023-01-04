@@ -8,25 +8,28 @@ import {
     Grid,
     IconButton,
     InputAdornment,
-    TextField
+    TextField,
+    Typography
 } from "@mui/material"
 import { Box } from "@mui/system"
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
-import { useAppSelector } from "../hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { Link, useNavigate } from "react-router-dom";
+import { userLogin } from "../redux/reducers/authReducers";
 
 const LogInForm =  () => {
     const users = useAppSelector(state => state.users)
     const [showPassword, setPasswordVisibilty] = useState(false)
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
     const [{error, errorMessage}, setFormError] = useState({
         error: false,
         errorMessage: ''
     })
-    const {register, handleSubmit,watch, control,formState:{errors}} = useForm({
+    const {register, handleSubmit, formState:{errors}} = useForm({
         defaultValues: {
             email: "",
             password: ""
@@ -41,26 +44,22 @@ const LogInForm =  () => {
         email: string;
         password: string;
     }) => {
-        setFormError({
-            error: false,
-            errorMessage: ""
-        })
-        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
-        if(!emailRegex.test(data.email)) {
+        const userInfo = users.find((user) => user.email === data.email && user.password === data.password)
+        if(userInfo) {
             setFormError({
-                error: true,
-                errorMessage: "please provide valid email address"
+                error: false,
+                errorMessage: ""
             })
+            dispatch(userLogin({
+                loggedIn: true,
+                userInfo
+            }))
+            navigate("/")
         } else {
-            const isDataMatch = users.some((user) => user.email === data.email && user.password === data.password)
-           if(isDataMatch) {
-                navigate("/")
-           } else {
             setFormError({
                 error: true,
                 errorMessage: "The email address or password are incorrect"
             })
-           }
         }
     }
 
@@ -89,7 +88,16 @@ const LogInForm =  () => {
                     </Alert>
                 }
                     <TextField
-                        {...register("email", {required: "email is required"})}
+                        {...register(
+                            "email",
+                            {
+                                required: "email is required",
+                                pattern: {
+                                    value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                                    message: "please provide valid email address"
+                                }
+                            }
+                        )}
                         type="email"
                         label={"Email Address"}
                         placeholder={"john@domain.com"}
@@ -134,16 +142,9 @@ const LogInForm =  () => {
                         Log In
                     </Button>
                 </Box>
-                <Box
-                    display={"flex"}
-                    flexDirection={"column"}
-                    alignContent={"center"}
-                    justifyContent={"center"}
-                >
-                <Link to="/signup">
-                        New to Smart Shopping? create an account
-                </Link>
-                </Box>
+                <Typography component="span" display={"flex"} alignContent="center" justifyContent={"center"} sx={{m:3}} >
+                    New to Smart Shopping? &nbsp; <Link to="/signup"> create an account </Link>
+                </Typography>
             </Grid>
         </Grid>
     )

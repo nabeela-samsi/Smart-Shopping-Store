@@ -12,9 +12,9 @@ import {
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 
-import { getAllCategories } from "../redux/reducers/categoryReducer"
-import { getAllProducts } from "../redux/reducers/productReducer"
-import { getAllUsers } from "../redux/reducers/userReducer"
+import { getAllCategories } from "../redux/methods/categoryMethods"
+import { getAllProducts } from "../redux/methods/productMethods"
+import { getAllUsers } from "../redux/methods/userMethods"
 
 const Home = () => {
     const dispatch = useAppDispatch()
@@ -58,7 +58,7 @@ const Home = () => {
                             <Card variant="elevation" >
                                 <CardActionArea>
                                     <CardContent>
-                                    <Typography fontWeight={"bold"}>
+                                    <Typography fontWeight={"bold"} component="span">
                                         {data.name}
                                     </Typography>
                                     </CardContent>

@@ -1,22 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { Category } from "../../type/Category";
+import { Category } from "../../type/Reducers";
+import { getAllCategories } from "../methods/categoryMethods";
 
 const initialState: Category[] = []
-
-export const getAllCategories = createAsyncThunk(
-    "getAllCategories",
-    async () => {
-        try{
-            const getResponse = await axios('https://api.escuelajs.co/api/v1/categories')
-            const data: Category[] | Error = await getResponse.data
-            return data
-        }catch(e: any) {
-            throw new Error(e.message)
-        }
-    }
-)
 
 export const categorySlice = createSlice({
     name: 'categorySlice',

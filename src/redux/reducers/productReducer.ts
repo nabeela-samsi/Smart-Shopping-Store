@@ -1,22 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios"
+import { createSlice } from "@reduxjs/toolkit";
 
-import { Product } from "../../type/Product";
+import { Product } from "../../type/Reducers";
+import { getAllProducts } from "../methods/productMethods";
 
 const initialState: Product[] = []
-
-export const getAllProducts = createAsyncThunk(
-    "getAllProducts",
-   async () => {
-        try {
-            const getResponse = await axios("https://api.escuelajs.co/api/v1/products")
-            const getData: Product[] | Error = await getResponse.data
-            return getData
-        }catch(e: any) {
-            console.log('something went wrong')
-        }
-    }
-)
 
 export const productSlice = createSlice({
     name: 'productSlice',
@@ -31,11 +18,11 @@ export const productSlice = createSlice({
            return action.payload
         })
         builder.addCase(getAllProducts.pending, (state,action) => {
-            console.log("category data is loading")
+            console.log("product data is loading")
             return state
         })
         builder.addCase(getAllProducts.rejected, (state,action) => {
-            console.log("something went wrong while loading categories")
+            console.log("something went wrong while loading products")
             return state
         })
     }

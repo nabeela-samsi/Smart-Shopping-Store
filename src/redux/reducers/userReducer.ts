@@ -1,22 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios"
+import { createSlice } from "@reduxjs/toolkit";
 
-import { User } from "../../type/User";
+import { User } from "../../type/Reducers";
+import { getAllUsers } from "../methods/userMethods";
 
 const initialState: User[] = []
-
-export const getAllUsers = createAsyncThunk(
-    "getAllUsers",
-   async () => {
-        try {
-            const getResponse = await axios("https://api.escuelajs.co/api/v1/users")
-            const getData: User[] | Error = await getResponse.data
-            return getData
-        }catch(e: any) {
-            console.log('something went wrong')
-        }
-    }
-)
 
 export const userSlice = createSlice({
     name: 'userSlice',

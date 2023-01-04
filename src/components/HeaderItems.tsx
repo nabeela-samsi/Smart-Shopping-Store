@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
+
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, InputAdornment, TextField } from "@mui/material"
+import { CartIcon, MenuBar, WishlistIcon } from "./NavItems";
 
-const SearchBar = () => {
+export const Logo = () => {
+    return (
+        <div className="header__logo">
+            <Link to={"/"}>
+                <img src="/logo.svg" alt="Brand Logo" width={200}/>
+            </Link>
+        </div>
+    )
+}
+
+export const SearchBar = () => {
     const [inputValue, setInputValue] = useState("")
     const navigate = useNavigate()
     const getLocation = useLocation().search
@@ -21,6 +33,7 @@ const SearchBar = () => {
             navigate(navigateURL)
         }
     }
+
     return (
         <div className="header__query">
             <TextField
@@ -47,4 +60,12 @@ const SearchBar = () => {
     )
 }
 
-export default SearchBar
+export const NavigationBar = () => {
+    return (
+        <div className="header__action">
+            <MenuBar />
+            <CartIcon />
+            <WishlistIcon />
+        </div>
+    )
+}

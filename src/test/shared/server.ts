@@ -1,61 +1,12 @@
 import {rest} from "msw";
 import {setupServer} from "msw/node"
+import { allCategories, allProducts, allUsers } from "../../utilities/dummyData";
 
 const handler = [
     rest.get("https://api.escuelajs.co/api/v1/products", (req, res, ctx) => {
         return res(
             ctx.json(
-                [
-                    {
-                        "id": 1,
-                        "title": "Handmade Steel Shirt",
-                        "price": 491,
-                        "description": "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
-                        "category": {
-                        "id": 1,
-                        "name": "Shoes",
-                        "image": "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
-                        },
-                        "images": [
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
-                        ]
-                    },
-                    {
-                        "id": 2,
-                        "title": "Handmade Steel Shirt",
-                        "price": 491,
-                        "description": "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
-                        "category": {
-                        "id": 2,
-                        "name": "Shoes",
-                        "image": "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
-                        },
-                        "images": [
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
-                        ]
-                    },
-                    {
-                        "id": 3,
-                        "title": "Handmade Steel Shirt",
-                        "price": 491,
-                        "description": "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
-                        "category": {
-                        "id": 3,
-                        "name": "Shoes",
-                        "image": "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
-                        },
-                        "images": [
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
-                        "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
-                        ]
-                    }
-
-                ]
+                allProducts
             )
         )
     }),
@@ -68,6 +19,20 @@ const handler = [
         }
         return res(
             ctx.json(product)
+        )
+    }),
+    rest.get("https://api.escuelajs.co/api/v1/categories", (req, res, ctx) => {
+        return res(
+            ctx.json(
+                allCategories
+            )
+        )
+    }),
+    rest.get("https://api.escuelajs.co/api/v1/users", (req, res, ctx) => {
+        return res(
+            ctx.json(
+                allUsers
+            )
         )
     })
 ]
