@@ -1,9 +1,10 @@
 import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
-import { persistReducer, persistStore } from 'redux-persist';
+import { persistReducer } from 'redux-persist';
 
 import productReducer from './reducers/productReducer';
 import categoryReducer from './reducers/categoryReducer';
+import userReducer from './reducers/userReducer';
 
 const persistConfig = {
   key: 'root',
@@ -11,7 +12,13 @@ const persistConfig = {
   storage
 }
 
-const reducers = combineReducers({products: productReducer, categories: categoryReducer})
+const reducers = combineReducers(
+  {
+    products: productReducer,
+    categories: categoryReducer,
+    users: userReducer
+  }
+)
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const createStore = () => {

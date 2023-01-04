@@ -14,7 +14,7 @@ const SearchBar = () => {
         if(productName && productName.trim().length > 0) {
             setInputValue(productName)
         }
-    },[])
+    },[getLocation])
 
     const handleOnKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if(e.key === 'Enter') {
@@ -22,26 +22,28 @@ const SearchBar = () => {
         }
     }
     return (
-        <TextField
-            placeholder="search for products"
-            fullWidth
-            color="primary"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyUp={handleOnKeyPress}
-            InputProps={{
-                style:{width:"45vw"},
-                endAdornment: (
-                    <InputAdornment position="start">
-                        <IconButton>
-                            <Link to={navigateURL}>
-                                <SearchIcon />
-                            </Link>
-                        </IconButton >
-                    </InputAdornment>
-                )
-            }}
-        />
+        <div className="header__query">
+            <TextField
+                placeholder="search for products"
+                fullWidth
+                color="primary"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyUp={handleOnKeyPress}
+                InputProps={{
+                    style:{width:"45vw"},
+                    endAdornment: (
+                        <InputAdornment position="start">
+                            <IconButton>
+                                <Link to={navigateURL}>
+                                    <SearchIcon />
+                                </Link>
+                            </IconButton >
+                        </InputAdornment>
+                    )
+                }}
+            />
+        </div>
     )
 }
 

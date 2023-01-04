@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
 import {  Button, Grid, MobileStepper, Typography } from "@mui/material"
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { useAppSelector } from "../hooks/reduxHook"
 
@@ -22,7 +23,7 @@ const ProductDetails = () => {
                 setProductDetails(products[item])
             }
         }
-    },[])
+    },[products, id])
 
     const handleNext = () => {
         setActiveStep(prevActiveStep => prevActiveStep + 1)
@@ -36,20 +37,17 @@ const ProductDetails = () => {
         <>
             {productDetails ?
                 <>
-                    <Link
-                        to={state.previousPath}
-                        style={{textDecoration: "none"}}
-                    >
-                        <Button
-                            variant="contained"
-                            color="inherit"
-                            sx={{m:5}}
-                        >
-                            Back to results
-                        </Button>
-                    </Link>
                     <Grid container spacing={2} sx={{ alignItems: "center", justifyContent: "center" }}>
                         <Grid>
+                            <Link
+                                to={state.previousPath}
+                                    style={{textDecoration: "none", margin:5}}
+                                >
+                                    <ArrowBackIcon
+                                        fontSize="large"
+                                        sx={{mt:2,mb:2}}
+                                    />
+                            </Link>
                             <Typography
                                 variant={"h4"}
                             >

@@ -1,3 +1,6 @@
+import { useEffect } from "react"
+import { Link } from "react-router-dom"
+
 import {
     Card,
     CardActionArea,
@@ -6,13 +9,12 @@ import {
     Grid,
     Typography
 } from "@mui/material"
-import { useEffect } from "react"
-import { Link } from "react-router-dom"
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 
 import { getAllCategories } from "../redux/reducers/categoryReducer"
 import { getAllProducts } from "../redux/reducers/productReducer"
+import { getAllUsers } from "../redux/reducers/userReducer"
 
 const Home = () => {
     const dispatch = useAppDispatch()
@@ -21,6 +23,7 @@ const Home = () => {
     useEffect(() => {
         dispatch(getAllCategories())
         dispatch(getAllProducts())
+        dispatch(getAllUsers())
     },[dispatch])
 
     return (

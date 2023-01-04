@@ -10,7 +10,7 @@ const App = () => {
     <>
       <ThemeProvider theme={appTheme}>
         <RouterProvider router={router} />
-        </ThemeProvider>
+      </ThemeProvider>
     </>
   )
 }

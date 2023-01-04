@@ -9,11 +9,10 @@ import {
 } from "@mui/material"
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
-import Modal from "./Modal"
+import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-    const [modalIsOpen, setIsOpen] = useState(false)
     const open = Boolean(anchorEl)
 
     const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
@@ -24,16 +23,8 @@ const NavigationBar = () => {
         setAnchorEl(null)
     }
 
-    const handleModalToggle = () => {
-        setIsOpen(!modalIsOpen)
-    }
-
-    const handleModalAction = () => {
-        handleModalToggle()
-    }
-
     return (
-        <>
+        <div className="header__action">
             <Tooltip
                 title="account-menu"
                 arrow
@@ -79,10 +70,15 @@ const NavigationBar = () => {
                         </Typography>
                         <Button
                             sx={{ml:"18%"}}
-                            onClick={handleModalAction}
                             variant="outlined"
                         >
-                            Log In / Sign Up
+                            <Link
+                                to={`/login`}
+                                style={{textDecoration: 'none'}}
+                                state={{formType: "Log In" }}
+                            >
+                                Log In / Sign Up
+                            </Link>
                         </Button>
                     </Typography>
 
@@ -94,12 +90,7 @@ const NavigationBar = () => {
 
                 </MenuItem>
             </Menu>
-            <Modal
-                modalIsOpen={modalIsOpen}
-                toggle={handleModalToggle}
-                formType={"Log In"}
-            />
-        </>
+        </div>
     )
 }
 

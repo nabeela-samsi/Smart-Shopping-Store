@@ -112,7 +112,7 @@ const ListOfProducts = () => {
                     <AlertTitle>
                         Sorry, no results found!
                     </AlertTitle>
-                    <Typography component={"p"}>
+                    <Typography>
                         Please check the spelling or try searching for something else
                     </Typography>
                 </Alert>

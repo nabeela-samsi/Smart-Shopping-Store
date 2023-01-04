@@ -9,10 +9,12 @@ import server from "../shared/server"
 import { Product } from "../../type/Product"
 import { Category } from "../../type/Category"
 import { PersistPartial } from "redux-persist/es/persistReducer"
+import { User } from "../../type/User";
 
 let store: ToolkitStore<EmptyObject & {
     products: Product[];
     categories: Category[];
+    users: User[];
 } & PersistPartial, AnyAction>
 
 beforeAll(() => {
