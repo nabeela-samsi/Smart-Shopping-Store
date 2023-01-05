@@ -7,10 +7,14 @@ export const addtoWishList = (
 ) => {
     if('email' in action.payload) {
         const {email,productInfo} = action.payload
-        if(state[email]){
-            return {
-                ...state,
-                [email]: [...state[email], productInfo]
+        const wishListInfo = {...state}
+        if(wishListInfo[email]) {
+            const checkDataPresent = wishListInfo[email].some(product => product.id === productInfo.id)
+            if(!checkDataPresent){
+                return {
+                    ...state,
+                    [email]: [...state[email], productInfo]
+                }
             }
         } else {
             return {

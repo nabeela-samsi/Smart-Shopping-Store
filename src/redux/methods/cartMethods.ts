@@ -51,7 +51,6 @@ export const removeFromcart = (
     action: PayloadAction<Error | IRemoveCartWishList>
 ) => {
     if('productId' in action.payload) {
-        console.log(action.payload)
         const {email, productId, originalPrice} = action.payload
         const cartInfo = {...state}
         let cartValue: IProduct[] = []
