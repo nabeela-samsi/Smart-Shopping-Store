@@ -58,7 +58,7 @@ const Home = () => {
                             <Card variant="elevation" >
                                 <CardActionArea>
                                     <CardContent>
-                                    <Typography fontWeight={"bold"} component="span">
+                                    <Typography fontWeight={"bold"}>
                                         {data.name}
                                     </Typography>
                                     </CardContent>

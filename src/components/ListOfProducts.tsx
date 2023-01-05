@@ -15,7 +15,7 @@ import {
 import { useAppSelector} from "../hooks/reduxHook"
 import { usePagination } from "../hooks/usePagination"
 
-import { Product } from "../type/Reducers"
+import { IProduct } from "../type/Reducers"
 
 const ListOfProducts = () => {
     const {pathname} = useLocation()
@@ -24,7 +24,7 @@ const ListOfProducts = () => {
     const productName = new URLSearchParams(getLocation).get("name")
     const products = useAppSelector(state => state.products)
     const [currentPage, setCurrentPage] = useState(1)
-    const [filteredProducts, setfilteredProducts] = useState<Product[]>([])
+    const [filteredProducts, setfilteredProducts] = useState<IProduct[]>([])
     const pageLimit = 12
     const pagecount = Math.ceil(filteredProducts.length / pageLimit)
     const productsPagination = usePagination(filteredProducts, pageLimit)
@@ -82,13 +82,13 @@ const ListOfProducts = () => {
                                                 alt={data.title}
                                             />
                                             <CardContent>
-                                                <Typography fontWeight={"bold"} component="span">
+                                                <Typography fontWeight={"bold"}>
                                                     {data.title}
                                                 </Typography>
-                                                <Typography variant="caption" component="span">
+                                                <Typography variant="caption">
                                                     {data.category.name}
                                                 </Typography>
-                                                <Typography fontWeight={"bold"} component="span">
+                                                <Typography fontWeight={"bold"}>
                                                     € {data.price}
                                                 </Typography>
                                             </CardContent>
@@ -112,7 +112,7 @@ const ListOfProducts = () => {
                     <AlertTitle>
                         Sorry, no results found!
                     </AlertTitle>
-                    <Typography component="span">
+                    <Typography>
                         Please check the spelling or try searching for something else
                     </Typography>
                 </Alert>

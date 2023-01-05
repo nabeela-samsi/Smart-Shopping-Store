@@ -5,6 +5,7 @@ import {
     Alert,
     AlertTitle,
     Button,
+    CircularProgress,
     Grid,
     IconButton,
     InputAdornment,
@@ -18,17 +19,15 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { Link, useNavigate } from "react-router-dom";
-import { userLogin } from "../redux/reducers/authReducers";
+import { getUserSessionInfo, login } from "../redux/methods/authMethods";
 
 const LogInForm =  () => {
-    const users = useAppSelector(state => state.users)
+    const authInfo = useAppSelector ((state) =>  state.auth)
+    const [error, setError] = useState("");
+    console.log(authInfo)
     const [showPassword, setPasswordVisibilty] = useState(false)
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const [{error, errorMessage}, setFormError] = useState({
-        error: false,
-        errorMessage: ''
-    })
     const {register, handleSubmit, formState:{errors}} = useForm({
         defaultValues: {
             email: "",
@@ -40,27 +39,17 @@ const LogInForm =  () => {
         setPasswordVisibilty(!showPassword)
     }
 
-    const onSubmitAction = (data:  {
+    const onSubmitAction = async({email, password}:  {
         email: string;
         password: string;
     }) => {
-        const userInfo = users.find((user) => user.email === data.email && user.password === data.password)
-        if(userInfo) {
-            setFormError({
-                error: false,
-                errorMessage: ""
-            })
-            dispatch(userLogin({
-                loggedIn: true,
-                userInfo
-            }))
-            navigate("/")
-        } else {
-            setFormError({
-                error: true,
-                errorMessage: "The email address or password are incorrect"
-            })
-        }
+         await dispatch(login({email, password}))
+         if(authInfo.error){
+            setError(authInfo.errorMsg);
+            setTimeout(() => {setError('')}, 4000)
+         } else  {
+            navigate('/')
+         }
     }
 
     return (
@@ -84,7 +73,7 @@ const LogInForm =  () => {
                 {(error) &&
                     <Alert variant="outlined" severity="error">
                         <AlertTitle>Error: Login failed</AlertTitle>
-                        {errorMessage}
+                        {error}
                     </Alert>
                 }
                     <TextField

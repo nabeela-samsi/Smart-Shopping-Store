@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { addtoCart, removeFromcart } from "../methods/cartMethods";
-import { CartWishlist } from "../../type/Reducers";
+import { ICartWishlist } from "../../type/Reducers";
 
-const initialState: CartWishlist = {}
+const initialState: ICartWishlist = {}
 
 export const cartSlice = createSlice({
     name: 'cartSlice',

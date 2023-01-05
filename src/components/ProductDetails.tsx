@@ -6,10 +6,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { useAppSelector } from "../hooks/reduxHook"
 
-import { Product } from "../type/Reducers";
+import { IProduct } from "../type/Reducers";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/reducers/cartReducers";
 import { addToWishList } from "../redux/reducers/wishListReducers";
+import ButtonHandle from "./ButtonHandle";
 
 const ProductDetails = () => {
     const dispatch = useDispatch()
@@ -17,7 +18,7 @@ const ProductDetails = () => {
     const {state} =  useLocation()
     const {id} = useParams()
     const products = useAppSelector(state => state.products)
-    const [productDetails, setProductDetails] = useState<Product>()
+    const [productDetails, setProductDetails] = useState<IProduct>()
     const [activeStep, setActiveStep] = useState(0)
     const [maxStep, setMaxStep] = useState(0)
 
@@ -42,7 +43,8 @@ const ProductDetails = () => {
         if(userInfo && productDetails) {
             dispatch(addToCart({
                 email: userInfo.email,
-                productInfo: productDetails
+                productInfo: productDetails,
+                originalPrice: productDetails.price
             }))
         }
     }
@@ -73,12 +75,10 @@ const ProductDetails = () => {
                             </Link>
                             <Typography
                                 variant={"h4"}
-                                component="span"
                             >
-                                {productDetails.title} <br/>
+                                {productDetails.title}
                             </Typography>
                             <Typography
-                                component="span"
                                 variant={"body1"}
                                 color="primary"
                             >
@@ -121,18 +121,26 @@ const ProductDetails = () => {
                             />
                         </Grid>
                         <Grid sx={{p:5}}>
-                            <Typography style={{ maxWidth:"50vw"}} component="span">
-                                Description: {productDetails.description} <br/>
+                            <Typography style={{ maxWidth:"50vw"}}>
+                                Description: {productDetails.description}
                             </Typography>
-                            <Typography variant="h5" component="span">
-                            Price: € {productDetails.price} <br/>
+                            <br/>
+                            <Typography variant="h5">
+                                Price: € {productDetails.price}
                             </Typography>
-                            <Button variant="contained" sx={{m:5}} onClick={handleCartAction}>
-                                Add to Cart
-                            </Button>
-                            <Button variant="contained" color="warning" onClick={handleWishListAction}>
-                                Add to Wishlist
-                            </Button>
+                            <br/>
+                            <ButtonHandle
+                                color={"primary"}
+                                handleToggle={handleCartAction}
+                                buttonLabel={"Add to Cart"}
+                            />
+                            &emsp;
+                            &emsp;
+                            <ButtonHandle
+                                color={"warning"}
+                                handleToggle={handleWishListAction}
+                                buttonLabel={"Add to Wishlist"}
+                            />
                         </Grid>
                     </Grid>
                 </>

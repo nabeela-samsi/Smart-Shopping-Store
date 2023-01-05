@@ -111,7 +111,7 @@ export const CartIcon = () => {
     const cartInfo =  useAppSelector(state => state.cart)
     const {userInfo}  = useAppSelector(state => state.auth)
     let cartCount = 0
-    if(cartInfo && userInfo) {
+    if(Object.keys(cartInfo).length && userInfo) {
         cartCount = cartInfo[userInfo.email].length
     }
 
@@ -128,7 +128,7 @@ export const WishlistIcon = () => {
     const wishListInfo =  useAppSelector(state => state.wishList)
     const {userInfo}  = useAppSelector(state => state.auth)
     let wishListCount = 0
-    if(wishListInfo && userInfo) {
+    if(Object.keys(wishListInfo).length && userInfo) {
         wishListCount = wishListInfo[userInfo.email].length
     }
 

@@ -26,7 +26,6 @@ const Header = () => {
 
     return (
         <header >
-
             { isForm ?
                 <Box sx={{ display: "flex",alignItems:"center", columnGap:'2%', justifyContent:"center", p:1, m:1}}>
                     <Logo />
@@ -37,6 +36,8 @@ const Header = () => {
                 <SearchBar />
                 <NavigationBar />
             </Box>)}
+            <br />
+            <br />
         </header>
     )
 }

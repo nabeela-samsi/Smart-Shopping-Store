@@ -1,4 +1,4 @@
-export const allProducts = () => [
+const allProducts = [
     {
         "id": 1,
         "title": "Handmade Steel Shirt",
@@ -49,7 +49,7 @@ export const allProducts = () => [
     }
 ]
 
-export const allCategories = () => [
+const allCategories = [
     {
         "id": 1,
         "name": "nuevo",
@@ -66,7 +66,7 @@ export const allCategories = () => [
     }
 ]
 
-export const allUsers = () => [
+const allUsers = [
     {
         "id": 1,
         "email": "testMail.com",
@@ -108,3 +108,6 @@ export const allUsers = () => [
         "updatedAt": "2023-01-03T22:45:32.000Z"
         }
 ]
+
+const testData ={ allProducts, allCategories, allUsers}
+export default testData

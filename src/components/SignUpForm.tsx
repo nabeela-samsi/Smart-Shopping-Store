@@ -1,27 +1,39 @@
 import { useState } from "react";
 
-import { Alert, AlertTitle, Box, Button, Checkbox, FormControl, Grid, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
+import { Alert, AlertTitle, Box, Button, Grid,InputAdornment, TextField, Typography } from "@mui/material"
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useAppSelector } from "../hooks/reduxHook";
+import axios from "axios";
 
 const SignUpForm = () => {
-    const users = useAppSelector(state => state.users)
     const [{error, errorMessage}, setFormError] = useState({
         error: false,
         errorMessage: ''
     })
-    const {register, handleSubmit,watch, control,formState:{errors}} = useForm({
+    const {register, handleSubmit, watch, formState:{errors}} = useForm({
         defaultValues: {
             name: "",
             email: "",
             password: "",
-            confirmPassword: "",
-            checkBox: false
+            confirmPassword: ""
         }
     })
+    const isEmailUnique = async(email: string): Promise<Boolean>=> {
+        try{
+            const authUrl = 'https://api.escuelajs.co/api/v1'
+            const checkEmailExists = await axios.post(`${authUrl}/users/is-available`, {email})
+            return checkEmailExists.data.isAvailable
+        } catch(e: any) {
+            setFormError({
+                error: true,
+                errorMessage: "Something went wrong, please try again later"
+            })
+            return false
+        }
+    }
+
     const onSubmitAction = (data:  {
         email: string;
         password: string;
@@ -30,22 +42,6 @@ const SignUpForm = () => {
             error: false,
             errorMessage: ""
         })
-        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
-        if(!emailRegex.test(data.email)) {
-            setFormError({
-                error: true,
-                errorMessage: "please provide valid email address"
-            })
-        } else {
-            const isDataMatch = users.some((user) => user.email === data.email && user.password === data.password)
-           if(isDataMatch) {
-           } else {
-            setFormError({
-                error: true,
-                errorMessage: "The email address or password are incorrect"
-            })
-           }
-        }
     }
     return (
         <Grid
@@ -104,6 +100,12 @@ const SignUpForm = () => {
                             pattern: {
                                 value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
                                 message: "please provide valid email address"
+                            },
+                            validate: async(email: string) => {
+                                const checkAvailability = await isEmailUnique(email)
+                                if(!checkAvailability) {
+                                    return "please provide unique email address"
+                                }
                             }
                         }
                     )}

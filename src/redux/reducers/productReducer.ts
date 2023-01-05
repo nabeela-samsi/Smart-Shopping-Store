@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { Product } from "../../type/Reducers";
+import { IProduct } from "../../type/Reducers";
 import { getAllProducts } from "../methods/productMethods";
 
-const initialState: Product[] = []
+const initialState: IProduct[] = []
 
 export const productSlice = createSlice({
     name: 'productSlice',
@@ -11,20 +11,17 @@ export const productSlice = createSlice({
     reducers: {
     },
     extraReducers: (builder) => {
-        builder.addCase(getAllProducts.fulfilled, (state, action) => {
-            if(action.payload && "message" in action.payload){
+        builder
+            .addCase(getAllProducts.fulfilled, (state, action) => {
+                if (action.payload && "message" in action.payload) {
+                    return state
+                }
+                return action.payload
+            })
+            .addCase(getAllProducts.rejected, (state, action) => {
+                console.log("something went wrong while loading products")
                 return state
-            }
-           return action.payload
-        })
-        builder.addCase(getAllProducts.pending, (state,action) => {
-            console.log("product data is loading")
-            return state
-        })
-        builder.addCase(getAllProducts.rejected, (state,action) => {
-            console.log("something went wrong while loading products")
-            return state
-        })
+            })
     }
 })
 

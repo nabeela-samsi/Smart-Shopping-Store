@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 import ProductDetails from "../components/ProductDetails";
 import LogInForm from "../components/LogInForm";
 import SignUpForm from "../components/SignUpForm";
+import CartWishList from "../components/CartWishList";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,12 @@ const router = createBrowserRouter([
             }, {
                 path: '/signup',
                 element: <SignUpForm />
+            }, {
+                path: '/cart',
+                element: <CartWishList />
+            }, {
+                path: '/wishlist',
+                element: <CartWishList />
             }
         ]
     }

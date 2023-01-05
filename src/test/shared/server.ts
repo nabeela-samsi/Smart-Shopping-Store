@@ -1,12 +1,13 @@
 import {rest} from "msw";
 import {setupServer} from "msw/node"
-import { allCategories, allProducts, allUsers } from "../../utilities/dummyData";
+
+import testData from "../../utilities/testData";
 
 const handler = [
     rest.get("https://api.escuelajs.co/api/v1/products", (req, res, ctx) => {
         return res(
             ctx.json(
-                allProducts
+                testData.allProducts
             )
         )
     }),
@@ -24,14 +25,14 @@ const handler = [
     rest.get("https://api.escuelajs.co/api/v1/categories", (req, res, ctx) => {
         return res(
             ctx.json(
-                allCategories
+                testData.allCategories
             )
         )
     }),
     rest.get("https://api.escuelajs.co/api/v1/users", (req, res, ctx) => {
         return res(
             ctx.json(
-                allUsers
+                testData.allUsers
             )
         )
     })

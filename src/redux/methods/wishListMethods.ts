@@ -1,9 +1,9 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { AddCartWishList, CartWishlist, RemoveCartWishList } from "../../type/Reducers";
+import { IAddCartWishList, ICartWishlist, IRemoveCartWishList } from "../../type/Reducers";
 
 export const addtoWishList = (
-    state: CartWishlist,
-    action: PayloadAction<Error | AddCartWishList>
+    state: ICartWishlist,
+    action: PayloadAction<Error | IAddCartWishList>
 ) => {
     if('email' in action.payload) {
         const {email,productInfo} = action.payload
@@ -23,19 +23,16 @@ export const addtoWishList = (
 }
 
 export const removeFromWishlist = (
-    state: CartWishlist,
-    action: PayloadAction<Error | RemoveCartWishList>
+    state: ICartWishlist,
+    action: PayloadAction<Error | IRemoveCartWishList>
 ) => {
     if('productId' in action.payload) {
         const {email, productId} = action.payload
-        const wishListValue = state[email]
-        const productIndex = wishListValue.findIndex(product => product.id === productId)
-        if(productIndex >= 0 ){
-            wishListValue.splice(productIndex,1);
-        }
+        const wishListInfo = {...state}
+        const filteredData = wishListInfo[email].filter(product => product.id !== productId)
         return {
             ...state,
-            [email]: [...state[email], ...wishListValue]
+            [email]: [...filteredData]
         }
     }
     return state

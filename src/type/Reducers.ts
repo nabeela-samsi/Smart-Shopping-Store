@@ -1,44 +1,48 @@
-export interface Category {
+export interface ICategory {
     id: number
     name: string
     image: string
 }
 
-export interface Product {
+export interface IProduct {
     id: number
     title: string
     price: number
     description: string
-    category: Category
+    category: ICategory
     images: string[]
+    quantity?: number
 }
 
-export interface User{
+export interface IUser{
     id: number
     email: string
     password: string
     name: string
     role: string
     avatar: string
-    creationAt: string
-    updatedAt: string
 }
 
-export interface Auth {
+export interface IAuth {
+    loading: boolean
     loggedIn: boolean
-    userInfo: User | null
+    userInfo: IUser | null
+    error: boolean
+    errorMsg: string
 }
 
-export interface CartWishlist {
-    [key: string] : Product[]
+export interface ICartWishlist {
+    [key: string] : IProduct[]
 }
 
-export interface AddCartWishList {
+export interface IAddCartWishList {
     email: string
-    productInfo: Product
+    productInfo: IProduct
+    originalPrice?: number
 }
 
-export interface RemoveCartWishList {
+export interface IRemoveCartWishList {
     productId: number
     email: string
+    originalPrice?: number
 }

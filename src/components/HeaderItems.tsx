@@ -64,8 +64,12 @@ export const NavigationBar = () => {
     return (
         <div className="header__action">
             <MenuBar />
-            <CartIcon />
-            <WishlistIcon />
+            <Link to="/cart">
+                <CartIcon />
+            </Link>
+            <Link to="/wishlist">
+                <WishlistIcon />
+            </Link>
         </div>
     )
 }

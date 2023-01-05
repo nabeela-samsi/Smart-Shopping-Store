@@ -6,15 +6,14 @@ import { getAllProducts } from "../../redux/methods/productMethods";
 import { createStore } from "../../redux/store"
 import server from "../shared/server"
 import { PersistPartial } from "redux-persist/es/persistReducer"
-import { Auth, CartWishlist, Category, Product, User } from "../../type/Reducers";
+import { IAuth, ICartWishlist, ICategory, IProduct} from "../../type/Reducers";
 
 let store: ToolkitStore<EmptyObject & {
-    products: Product[];
-    categories: Category[];
-    users: User[];
-    auth: Auth;
-    cart: CartWishlist;
-    wishList: CartWishlist;
+    products: IProduct[];
+    categories: ICategory[];
+    auth: IAuth;
+    cart: ICartWishlist;
+    wishList: ICartWishlist;
 } & PersistPartial, AnyAction>
 
 beforeAll(() => {
@@ -35,8 +34,7 @@ describe("Test all the actions", () => {
     })
     test("should fetch all the products", async() => {
         await store.dispatch(getAllProducts())
-        console.log(store.getState().products)
-        // expect(store.getState().products.length).toBe(3)
+        expect(store.getState().products.length).toBe(3)
     })
     // test("should create a product" , async () => {
     //     const newproduct: CreateProduct  = {

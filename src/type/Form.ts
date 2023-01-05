@@ -1,9 +1,3 @@
-export interface ModalType {
-    modalIsOpen: boolean
-    toggle: () => void
-    formType: string
-}
-
 export interface LoginForm {
     email: string
     password: string
@@ -16,4 +10,10 @@ export interface FormError {
         "email": string
         "password": string
     }
+}
+
+export interface IButton {
+    color: "error" | "inherit" | "primary" | "secondary" | "success" | "info" | "warning"
+    handleToggle: () => void
+    buttonLabel: string
 }
