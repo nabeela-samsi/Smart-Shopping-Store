@@ -1,45 +1,98 @@
-import { PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { IAuth, IUser } from "../../type/Reducers";
-import axios from "axios";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const authUrl = 'https://api.escuelajs.co/api/v1'
+import { IAuth, ICredentials, IReturnedCredentials, IUser } from "../../type/Auth";
+import axiosInstance from "../../common/axiosInstance";
+import { AxiosError } from "axios";
+import { json } from "stream/consumers";
 
 export const userlogout = (state: IAuth) => {
     return {
         ...state,
         loggedIn: false,
-        acessToken: ''
+        error: false,
+        errorMsg: '',
+        userInfo: null
     }
 }
 
+// export const login = createAsyncThunk(
+//     "login",
+//     async (credentials: ICredentials, thunkApi) => {
+//         try{
+//             console.log(credentials)
+//             const auth = await axiosInstance.post('/auth/login', credentials)
+//             const authData: IReturnedCredentials = auth.data
+//             if("access_token" in authData && (authData.access_token.length)){
+//                 console.log("here i am with")
+//                 const response = await thunkApi.dispatch(getUserSessionInfo(authData.access_token))
+//                 return response.payload as IUser
+//             }
+//         } catch(e) {
+//             const error = e as AxiosError
+//             return error
+//         }
+//     }
+// )
+
 export const login = createAsyncThunk(
     "login",
-    async (credentials: {email: string, password: string}, thunkApi) => {
-        const auth = await axios.post(`${authUrl}/auth/login`, credentials)
-        const authData = await auth.data
-        const result = await thunkApi.dispatch(getUserSessionInfo(authData.access_token))
-        return result.payload as IUser
+    async (credentials: ICredentials, thunkApi) => {
+        try{
+            console.log(credentials)
+            const auth = await axiosInstance.post('/auth/login', credentials)
+            const authData: IReturnedCredentials = auth.data
+            if("access_token" in authData && (authData.access_token.length)){
+                const headerConfig = {
+                    headers: {
+                        "Authorization": `bearer ${authData.access_token}`
+                    }
+                }
+                const response = await axiosInstance.get('/auth/profile', headerConfig)
+                const responseData: IUser = response.data
+                return responseData
+            }
+        } catch(e) {
+            const error = e as AxiosError
+            return error
+        }
     }
 )
 
-export const getUserSessionInfo = createAsyncThunk(
-    "getUserSessionInfo",
-    async (accessToken: string) => {
-        console.log(accessToken)
-        const headerConfig = {
-            headers: {
-                "Authorization": `Bearer ${accessToken}`
-            }
-        }
-        const result = await axios.get(`${authUrl}/auth/profile`, headerConfig)
-        return result.data
-    }
-)
+// export const userSessionInfo = createAsyncThunk(
+//     "userSessionInfo",
+//     async (accessToken: string) => {
+//         console.log(accessToken)
+//         try{
+//             const headerConfig = {
+//                 headers: {
+//                     "Authorization": `bearer ${accessToken}`
+//                 }
+//             }
+//             const response = await axiosInstance.get('/auth/profile', headerConfig)
+//             const data: IUser = response.data
+//             return data
+//         } catch(e) {
+//             const error = e as AxiosError
+//              console.log("error In login")
+//             return error
+//         }
+
+//     }
+// )
 
 export const checkEmailExists = createAsyncThunk(
     "checkEmailExists",
     async (email: string) => {
-        const result = await axios.post(`${authUrl}/users/is-available`, email)
+        const result = await axiosInstance.post('/users/is-available', {email: email})
+        console.log(result)
+        return result.data
+    }
+)
+
+export const createUser = createAsyncThunk(
+    "createUser",
+    async(userData: IUser) => {
+        const result = await axiosInstance.post('/users', userData)
         return result
     }
 )

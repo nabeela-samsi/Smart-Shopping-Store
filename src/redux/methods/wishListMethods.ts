@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { IAddCartWishList, ICartWishlist, IRemoveCartWishList } from "../../type/Reducers";
+import { IAddCartWishList, ICartWishlist, IRemoveCartWishList } from "../../type/CartWishList";
 
 export const addtoWishList = (
     state: ICartWishlist,

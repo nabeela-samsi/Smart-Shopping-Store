@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { addtoCart, removeFromcart } from "../methods/cartMethods";
-import { ICartWishlist } from "../../type/Reducers";
+import { ICartWishlist } from "../../type/CartWishList";
 
 const initialState: ICartWishlist = {}
 

@@ -4,12 +4,12 @@ import { Box, Button, ButtonGroup, Typography } from "@mui/material"
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
-import { IProduct } from "../type/Reducers"
 import { useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/reducers/cartReducers";
 import { useAppSelector } from "../hooks/reduxHook";
 import ButtonHandle from "./ButtonHandle";
 import { removeFromWishList } from "../redux/reducers/wishListReducers";
+import { IProduct } from "../type/Product";
 
 const CartWishListItem = (props: IProduct) => {
     const {pathname} = useLocation()

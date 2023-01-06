@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "axios"
-import { ICategory } from "../../type/Reducers"
+
+import { ICategory } from "../../type/Category"
+import axiosInstance from "../../common/axiosInstance"
 
 export const getAllCategories = createAsyncThunk(
     "getAllCategories",
     async () => {
         try{
-            const getResponse = await axios('https://api.escuelajs.co/api/v1/categories')
+            const getResponse = await axiosInstance.get('/categories')
             const data: ICategory[] | Error = await getResponse.data
             return data
         }catch(e: any) {

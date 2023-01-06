@@ -14,8 +14,7 @@ import {
 
 import { useAppSelector} from "../hooks/reduxHook"
 import { usePagination } from "../hooks/usePagination"
-
-import { IProduct } from "../type/Reducers"
+import { IProduct } from "../type/Product"
 
 const ListOfProducts = () => {
     const {pathname} = useLocation()

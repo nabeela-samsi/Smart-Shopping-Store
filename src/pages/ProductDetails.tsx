@@ -6,11 +6,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { useAppSelector } from "../hooks/reduxHook"
 
-import { IProduct } from "../type/Reducers";
+
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/reducers/cartReducers";
 import { addToWishList } from "../redux/reducers/wishListReducers";
-import ButtonHandle from "./ButtonHandle";
+import ButtonHandle from "../components/ButtonHandle";
+import { IProduct } from "../type/Product";
 
 const ProductDetails = () => {
     const dispatch = useDispatch()

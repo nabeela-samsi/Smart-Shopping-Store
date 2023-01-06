@@ -6,7 +6,10 @@ import { getAllCategories } from "../../redux/methods/categoryMethods";
 import { createStore } from "../../redux/store"
 import server from "../shared/server"
 import { PersistPartial } from "redux-persist/es/persistReducer"
-import { IAuth, ICartWishlist, ICategory, IProduct} from "../../type/Reducers";
+import { IProduct } from "../../type/Product";
+import { ICategory } from "../../type/Category";
+import { IAuth } from "../../type/Auth";
+import { ICartWishlist } from "../../type/CartWishList";
 
 let store: ToolkitStore<EmptyObject & {
     products: IProduct[];

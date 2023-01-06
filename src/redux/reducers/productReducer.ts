@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { IProduct } from "../../type/Reducers";
 import { getAllProducts } from "../methods/productMethods";
+import { IProduct } from "../../type/Product";
 
 const initialState: IProduct[] = []
 

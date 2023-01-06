@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import Home from "../components/Home";
-import ListOfProducts from "../components/ListOfProducts";
+import Home from "../pages/Home";
+import ListOfProducts from "../pages/ListOfProducts";
 import Layout from "../components/Layout";
-import ProductDetails from "../components/ProductDetails";
-import LogInForm from "../components/LogInForm";
-import SignUpForm from "../components/SignUpForm";
-import CartWishList from "../components/CartWishList";
+import ProductDetails from "../pages/ProductDetails";
+import CartWishList from "../pages/CartWishList";
+import NotFound from "../pages/NotFoundPage";
+import LogInForm from "../pages/LogInForm";
+import SignUpForm from "../pages/SignUpForm";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,9 @@ const router = createBrowserRouter([
             }, {
                 path: '/wishlist',
                 element: <CartWishList />
+            }, {
+                path: "*",
+                element: <NotFound />
             }
         ]
     }

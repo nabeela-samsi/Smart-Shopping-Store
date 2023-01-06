@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ICategory } from "../../type/Reducers";
+import { ICategory } from "../../type/Category";
 import { getAllCategories } from "../methods/categoryMethods";
 
 const initialState: ICategory[] = []

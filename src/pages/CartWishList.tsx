@@ -2,11 +2,11 @@
 import { useLocation } from "react-router-dom"
 import { Box } from "@mui/system"
 
-import CartWishListItem from "./CartWishListItem"
+import CartWishListItem from "../components/CartWishListItem"
 
 import { useAppSelector } from "../hooks/reduxHook"
+import { IProduct } from "../type/Product"
 
-import { IProduct } from "../type/Reducers"
 
 const CartWishList = () => {
     const {pathname} = useLocation()

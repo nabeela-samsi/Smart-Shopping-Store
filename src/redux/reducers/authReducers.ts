@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { IAuth } from "../../type/Reducers";
-import { checkEmailExists, getUserSessionInfo, login, userlogout } from "../methods/authMethods";
-import { useAppDispatch } from "../../hooks/reduxHook";
+import { checkEmailExists, login, userlogout } from "../methods/authMethods";
+import { IAuth, IUser } from "../../type/Auth";
+import { AxiosError } from "axios";
+import { userInfo } from "os";
 
 
 const initialState: IAuth = {
@@ -22,29 +23,57 @@ export const authSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(login.fulfilled, (state = initialState, action) => {
-                if (action.payload) {
-                    return {
-                        loading: false,
-                        loggedIn: true,
-                        error: false,
-                        errorMsg: '',
-                        userInfo: action.payload
+                if(action.payload instanceof AxiosError) {
+                    let errorMsg = "Something went wrong please try again"
+                    if(action.payload.response?.status === 401) {
+                        errorMsg = "Email or Password are incorrect"
                     }
+                    return {
+                        ... state,
+                        loading: false,
+                        loggedIn: false,
+                        error: true,
+                        errorMsg: errorMsg,
+                        userInfo: null
+                    }
+                } else {
+                    if(action.payload) {
+                        const {id, email, password, name, role, avatar} = action.payload
+                        const userData = {
+                            id,
+                            email,
+                            password,
+                            name,
+                            role,
+                            avatar
+                        }
+                        return {
+                            ...state,
+                            loading: false,
+                            loggedIn: true,
+                            error: false,
+                            userInfo: userData
+                        }
+                    }
+                    return {...state}
                 }
-                return state
             })
-            .addCase(login.rejected, (state, action) => {
-                let errorMsg = "Something went wrong please try again"
-                if (action.error.code === 'ERR_BAD_REQUEST') {
-                    errorMsg = "Email or Password are incorrect"
-                }
-                return {
-                    loading: false,
-                    loggedIn: false,
-                    error: true,
-                    errorMsg,
-                    userInfo: null
-                }
+            .addCase(checkEmailExists.fulfilled,(state,action) => {
+                // const {isAvailable} = action.payload
+                // if(!isAvailable) {
+                //     return {
+                //         ...state,
+                //         error: true,
+                //         errorMsg: "Email already exists"
+                //     }
+                // } else {
+                //     return {
+                //         ...state,
+                //         error: false,
+                //         errorMsg: ""
+                //     }
+                // }
+                return state
             })
     },
 })
