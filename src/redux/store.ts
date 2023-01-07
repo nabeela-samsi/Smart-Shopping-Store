@@ -7,6 +7,7 @@ import categoryReducer from './reducers/categoryReducer';
 import authReducer from './reducers/authReducers';
 import cartReducer from './reducers/cartReducers';
 import wishListReducer from './reducers/wishListReducers';
+import userReducer from './reducers/userReducers';
 
 const persistConfig = {
   key: 'root',
@@ -20,7 +21,8 @@ const reducers = combineReducers(
     categories: categoryReducer,
     auth: authReducer,
     cart: cartReducer,
-    wishList: wishListReducer
+    wishList: wishListReducer,
+    users: userReducer
   }
 )
 const persistedReducer = persistReducer(persistConfig, reducers)
@@ -33,7 +35,6 @@ export const createStore = () => {
 } ;
 
 const store = createStore()
-console.log(typeof store)
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<

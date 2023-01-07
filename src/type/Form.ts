@@ -1,4 +1,5 @@
-import { UseFormRegister } from "react-hook-form"
+import { FieldErrorsImpl, UseFormRegister } from "react-hook-form"
+import { string } from "yup"
 
 export interface LoginForm {
     email: string
@@ -11,36 +12,19 @@ export interface IButton {
     buttonLabel: string
 }
 
-export interface IUserForm {
-    isLogin: Boolean
-    error: boolean
-    errorMessage: string
-    formSubmitAction: (data: IRegister) => boolean
-}
-
-export interface IRegister {
+export interface INewUser {
     name: string
     email: string
-    loginPassword: string
-    singUpPassword: string
-    confirmPassword: string
-    avatar: string
+    password: string
+    avatar: string | File
 }
 
-export interface FieldMessage {
-    message: string
+export interface IUpdateUser {
+    id: number
+    isChangeEmail: boolean,
+    updateInfo: Partial<INewUser>
 }
 
-export interface FieldName {
-    name: FieldMessage
-}
-
-export interface IInputTextField {
-    data: UseFormRegister<IRegister>
-    label: string
-    type: string
-    placeholder: string
-    displayIcon: Boolean
-    IconPosition: string
-    errors: FieldName
+export interface IRegisterValue {
+    registerValue: 'email' |'password' | 'name' | 'avatar' | 'confirmPassword'
 }

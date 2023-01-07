@@ -9,7 +9,7 @@ import testData from "../../utilities/testData";
 import { addToWishList, removeFromWishList } from "../../redux/reducers/wishListReducers";
 import { IProduct } from "../../type/Product";
 import { ICategory } from "../../type/Category";
-import { IAuth } from "../../type/Auth";
+import { IAuth, IUser } from "../../type/Auth";
 import { ICartWishlist } from "../../type/CartWishList";
 
 let store: ToolkitStore<EmptyObject & {
@@ -18,6 +18,7 @@ let store: ToolkitStore<EmptyObject & {
     auth: IAuth;
     cart: ICartWishlist;
     wishList: ICartWishlist;
+    users: IUser[];
 } & PersistPartial, AnyAction>
 
 beforeAll(() => {

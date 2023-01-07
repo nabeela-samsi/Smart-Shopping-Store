@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-import SearchIcon from "@mui/icons-material/Search";
+
 import { IconButton, InputAdornment, TextField } from "@mui/material"
-import { CartIcon, MenuBar, WishlistIcon } from "./NavItems";
+import { Cart, MenuBar, Wishlist } from "./NavItems";
+
+import getIcons from "../utilities/getIcon";
 
 export const Logo = () => {
     return (
@@ -49,7 +51,7 @@ export const SearchBar = () => {
                         <InputAdornment position="start">
                             <IconButton>
                                 <Link to={navigateURL}>
-                                    <SearchIcon />
+                                    {getIcons.search}
                                 </Link>
                             </IconButton >
                         </InputAdornment>
@@ -65,10 +67,10 @@ export const NavigationBar = () => {
         <div className="header__action">
             <MenuBar />
             <Link to="/cart">
-                <CartIcon />
+                <Cart />
             </Link>
             <Link to="/wishlist">
-                <WishlistIcon />
+                <Wishlist />
             </Link>
         </div>
     )

@@ -2,13 +2,13 @@ import { AnyAction, EmptyObject} from "@reduxjs/toolkit"
 import type {} from 'redux-thunk/extend-redux';
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore"
 
-import { getAllProducts } from "../../redux/methods/productMethods";
+import { createNewProduct, deleteProduct, getAllProducts, updateProduct } from "../../redux/methods/productMethods";
 import { createStore } from "../../redux/store"
 import server from "../shared/server"
 import { PersistPartial } from "redux-persist/es/persistReducer"
-import { IProduct } from "../../type/Product";
+import { ICreateProduct, IProduct, IUpdateProduct } from "../../type/Product";
 import { ICategory } from "../../type/Category";
-import { IAuth } from "../../type/Auth";
+import { IAuth, IUser } from "../../type/Auth";
 import { ICartWishlist } from "../../type/CartWishList";
 
 let store: ToolkitStore<EmptyObject & {
@@ -17,6 +17,7 @@ let store: ToolkitStore<EmptyObject & {
     auth: IAuth;
     cart: ICartWishlist;
     wishList: ICartWishlist;
+    users: IUser[];
 } & PersistPartial, AnyAction>
 
 beforeAll(() => {
@@ -39,21 +40,62 @@ describe("Test all the actions", () => {
         await store.dispatch(getAllProducts())
         expect(store.getState().products.length).toBe(3)
     })
-    // test("should create a product" , async () => {
-    //     const newproduct: CreateProduct  = {
-    //         title: "Test Create Product",
-    //         price: 1000,
-    //         description: "Test Create Product",
-    //         categoryid: 1,
-    //         images: []
-    //     }
-    //     await store.dispatch(create(newProdct))
-    //     expect(store.getState().productReducer)
-    // })
-    // test("sort by name asc" , () => {
-    //     store.dispatch(sortByName("asc"))
-    //     expect(store.getState().productReducer[1].title).toBe("A")
-    // })
+    test("should create a product" , async () => {
+        const newproduct: ICreateProduct  = {
+            title: "Test Create Product",
+            price: 1000,
+            description: "Test Create Product",
+            categoryId: 1,
+            images: ["https://api.lorem.space/image/dummyImage"]
+        }
+        await store.dispatch(createNewProduct(newproduct))
+        expect(store.getState().products.length).toBe(1)
+    })
+
+    test("should create a product one by one" , async () => {
+        const newproduct1: ICreateProduct  = {
+            title: "Test Create Product1",
+            price: 500,
+            description: "Test Create Product1",
+            categoryId: 1,
+            images: ["https://api.lorem.space/image/dummyImage"]
+        }
+        await store.dispatch(createNewProduct(newproduct1))
+        expect(store.getState().products.length).toBe(1)
+
+        const newproduct2: ICreateProduct  = {
+            title: "Test Create Product2",
+            price: 1000,
+            description: "Test Create Product2",
+            categoryId: 1,
+            images: ["https://api.lorem.space/image/dummyImage"]
+        }
+        await store.dispatch(createNewProduct(newproduct2))
+        expect(store.getState().products.length).toBe(2)
+    })
+
+    test("should update product" , async () => {
+        const product: IUpdateProduct = {
+            id: 1,
+            updateInfo: {
+                title: "Test Product",
+                price: 49,
+                description: "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+                images: ["https://api.lorem.space/image/dummyImage"]
+            }
+        }
+        await store.dispatch(getAllProducts())
+        await store.dispatch(updateProduct(product))
+        expect(store.getState().products[0].title).toBe("Test Product")
+        expect(store.getState().products[0].price).toBe(49)
+    })
+
+    test("should delete product" , async () => {
+        const productID = 1
+        await store.dispatch(getAllProducts())
+        await store.dispatch(deleteProduct(productID))
+        expect(store.getState().products.length).toBe(2)
+    })
 })
 
 export {}

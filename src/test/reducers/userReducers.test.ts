@@ -2,7 +2,6 @@ import { AnyAction, EmptyObject} from "@reduxjs/toolkit"
 import type {} from 'redux-thunk/extend-redux';
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore"
 
-import { getAllCategories } from "../../redux/methods/categoryMethods";
 import { createStore } from "../../redux/store"
 import server from "../shared/server"
 import { PersistPartial } from "redux-persist/es/persistReducer"
@@ -10,6 +9,7 @@ import { IProduct } from "../../type/Product";
 import { ICategory } from "../../type/Category";
 import { IAuth, IUser } from "../../type/Auth";
 import { ICartWishlist } from "../../type/CartWishList";
+import { getAllUsers } from "../../redux/methods/userMethods";
 
 let store: ToolkitStore<EmptyObject & {
     products: IProduct[];
@@ -34,11 +34,11 @@ beforeEach(() => {
 
 describe("Test all the actions", () => {
     test("should return initial state", () => {
-        expect(store.getState().categories.length).toBe(0)
+        expect(store.getState().users.length).toBe(0)
     })
-    test("should fetch all the categories", async() => {
-        await store.dispatch(getAllCategories())
-        expect(store.getState().categories.length).toBe(2)
+    test("should fetch all the users", async() => {
+        await store.dispatch(getAllUsers())
+        expect(store.getState().users.length).toBe(4)
     })
 })
 

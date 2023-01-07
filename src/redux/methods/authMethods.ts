@@ -4,6 +4,7 @@ import { IAuth, ICredentials, IReturnedCredentials, IUser } from "../../type/Aut
 import axiosInstance from "../../common/axiosInstance";
 import { AxiosError } from "axios";
 import { json } from "stream/consumers";
+import { INewUser, IUpdateUser } from "../../type/Form";
 
 export const userlogout = (state: IAuth) => {
     return {
@@ -15,30 +16,24 @@ export const userlogout = (state: IAuth) => {
     }
 }
 
-// export const login = createAsyncThunk(
-//     "login",
-//     async (credentials: ICredentials, thunkApi) => {
-//         try{
-//             console.log(credentials)
-//             const auth = await axiosInstance.post('/auth/login', credentials)
-//             const authData: IReturnedCredentials = auth.data
-//             if("access_token" in authData && (authData.access_token.length)){
-//                 console.log("here i am with")
-//                 const response = await thunkApi.dispatch(getUserSessionInfo(authData.access_token))
-//                 return response.payload as IUser
-//             }
-//         } catch(e) {
-//             const error = e as AxiosError
-//             return error
-//         }
-//     }
-// )
+export const createNewUser = createAsyncThunk(
+    "createNewUser",
+    async (userData: INewUser) => {
+        try{
+            const createdUser = await axiosInstance.post("users/", userData)
+            const data: IUser = createdUser.data
+            return data
+        } catch(e) {
+            const error = e as AxiosError
+            return error
+        }
+    }
+)
 
 export const login = createAsyncThunk(
     "login",
-    async (credentials: ICredentials, thunkApi) => {
+    async (credentials: ICredentials) => {
         try{
-            console.log(credentials)
             const auth = await axiosInstance.post('/auth/login', credentials)
             const authData: IReturnedCredentials = auth.data
             if("access_token" in authData && (authData.access_token.length)){
@@ -58,41 +53,16 @@ export const login = createAsyncThunk(
     }
 )
 
-// export const userSessionInfo = createAsyncThunk(
-//     "userSessionInfo",
-//     async (accessToken: string) => {
-//         console.log(accessToken)
-//         try{
-//             const headerConfig = {
-//                 headers: {
-//                     "Authorization": `bearer ${accessToken}`
-//                 }
-//             }
-//             const response = await axiosInstance.get('/auth/profile', headerConfig)
-//             const data: IUser = response.data
-//             return data
-//         } catch(e) {
-//             const error = e as AxiosError
-//              console.log("error In login")
-//             return error
-//         }
-
-//     }
-// )
-
-export const checkEmailExists = createAsyncThunk(
-    "checkEmailExists",
-    async (email: string) => {
-        const result = await axiosInstance.post('/users/is-available', {email: email})
-        console.log(result)
-        return result.data
-    }
-)
-
-export const createUser = createAsyncThunk(
-    "createUser",
-    async(userData: IUser) => {
-        const result = await axiosInstance.post('/users', userData)
-        return result
+export const updateUser = createAsyncThunk(
+    "updateUser",
+    async (info: IUpdateUser) => {
+        try{
+            const createdUser = await axiosInstance.put(`users/${info.id}`, info.updateInfo)
+            const data: IUser = createdUser.data
+            return data
+        } catch(e) {
+            const error = e as AxiosError
+            return error
+        }
     }
 )

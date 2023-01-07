@@ -3,6 +3,9 @@ import {setupServer} from "msw/node"
 
 import testData from "../../utilities/testData";
 import jwt from "jsonwebtoken"
+import { IUser } from "../../type/Auth";
+import { IProduct, IUpdateProduct } from "../../type/Product";
+import { INewUser, IUpdateUser } from "../../type/Form";
 
 const handler = [
     rest.get("https://api.escuelajs.co/api/v1/products", (req, res, ctx) => {
@@ -13,7 +16,7 @@ const handler = [
         )
     }),
     rest.post("https://api.escuelajs.co/api/v1/products", async (req, res, ctx) => {
-        const product = await req.json()
+        const product: IProduct = await req.json()
         if(product.price < 0) {
             return res(
                 ctx.status(400, "invalid data")
@@ -39,9 +42,9 @@ const handler = [
     }),
     rest.post("https://api.escuelajs.co/api/v1/auth/login", async (req, res, ctx) => {
         const {email, password} = await req.json()
-        const foundUser = testData.allUsers.find(user => user.email === email && user.password === password)
+        const foundUser: IUser | undefined = testData.allUsers.find(user => user.email === email && user.password === password)
         if(foundUser) {
-            const access_token = jwt.sign(foundUser, "userLoginAuthKey")
+            const access_token: string = jwt.sign(foundUser, "userLoginAuthKey")
             return res(
                 ctx.json({
                     access_token
@@ -52,7 +55,7 @@ const handler = [
         }
     }),
     rest.get("https://api.escuelajs.co/api/v1/auth/profile", (req, res, ctx) => {
-        const access_tokenArr = req.headers.get("Authorization")?.split(" ")
+        const access_tokenArr: string[] | undefined = req.headers.get("Authorization")?.split(" ")
         if(access_tokenArr) {
             const access_token = access_tokenArr[1]
             const foundUser = jwt.verify(access_token,"userLoginAuthKey")
@@ -62,6 +65,70 @@ const handler = [
         } else {
             return res(ctx.status(401, "unauthorized"))
         }
+    }),
+    rest.post("https://api.escuelajs.co/api/v1/files/upload", async (req, res, ctx) => {
+        const file: File = await req.json()
+        return res(
+            ctx.json({
+                originalname: "dummyfile",
+                filename: "dummyfile.png",
+                location: `https://api.escuelajs.co/api/v1/files/dummyfile.png`
+            })
+        )
+    }),
+    rest.post("https://api.escuelajs.co/api/v1/users/", async(req, res, ctx) => {
+        const user: INewUser = await req.json()
+        return res(
+            ctx.json({
+                ...user,
+                role: "customer",
+                id:1
+            })
+        )
+    }),
+    rest.put("https://api.escuelajs.co/api/v1/users/:id", async(req, res, ctx) => {
+        const updateUser: IUpdateUser = await req.json()
+        const {id} = req.params
+        const foundUser = testData.allUsers.find(user => user.id === Number(id))
+        if(foundUser) {
+            return res(
+                ctx.json({
+                    ...foundUser,
+                    ...updateUser.updateInfo
+                })
+            )
+        }
+        return res(
+            ctx.status(404, 'User is not found')
+        )
+    }),
+    rest.put("https://api.escuelajs.co/api/v1/products/:id", async(req, res, ctx) => {
+        const updateProduct: IUpdateProduct = await req.json()
+        const {id} = req.params
+        const foundProduct = testData.allProducts.find(product => product.id === Number(id))
+        if(foundProduct) {
+            return res(
+                ctx.json({
+                    ...foundProduct,
+                    ...updateProduct
+                })
+            )
+        }
+        return res(
+            ctx.status(404, 'Product is not found')
+        )
+    }),
+    rest.delete("https://api.escuelajs.co/api/v1/products/:id", async(req, res, ctx) => {
+        const {id} = req.params
+        const foundProduct = testData.allProducts.find(product => product.id === Number(id))
+        if(foundProduct) {
+            return res(
+                ctx.json(true)
+            )
+        }
+        return res(
+            ctx.status(404, 'Product is not found')
+        )
     })
 ]
 

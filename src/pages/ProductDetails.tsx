@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useParams } from "react-router-dom"
 import {  Button, Grid, MobileStepper, Typography } from "@mui/material"
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material"
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { useAppSelector } from "../hooks/reduxHook"
-
 
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/reducers/cartReducers";
 import { addToWishList } from "../redux/reducers/wishListReducers";
 import ButtonHandle from "../components/ButtonHandle";
 import { IProduct } from "../type/Product";
+import getIcons from "../utilities/getIcon";
 
 const ProductDetails = () => {
     const dispatch = useDispatch()
@@ -69,10 +67,7 @@ const ProductDetails = () => {
                                 to={state.previousPath}
                                     style={{textDecoration: "none", margin:5}}
                                 >
-                                    <ArrowBackIcon
-                                        fontSize="large"
-                                        sx={{mt:2,mb:2}}
-                                    />
+                                    {getIcons.arrowBack}
                             </Link>
                             <Typography
                                 variant={"h4"}
@@ -106,7 +101,7 @@ const ProductDetails = () => {
                                         disabled={activeStep === maxStep - 1}
                                     >
                                         Next
-                                        <KeyboardArrowRight />
+                                        {getIcons.arrowRight}
                                     </Button>
                                 }
                                 backButton={
@@ -115,7 +110,7 @@ const ProductDetails = () => {
                                         onClick={handleBack}
                                         disabled={activeStep === 0}
                                     >
-                                        <KeyboardArrowLeft />
+                                        {getIcons. arrowLeft}
                                         Back
                                     </Button>
                                 }

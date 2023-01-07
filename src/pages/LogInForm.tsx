@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import { Alert, AlertTitle, Box, Button, Grid, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
-import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
 
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+
 import { yupResolver } from '@hookform/resolvers/yup';
-
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-import { checkEmailExists, login } from "../redux/methods/authMethods";
+
+import { login } from "../redux/methods/authMethods";
+
+import { ICredentials } from "../type/Auth";
 import { loginValidationSchema } from "../utilities/validation";
-import { IRegister } from "../type/Form";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import getIcons from "../utilities/getIcon";
+import userFormFields from "../utilities/userFormFields";
 
 const LogInForm = () => {
+    const formFields = userFormFields.loginFields
     const authInfo = useAppSelector((state) =>  state.auth)
     const navigate =  useNavigate()
     const [showPassword, setPasswordVisibilty] = useState(false)
@@ -26,8 +26,7 @@ const LogInForm = () => {
         error: false,
         errorMessage: ''
     })
-
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: "",
             password: ""
@@ -39,23 +38,25 @@ const LogInForm = () => {
         setPasswordVisibilty(!showPassword)
     }
 
-    const onSubmitAction = async(data: any) => {
+    const onSubmitAction = async(data: ICredentials) => {
         try{
             const credentials = {
                 email: data.email,
                 password: data.password,
             }
-                await dispatch(login(credentials))
-             if(authInfo.error){
+            await dispatch(login(credentials))
+            if(authInfo.error){
                 setFormError({
                     error: authInfo.error,
                     errorMessage: authInfo.errorMsg
                 });
-                setTimeout(() => {setFormError({error: false, errorMessage:""})}, 4000)
-             } else  {
-                alert("loggedIN")
+            } else  {
+                setFormError({
+                    error: false,
+                    errorMessage: ''
+                });
                 navigate('/')
-             }
+            }
         }catch(e) {
             const error = e instanceof AxiosError
             return error
@@ -76,12 +77,11 @@ const LogInForm = () => {
                         <Typography variant={"h5"} mb={10}>
                             You are already loggedIn
                             <Link to="/">
-                                <HomeOutlinedIcon color='warning' fontSize="large" />
+                                {getIcons.home}
                             </Link>
                         </Typography>
                     </Box>
                 )
-
                 :
                 (
                     <Grid
@@ -107,43 +107,37 @@ const LogInForm = () => {
                                         {errorMessage}
                                     </Alert>
                                 }
-                                <TextField
-                                    {...register("email")}
-                                    type="email"
-                                    label={"Email Address"}
-                                    placeholder={"john@domain.com"}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <EmailOutlinedIcon />
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx={{ m: 2 }}
-                                    error={!!errors.email}
-                                    helperText={errors.email ? errors.email.message : null}
-                                />
-                                <TextField
-                                    {...register("password")}
-                                    type={showPassword ? "text" : "password"}
-                                    label={"Password"}
-                                    placeholder={"******"}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    onClick={handlePasswordVisibility}
-                                                >
-                                                {showPassword ? <VisibilityOutlinedIcon/> : <VisibilityOffOutlinedIcon/>}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                    sx={{m:2}}
-                                    error={!!errors.password}
-                                    helperText={errors.password ? errors.password.message : null}
-                                    autoComplete="off"
-                                />
+                                {formFields.map(field => {
+                                    return (
+                                        <TextField
+                                            {...register(field.registerValue)}
+                                            key={field.label}
+                                            type={field.label === 'Password' ? (showPassword ? 'text' : 'password') : field.type}
+                                            label={field.label}
+                                            placeholder={field.placeholder}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        {
+                                                            ("hidePassword" in field) ?
+                                                            (
+                                                                <IconButton
+                                                                    onClick={handlePasswordVisibility}
+                                                                >
+                                                                {showPassword ? field.displayPassword : field.hidePassword}
+                                                                </IconButton>
+                                                            ) :
+                                                            field.displayIcon
+                                                        }
+                                                    </InputAdornment>
+                                                )
+                                            }}
+                                            sx={{ m: 2 }}
+                                            error={!!errors[field.registerValue]}
+                                            helperText={errors[field.registerValue] ? errors[field.registerValue]?.message : null}
+                                        />
+                                    )
+                                })}
                                 <Button
                                     type="submit"
                                     variant="contained"

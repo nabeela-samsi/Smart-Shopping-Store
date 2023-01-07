@@ -8,7 +8,6 @@ export interface IUser{
 }
 
 export interface IAuth {
-    loading: boolean
     loggedIn: boolean
     userInfo: IUser | null
     error: boolean

@@ -1,13 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { checkEmailExists, login, userlogout } from "../methods/authMethods";
+import { createNewUser, login, updateUser, userlogout } from "../methods/authMethods";
 import { IAuth, IUser } from "../../type/Auth";
 import { AxiosError } from "axios";
-import { userInfo } from "os";
-
 
 const initialState: IAuth = {
-    loading: true,
     loggedIn: false,
     userInfo: null,
     error: false,
@@ -30,7 +27,6 @@ export const authSlice = createSlice({
                     }
                     return {
                         ... state,
-                        loading: false,
                         loggedIn: false,
                         error: true,
                         errorMsg: errorMsg,
@@ -49,7 +45,6 @@ export const authSlice = createSlice({
                         }
                         return {
                             ...state,
-                            loading: false,
                             loggedIn: true,
                             error: false,
                             userInfo: userData
@@ -58,22 +53,25 @@ export const authSlice = createSlice({
                     return {...state}
                 }
             })
-            .addCase(checkEmailExists.fulfilled,(state,action) => {
-                // const {isAvailable} = action.payload
-                // if(!isAvailable) {
-                //     return {
-                //         ...state,
-                //         error: true,
-                //         errorMsg: "Email already exists"
-                //     }
-                // } else {
-                //     return {
-                //         ...state,
-                //         error: false,
-                //         errorMsg: ""
-                //     }
-                // }
-                return state
+            .addCase(createNewUser.fulfilled, (state, action) => {
+                if(typeof action.payload === 'object' && Object.keys(action.payload).length) {
+                    return {
+                        ...state,
+                        error: false,
+                        errorMsg: ''
+                    }
+                }
+                return {...state}
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                if("id" in action.payload) {
+                    return {
+                        ...state,
+                        error: false,
+                        errorMsg: ''
+                    }
+                }
+                return {...state}
             })
     },
 })

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import WarningTwoToneIcon from '@mui/icons-material/WarningTwoTone';
+import getIcons from '../utilities/getIcon';
 
 const NotFound = () => {
     return (
@@ -9,7 +9,7 @@ const NotFound = () => {
             justifyContent={"center"}
             alignItems={"center"}
         >
-            <WarningTwoToneIcon color='warning' sx={{height:"10%", width:"10%"}}/>
+            {getIcons.notFound}
             <Typography variant={"h4"} sx={{mb:10}}>404: Page Not Found.</Typography>
         </Box>
     )

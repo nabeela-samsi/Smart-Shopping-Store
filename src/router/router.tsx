@@ -6,8 +6,8 @@ import Layout from "../components/Layout";
 import ProductDetails from "../pages/ProductDetails";
 import CartWishList from "../pages/CartWishList";
 import NotFound from "../pages/NotFoundPage";
-import LogInForm from "../pages/LogInForm";
 import SignUpForm from "../pages/SignUpForm";
+import UserForm from "../pages/LogInForm";
 
 const router = createBrowserRouter([
     {
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
                 element: <ProductDetails />
             }, {
                 path: '/login',
-                element: <LogInForm />
+                element: <UserForm />
             }, {
                 path: '/signup',
                 element: <SignUpForm />

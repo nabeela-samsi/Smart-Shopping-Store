@@ -3,12 +3,11 @@ import { userLogout } from "../redux/reducers/authReducers";
 import { Link } from "react-router-dom";
 
 import { Avatar, Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+
 import { StyledBadge } from "../utilities/styles";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
+import getIcons from "../utilities/getIcon";
 
 export const MenuBar = () => {
     const loggedUser = useAppSelector(state => state.auth)
@@ -41,7 +40,7 @@ export const MenuBar = () => {
                     variant="text"
                     color="inherit"
                 >
-                   <PersonOutlineOutlinedIcon fontSize="large"/>
+                   {getIcons.user}
                    Profile
                 </Button>
             </Tooltip>
@@ -89,7 +88,7 @@ export const MenuBar = () => {
                     </MenuItem>
                 )}
                 <MenuItem>
-                    <Avatar /> My profile
+                    My profile
                 </MenuItem>
             {loggedUser.loggedIn && (
                 <MenuItem>
@@ -107,7 +106,7 @@ export const MenuBar = () => {
     )
 }
 
-export const CartIcon = () => {
+export const Cart = () => {
     const cartInfo =  useAppSelector(state => state.cart)
     const {userInfo}  = useAppSelector(state => state.auth)
     let cartCount = 0
@@ -118,13 +117,13 @@ export const CartIcon = () => {
     return (
         <IconButton aria-label="cart">
             <StyledBadge badgeContent={cartCount} color="secondary">
-                <ShoppingCartIcon />
+                {getIcons.cart}
             </StyledBadge>
         </IconButton>
     )
 }
 
-export const WishlistIcon = () => {
+export const Wishlist = () => {
     const wishListInfo =  useAppSelector(state => state.wishList)
     const {userInfo}  = useAppSelector(state => state.auth)
     let wishListCount = 0
@@ -135,7 +134,7 @@ export const WishlistIcon = () => {
     return (
         <IconButton aria-label="cart">
             <StyledBadge badgeContent={wishListCount} color="secondary">
-                <FavoriteIcon />
+                {getIcons.wishList}
             </StyledBadge>
         </IconButton>
     )

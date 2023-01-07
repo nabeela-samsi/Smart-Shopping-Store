@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import { IProduct } from "../../type/Product"
+import { ICreateProduct, IProduct, IUpdateProduct} from "../../type/Product"
 import axiosInstance from "../../common/axiosInstance"
+import { AxiosError } from "axios"
 
 export const getAllProducts = createAsyncThunk(
     "getAllProducts",
@@ -11,7 +12,50 @@ export const getAllProducts = createAsyncThunk(
             const getData: IProduct[] | Error = await getResponse.data
             return getData
         }catch(e: any) {
-            console.log('something went wrong')
+            const error = e as AxiosError
+            return error
+        }
+    }
+)
+
+export const createNewProduct = createAsyncThunk(
+    "createNewProduct",
+    async (productData: ICreateProduct) => {
+        try {
+            const createProduct = await axiosInstance.post("/products", productData)
+            return createProduct.data
+        } catch(e) {
+            const error = e as AxiosError
+            return error
+        }
+    }
+)
+
+
+export const updateProduct = createAsyncThunk(
+    "updateProduct",
+    async (productData: IUpdateProduct) => {
+        try {
+            const {id, updateInfo} = productData
+            const createProduct = await axiosInstance.put(`/products/${id}`, updateInfo)
+            return createProduct.data
+        } catch(e) {
+            const error = e as AxiosError
+            return error
+        }
+    }
+)
+
+export const deleteProduct = createAsyncThunk(
+    "deleteProduct",
+    async (productId: number) => {
+        try {
+            const createProduct = await axiosInstance.delete(`/products/${productId}`)
+            const result = createProduct.data ? productId : 0
+            return result
+        } catch(e) {
+            const error = e as AxiosError
+            return error
         }
     }
 )

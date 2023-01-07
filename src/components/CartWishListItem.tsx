@@ -1,8 +1,6 @@
 import { Link, useLocation } from "react-router-dom"
 
 import { Box, Button, ButtonGroup, Typography } from "@mui/material"
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
 
 import { useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/reducers/cartReducers";
@@ -10,6 +8,7 @@ import { useAppSelector } from "../hooks/reduxHook";
 import ButtonHandle from "./ButtonHandle";
 import { removeFromWishList } from "../redux/reducers/wishListReducers";
 import { IProduct } from "../type/Product";
+import getIcons from "../utilities/getIcon";
 
 const CartWishListItem = (props: IProduct) => {
     const {pathname} = useLocation()
@@ -90,7 +89,7 @@ const CartWishListItem = (props: IProduct) => {
                             aria-label="reduce"
                             onClick={cartRemoveAction}
                         >
-                            <RemoveIcon fontSize="small"/>
+                            {getIcons.remove}
                         </Button>
                         <Button>
                             {props.quantity}
@@ -99,7 +98,7 @@ const CartWishListItem = (props: IProduct) => {
                             aria-label="increment"
                             onClick={cartAddAction}
                         >
-                            <AddIcon fontSize="small"/>
+                            {getIcons.add}
                         </Button>
                     </ButtonGroup>
                     :

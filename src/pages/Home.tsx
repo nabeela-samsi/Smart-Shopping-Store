@@ -10,19 +10,10 @@ import {
     Typography
 } from "@mui/material"
 
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
-
-import { getAllCategories } from "../redux/methods/categoryMethods"
-import { getAllProducts } from "../redux/methods/productMethods"
+import { useAppSelector } from "../hooks/reduxHook"
 
 const Home = () => {
-    const dispatch = useAppDispatch()
     const categories = useAppSelector(state => state.categories)
-
-    useEffect(() => {
-        dispatch(getAllCategories())
-        dispatch(getAllProducts())
-    },[dispatch])
 
     return (
         <div className="home">
