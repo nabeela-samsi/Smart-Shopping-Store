@@ -53,17 +53,19 @@ export const removeFromcart = (
 ) => {
     if('productId' in action.payload) {
         const {email, productId, originalPrice} = action.payload
-        const cartInfo = {...state}
+        const duplicateState = {...state}
+        const cartInfoArray = duplicateState[email]
         let cartValue: IProduct[] = []
-        const checkDeleteType = cartInfo[email].some(product => {
-            if(product.id === productId) {
-                return (product.quantity === 1)
+        let checkDeleteType
+        for(let item in cartInfoArray ) {
+            if(cartInfoArray[item].id === productId) {
+                checkDeleteType = (cartInfoArray[item].quantity === 1)
             }
-        })
+        }
         if(checkDeleteType) {
-            cartValue = cartInfo[email].filter(product => product.id !== productId)
+            cartValue = cartInfoArray.filter(product => product.id !== productId)
         } else{
-            cartValue = cartInfo[email].map(product => {
+            cartValue = cartInfoArray.map(product => {
                 if(product.id === productId){
                     const quantity = (product.quantity) ? product.quantity : 2
                     return {

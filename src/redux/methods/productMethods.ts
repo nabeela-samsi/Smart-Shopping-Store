@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import { ICreateProduct, IProduct, IUpdateProduct} from "../../type/Product"
+import { ICreateProduct, IUpdateProduct} from "../../type/Product"
 import axiosInstance from "../../common/axiosInstance"
 import { AxiosError } from "axios"
 

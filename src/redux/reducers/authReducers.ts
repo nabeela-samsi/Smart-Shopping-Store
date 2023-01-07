@@ -26,7 +26,7 @@ export const authSlice = createSlice({
                         errorMsg = "Email or Password are incorrect"
                     }
                     return {
-                        ... state,
+                        ...state,
                         loggedIn: false,
                         error: true,
                         errorMsg: errorMsg,

@@ -110,7 +110,7 @@ const ProductDetails = () => {
                                         onClick={handleBack}
                                         disabled={activeStep === 0}
                                     >
-                                        {getIcons. arrowLeft}
+                                        {getIcons.arrowLeft}
                                         Back
                                     </Button>
                                 }

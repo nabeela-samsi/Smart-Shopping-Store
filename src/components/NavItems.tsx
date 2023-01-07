@@ -2,7 +2,7 @@ import { useState } from "react";
 import { userLogout } from "../redux/reducers/authReducers";
 import { Link } from "react-router-dom";
 
-import { Avatar, Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
+import { Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 
 import { StyledBadge } from "../utilities/styles";
 
