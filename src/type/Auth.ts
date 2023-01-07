@@ -1,11 +1,4 @@
-export interface IUser{
-    id: number
-    email: string
-    password: string
-    name: string
-    role: string
-    avatar: string
-}
+import { IUser } from "./User"
 
 export interface IAuth {
     loggedIn: boolean

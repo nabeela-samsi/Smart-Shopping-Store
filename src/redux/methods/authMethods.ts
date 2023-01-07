@@ -1,34 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { IAuth, ICredentials, IReturnedCredentials, IUser } from "../../type/Auth";
+import { IAuth, ICredentials, IReturnedCredentials} from "../../type/Auth";
 import axiosInstance from "../../common/axiosInstance";
 import { AxiosError } from "axios";
-import { json } from "stream/consumers";
-import { INewUser, IUpdateUser } from "../../type/Form";
+import { IUser } from "../../type/User";
 
 export const userlogout = (state: IAuth) => {
     return {
         ...state,
-        loggedIn: false,
         error: false,
         errorMsg: '',
-        userInfo: null
+        userInfo: null,
+        loggedIn: false
     }
 }
-
-export const createNewUser = createAsyncThunk(
-    "createNewUser",
-    async (userData: INewUser) => {
-        try{
-            const createdUser = await axiosInstance.post("users/", userData)
-            const data: IUser = createdUser.data
-            return data
-        } catch(e) {
-            const error = e as AxiosError
-            return error
-        }
-    }
-)
 
 export const login = createAsyncThunk(
     "login",
@@ -46,20 +31,6 @@ export const login = createAsyncThunk(
                 const responseData: IUser = response.data
                 return responseData
             }
-        } catch(e) {
-            const error = e as AxiosError
-            return error
-        }
-    }
-)
-
-export const updateUser = createAsyncThunk(
-    "updateUser",
-    async (info: IUpdateUser) => {
-        try{
-            const createdUser = await axiosInstance.put(`users/${info.id}`, info.updateInfo)
-            const data: IUser = createdUser.data
-            return data
         } catch(e) {
             const error = e as AxiosError
             return error

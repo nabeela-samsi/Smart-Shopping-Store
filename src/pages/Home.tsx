@@ -7,10 +7,12 @@ import {
     CardContent,
     CardMedia,
     Grid,
+    IconButton,
     Typography
 } from "@mui/material"
 
 import { useAppSelector } from "../hooks/reduxHook"
+import getIcons from "../utilities/getIcon"
 
 const Home = () => {
     const categories = useAppSelector(state => state.categories)
@@ -40,16 +42,17 @@ const Home = () => {
                         xs={3}
                         key={data.id}
                     >
-                        <Link
-                            to={`/products/searchByCategory?id=${data.id}`}
-                            style={{textDecoration: 'none'}}
-                        >
-                            <Card variant="elevation" >
-                                <CardActionArea>
+                        <Card variant="elevation" >
+                            <CardActionArea>
+                                <Link
+                                    to={`/products/searchByCategory?id=${data.id}`}
+                                    style={{textDecoration: 'none'}}
+                                    color="black"
+                                >
                                     <CardContent>
-                                    <Typography fontWeight={"bold"}>
-                                        {data.name}
-                                    </Typography>
+                                        <Typography fontWeight={"bold"} >
+                                            {data.name}
+                                        </Typography>
                                     </CardContent>
                                     <CardMedia
                                         component={"img"}
@@ -58,9 +61,17 @@ const Home = () => {
                                         height="300"
                                         style={{objectFit:"scale-down"}}
                                     />
-                                </CardActionArea>
-                            </Card>
-                        </Link>
+                                </Link>
+                                <CardContent>
+                                    <IconButton>
+                                        {getIcons.edit}
+                                    </IconButton>
+                                    <IconButton>
+                                        {getIcons.trash}
+                                    </IconButton>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
                     </Grid>
                 ))}
             </Grid>

@@ -8,8 +8,9 @@ import server from "../shared/server"
 import { PersistPartial } from "redux-persist/es/persistReducer"
 import { ICreateProduct, IProduct, IUpdateProduct } from "../../type/Product";
 import { ICategory } from "../../type/Category";
-import { IAuth, IUser } from "../../type/Auth";
+import { IAuth } from "../../type/Auth";
 import { ICartWishlist } from "../../type/CartWishList";
+import { IUser } from "../../type/User";
 
 let store: ToolkitStore<EmptyObject & {
     products: IProduct[];
@@ -51,7 +52,17 @@ describe("Test all the actions", () => {
         await store.dispatch(createNewProduct(newproduct))
         expect(store.getState().products.length).toBe(1)
     })
-
+    test("should not create a product" , async () => {
+        const newproduct: ICreateProduct  = {
+            title: "Test Create Product",
+            price: -1000,
+            description: "Test Create Product",
+            categoryId: 1,
+            images: ["https://api.lorem.space/image/dummyImage"]
+        }
+        await store.dispatch(createNewProduct(newproduct))
+        expect(store.getState().products.length).toBe(0)
+    })
     test("should create a product one by one" , async () => {
         const newproduct1: ICreateProduct  = {
             title: "Test Create Product1",
@@ -73,7 +84,6 @@ describe("Test all the actions", () => {
         await store.dispatch(createNewProduct(newproduct2))
         expect(store.getState().products.length).toBe(2)
     })
-
     test("should update product" , async () => {
         const product: IUpdateProduct = {
             id: 1,
@@ -89,7 +99,6 @@ describe("Test all the actions", () => {
         expect(store.getState().products[0].title).toBe("Test Product")
         expect(store.getState().products[0].price).toBe(49)
     })
-
     test("should delete product" , async () => {
         const productID = 1
         await store.dispatch(getAllProducts())

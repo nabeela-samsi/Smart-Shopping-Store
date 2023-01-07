@@ -8,12 +8,12 @@ import { PersistPartial } from "redux-persist/es/persistReducer"
 
 import { IProduct } from "../../type/Product";
 import { ICategory } from "../../type/Category";
-import { IAuth, IUser } from "../../type/Auth";
+import { IAuth } from "../../type/Auth";
 import { ICartWishlist } from "../../type/CartWishList";
-import { createNewUser, login, updateUser } from "../../redux/methods/authMethods";
-import { NULL } from "sass";
+import {login} from "../../redux/methods/authMethods";
 import testData from "../../utilities/testData";
-import { INewUser, IUpdateUser } from "../../type/Form";
+import { IUser } from "../../type/User";
+import { userLogout } from "../../redux/reducers/authReducers";
 
 let store: ToolkitStore<EmptyObject & {
     products: IProduct[];
@@ -48,7 +48,6 @@ describe("Test all the actions", () => {
         expect(Object.keys(store.getState().auth).length).toBe(4)
         expect(store.getState().auth).toStrictEqual(initialState)
     })
-
     test("should login user with right credentials", async() => {
         const credentials = {
             email: "testMail@domain.com",
@@ -63,7 +62,6 @@ describe("Test all the actions", () => {
         }
         expect(store.getState().auth).toStrictEqual(result)
     })
-
     test("should login user with wrong credentials", async() => {
         const credentials = {
             email: "testMail.co",
@@ -79,46 +77,28 @@ describe("Test all the actions", () => {
 
         expect(store.getState().auth).toStrictEqual(result)
     })
-
-    test("should update the new user", async() => {
-        const newUserData: INewUser= {
-            name: "first name",
-            avatar: "https://i.picsum.photos/id/1021/200/200.jpg?hmac=5Jzd15OWoPw0fwvsvL05A1BAIN_B543TvjlxqGk1PDU",
-            email: "testMail2@domain.com",
-            password: "AbTest1234"
+    test("should log out successfully", async() => {
+        const credentials = {
+            email: "testMail@domain.com",
+            password: "password",
         }
-
-        await store.dispatch(createNewUser(newUserData))
-        expect(store.getState().auth.errorMsg).toBe("")
-        expect(store.getState().auth.error).toBe(false)
-    })
-
-    test("should update the user such that email is unique", async() => {
-        const updateUserInfo: IUpdateUser = {
-            id:1,
-            isChangeEmail: false,
-            updateInfo: {
-                email: "mariaTest@mail.com",
-                name: "first name"
-            }
+        await store.dispatch(login(credentials))
+        const loginResult = {
+            loggedIn: true,
+            error: false,
+            errorMsg: '',
+            userInfo: testData.allUsers[0]
         }
-        await store.dispatch(updateUser(updateUserInfo))
-        expect(store.getState().auth.errorMsg).toBe("")
-        expect(store.getState().auth.error).toBe(false)
-    })
+        expect(store.getState().auth).toStrictEqual(loginResult)
 
-    test("should update the user such that no email change", async() => {
-        const updateUserInfo: IUpdateUser = {
-            id:1,
-            isChangeEmail: false,
-            updateInfo: {
-                email: "maria@mail.com",
-                name: "first name"
-            }
+        store.dispatch(userLogout())
+        const loggoutResult = {
+            loggedIn: false,
+            error: false,
+            errorMsg: '',
+            userInfo: null
         }
-        await store.dispatch(updateUser(updateUserInfo))
-        expect(store.getState().auth.errorMsg).toBe("")
-        expect(store.getState().auth.error).toBe(false)
+        expect(store.getState().auth).toStrictEqual(loggoutResult)
     })
 })
 

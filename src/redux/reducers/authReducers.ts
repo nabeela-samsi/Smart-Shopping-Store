@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { createNewUser, login, updateUser, userlogout } from "../methods/authMethods";
-import { IAuth, IUser } from "../../type/Auth";
+import { login, userlogout } from "../methods/authMethods";
+import { IAuth, } from "../../type/Auth";
 import { AxiosError } from "axios";
 
 const initialState: IAuth = {
@@ -50,28 +50,8 @@ export const authSlice = createSlice({
                             userInfo: userData
                         }
                     }
-                    return {...state}
+                    return state
                 }
-            })
-            .addCase(createNewUser.fulfilled, (state, action) => {
-                if(typeof action.payload === 'object' && Object.keys(action.payload).length) {
-                    return {
-                        ...state,
-                        error: false,
-                        errorMsg: ''
-                    }
-                }
-                return {...state}
-            })
-            .addCase(updateUser.fulfilled, (state, action) => {
-                if("id" in action.payload) {
-                    return {
-                        ...state,
-                        error: false,
-                        errorMsg: ''
-                    }
-                }
-                return {...state}
             })
     },
 })

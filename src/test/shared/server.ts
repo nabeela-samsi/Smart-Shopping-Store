@@ -3,9 +3,9 @@ import {setupServer} from "msw/node"
 
 import testData from "../../utilities/testData";
 import jwt from "jsonwebtoken"
-import { IUser } from "../../type/Auth";
 import { IProduct, IUpdateProduct } from "../../type/Product";
-import { INewUser, IUpdateUser } from "../../type/Form";
+import { ICategory } from "../../type/Category";
+import { INewUser, IUpdateUser, IUser } from "../../type/User";
 
 const handler = [
     rest.get("https://api.escuelajs.co/api/v1/products", (req, res, ctx) => {
@@ -24,6 +24,12 @@ const handler = [
         }
         return res(
             ctx.json(product)
+        )
+    }),
+    rest.post("https://api.escuelajs.co/api/v1/categories", async (req, res, ctx) => {
+        const category: ICategory = await req.json()
+        return res(
+            ctx.json(category)
         )
     }),
     rest.get("https://api.escuelajs.co/api/v1/categories", (req, res, ctx) => {
@@ -65,16 +71,6 @@ const handler = [
         } else {
             return res(ctx.status(401, "unauthorized"))
         }
-    }),
-    rest.post("https://api.escuelajs.co/api/v1/files/upload", async (req, res, ctx) => {
-        const file: File = await req.json()
-        return res(
-            ctx.json({
-                originalname: "dummyfile",
-                filename: "dummyfile.png",
-                location: `https://api.escuelajs.co/api/v1/files/dummyfile.png`
-            })
-        )
     }),
     rest.post("https://api.escuelajs.co/api/v1/users/", async(req, res, ctx) => {
         const user: INewUser = await req.json()
@@ -128,6 +124,34 @@ const handler = [
         }
         return res(
             ctx.status(404, 'Product is not found')
+        )
+    }),
+    rest.put("https://api.escuelajs.co/api/v1/categories/:id", async(req, res, ctx) => {
+        const updateCategory: ICategory = await req.json()
+        const {id} = req.params
+        const foundCategory = testData.allCategories.find(category => category.id === Number(id))
+        if(foundCategory) {
+            return res(
+                ctx.json({
+                    ...foundCategory,
+                    ...updateCategory
+                })
+            )
+        }
+        return res(
+            ctx.status(404, 'Category is not found')
+        )
+    }),
+    rest.delete("https://api.escuelajs.co/api/v1/categories/:id", async(req, res, ctx) => {
+        const {id} = req.params
+        const foundCategory = testData.allCategories.find(category => category.id === Number(id))
+        if(foundCategory) {
+            return res(
+                ctx.json(true)
+            )
+        }
+        return res(
+            ctx.status(404, 'Category is not found')
         )
     })
 ]

@@ -9,10 +9,10 @@ import { AxiosError } from "axios";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
-import { signUpValidationSchema } from "../utilities/validation";
-import { createNewUser } from "../redux/methods/authMethods";
-import { INewUser } from "../type/Form";
+import { signUpValidationSchema } from "../utilities/formValidation";
 import userFormFields from "../utilities/userFormFields";
+import { INewUser } from "../type/User";
+import { createNewUser } from "../redux/methods/userMethods";
 
 const SignUpForm = () => {
     const formFields = userFormFields.userFields

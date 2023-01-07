@@ -13,6 +13,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NotInterestedOutlinedIcon from '@material-ui/icons/NotInterestedOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 
 const gitHub = (
     <GitHub fontSize="medium" />
@@ -35,7 +37,7 @@ const hidePassword = (
 )
 
 const home = (
-    <HomeOutlinedIcon color='warning' fontSize="large" />
+    <HomeOutlinedIcon color='warning' />
 )
 
 const user = (
@@ -82,5 +84,13 @@ const arrowRight = (
     <KeyboardArrowRight />
 )
 
-const getIcons = { gitHub, linkedIn, email, showPassword, hidePassword, home, user, photo, remove, add, search, cart, wishList, notFound, arrowBack, arrowLeft, arrowRight }
+const trash = (
+    <DeleteRoundedIcon />
+)
+
+const edit = (
+    <BorderColorOutlinedIcon />
+)
+
+const getIcons = { gitHub, linkedIn, email, showPassword, hidePassword, home, user, photo, remove, add, search, cart, wishList, notFound, arrowBack, arrowLeft, arrowRight, trash, edit }
 export default getIcons

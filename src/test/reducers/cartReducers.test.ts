@@ -10,8 +10,9 @@ import testData from "../../utilities/testData";
 
 import { IProduct } from "../../type/Product";
 import { ICategory } from "../../type/Category";
-import { IAuth, IUser } from "../../type/Auth";
+import { IAuth } from "../../type/Auth";
 import { ICartWishlist } from "../../type/CartWishList";
+import { IUser } from "../../type/User";
 
 let store: ToolkitStore<EmptyObject & {
     products: IProduct[];

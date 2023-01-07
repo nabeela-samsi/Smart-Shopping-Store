@@ -9,9 +9,9 @@ export const getAllProducts = createAsyncThunk(
    async () => {
         try {
             const getResponse = await axiosInstance.get("/products")
-            const getData: IProduct[] | Error = await getResponse.data
+            const getData = await getResponse.data
             return getData
-        }catch(e: any) {
+        }catch(e) {
             const error = e as AxiosError
             return error
         }
@@ -30,7 +30,6 @@ export const createNewProduct = createAsyncThunk(
         }
     }
 )
-
 
 export const updateProduct = createAsyncThunk(
     "updateProduct",

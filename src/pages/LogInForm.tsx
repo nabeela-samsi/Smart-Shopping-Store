@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { login } from "../redux/methods/authMethods";
 
 import { ICredentials } from "../type/Auth";
-import { loginValidationSchema } from "../utilities/validation";
+import { loginValidationSchema } from "../utilities/formValidation";
 import getIcons from "../utilities/getIcon";
 import userFormFields from "../utilities/userFormFields";
 
