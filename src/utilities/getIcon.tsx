@@ -1,20 +1,20 @@
 import { GitHub, LinkedIn } from "@mui/icons-material"
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material"
-import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import PhotoCameraOutlinedIcon from '@material-ui/icons/PhotoCameraOutlined';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import NotInterestedOutlinedIcon from '@material-ui/icons/NotInterestedOutlined';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined'
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
+import PhotoCameraOutlinedIcon from '@material-ui/icons/PhotoCameraOutlined'
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
+import SearchIcon from "@mui/icons-material/Search"
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import NotInterestedOutlinedIcon from '@material-ui/icons/NotInterestedOutlined'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined'
 
 const gitHub = (
     <GitHub fontSize="medium" />
