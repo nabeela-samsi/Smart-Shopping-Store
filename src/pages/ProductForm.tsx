@@ -1,21 +1,24 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Box } from "@mui/system"
-import { Alert, AlertTitle, Button, Grid, InputAdornment, MenuItem, TextField, Typography } from "@mui/material"
+import { Button, Grid, InputAdornment, MenuItem, TextField, Typography } from "@mui/material"
 import { AxiosError } from "axios"
 import { productValidationSchema } from "../utilities/formValidation"
-import { ICreateProduct } from "../type/Product"
+import { ICreateProduct, IProduct } from "../type/Product"
 import { productFields } from "../utilities/formFields"
-import { createNewProduct } from "../redux/methods/productMethods"
+import { createNewProduct, updateProduct } from "../redux/methods/productMethods"
 import ErrorMessage from "../components/ErrorMessage"
 
 const ProductForm = () => {
-    const formFields = productFields
     const authInfo = useAppSelector((state) => state.auth)
     const categories = useAppSelector((state) => state.categories)
+    const products = useAppSelector((state) => state.products)
+    const {id} = useParams()
+    const [productName, setProductName] = useState('')
+    const formFields = productFields
     const isNotAdmin = authInfo.userInfo?.role.toLowerCase() !== 'admin'
     const navigate =  useNavigate()
     const dispatch = useAppDispatch()
@@ -23,16 +26,31 @@ const ProductForm = () => {
         error: false,
         errorMessage: ''
     })
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
         defaultValues: {
-            title: "",
-            description: "",
+            title: '',
+            description: '',
             categoryId: 0,
-            images: "",
-            price: 1
+            images: '',
+            price: 0
         },
         resolver: yupResolver(productValidationSchema(categories))
     })
+    useEffect(() => {
+        if(Number(id) > 0) {
+            const getProduct = products.find(product => product.id === Number(id))
+            if(getProduct) {
+                const getCategory = categories.findIndex(category => category.id === getProduct.category.id)
+                setProductName(getProduct.title)
+                setValue('categoryId', getProduct.category.id, {shouldValidate: true})
+                setValue('title',getProduct.title)
+                setValue('description',getProduct.description)
+                setValue('price',getProduct.price)
+                const imageToString = getProduct.images.toString()
+                setValue('images',imageToString)
+            }
+        }
+    },[])
     const onSubmitAction = async(data: ICreateProduct) => {
         try{
             const imageString = data.images as string
@@ -42,14 +60,26 @@ const ProductForm = () => {
                 error: false,
                 errorMessage: ''
             });
-            await dispatch(createNewProduct({
-                title: data.title,
-                price: data.price,
-                description: data.description,
-                categoryId: data.categoryId,
-                images: imageArray
-            }))
-            navigate('/')
+            const productData = {
+                    title: data.title,
+                    price: data.price,
+                    description: data.description,
+                    categoryId: data.categoryId,
+                    images: imageArray
+                }
+            if(Number(id) > 0) {
+                await dispatch(updateProduct({id: Number(id), updateInfo:productData}))
+                // navigate('-1')
+            } else {
+                await dispatch(createNewProduct({
+                    title: data.title,
+                    price: data.price,
+                    description: data.description,
+                    categoryId: data.categoryId,
+                    images: imageArray
+                }))
+                navigate(-1)
+            }
         } catch(e) {
             const error = e instanceof AxiosError
             setFormError({
@@ -58,7 +88,6 @@ const ProductForm = () => {
             });
         }
     }
-
     return (
         <>
             {isNotAdmin?
@@ -94,29 +123,33 @@ const ProductForm = () => {
                                     />
                                 }
                                 <Typography variant="h4">
-                                        Create New Category
+                                        {productName.trim().length ?
+                                            `Update ${productName}` :
+                                            "Create New Product"
+                                        }
                                 </Typography>
                                 {formFields.map(field => {
                                     return (
                                         <>
                                             {(field.type === 'select')
+
                                                 ?
                                                 (<TextField
                                                     {...register(field.registerValue)}
-                                                    key={field.label+"select"}
+                                                    key={field.label}
                                                     select
-                                                    defaultValue={"choose"}
+                                                    defaultValue={0}
                                                     label={field.label}
                                                     placeholder={field.placeholder}
                                                     sx={{ m: 2 }}
                                                     error={!!errors[field.registerValue]}
                                                     helperText={errors[field.registerValue] ? errors[field.registerValue]?.message : null}
                                                 >
-                                                    <MenuItem disabled value="choose" key={"choose0"}>
+                                                    <MenuItem disabled value={0} key={"choose0"}>
                                                         Choose Option
                                                     </MenuItem>
-                                                    {categories.map((category) =>
-                                                        <MenuItem key={category.name + category.id} value={category.id}>
+                                                    {categories.map((category, key) =>
+                                                        <MenuItem key={key} value={category.id}>
                                                             {category.name}
                                                         </MenuItem>
                                                     )}
@@ -128,8 +161,6 @@ const ProductForm = () => {
                                                     type={field.type}
                                                     label={field.label}
                                                     placeholder={field.placeholder}
-                                                    multiline = {field.type === 'url'}
-                                                    rows={4}
                                                     InputProps={{
                                                         endAdornment: (
                                                             <InputAdornment position="end">
@@ -151,7 +182,7 @@ const ProductForm = () => {
                                     color="primary"
                                     sx={{ m: 2, fontWeight: "bold" }}
                                 >
-                                    Create
+                                    {productName.trim().length ? "Update" : "Create"}
                                 </Button>
                             </Box>
                         </Grid>

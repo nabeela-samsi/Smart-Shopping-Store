@@ -18,6 +18,7 @@ import { usePagination } from "../hooks/usePagination"
 import { IProduct } from "../type/Product"
 import getIcons from "../utilities/getIcon"
 import ErrorMessage from "../components/ErrorMessage"
+import ButtonHandle from "../components/ButtonHandle"
 
 const ListOfProducts = () => {
     const {userInfo} = useAppSelector(state => state.auth)
@@ -103,9 +104,9 @@ const ListOfProducts = () => {
                                 </Link>
                                 {isAdmin && (
                                     <>
-                                        <IconButton>
+                                        <Link to={`/product/edit/${data.id}`}>
                                             {getIcons.edit}
-                                        </IconButton>
+                                        </Link>
                                         <IconButton>
                                             {getIcons.trash}
                                         </IconButton>

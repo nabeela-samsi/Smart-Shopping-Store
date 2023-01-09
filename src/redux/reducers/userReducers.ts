@@ -23,6 +23,7 @@ export const userSlice = createSlice({
                 if(action.payload instanceof AxiosError) {
                     return state
                 } else {
+                    console.log(action.payload)
                     return [...state, action.payload]
                 }
             })

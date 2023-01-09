@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { categoryValidationSchema } from "../utilities/formValidation"
@@ -8,7 +8,7 @@ import { ICreateCategory } from "../type/Category"
 import { Box } from "@mui/system"
 import { Alert, AlertTitle, Autocomplete, Button, Grid, InputAdornment, TextField, Typography } from "@mui/material"
 import { AxiosError } from "axios"
-import { createNewCategory } from "../redux/methods/categoryMethods"
+import { createNewCategory, updateCategory } from "../redux/methods/categoryMethods"
 import { categoryFields } from "../utilities/formFields"
 import ErrorMessage from "../components/ErrorMessage"
 
@@ -16,6 +16,8 @@ const CategoryForm = () => {
     const formFields = categoryFields
     const authInfo = useAppSelector((state) => state.auth)
     const categories = useAppSelector((state) => state.categories)
+    const {id} = useParams()
+    const [categoryName, setCategoryname] = useState('')
     const isNotAdmin = authInfo.userInfo?.role.toLowerCase() !== 'admin'
     const navigate =  useNavigate()
     const dispatch = useAppDispatch()
@@ -23,13 +25,23 @@ const CategoryForm = () => {
         error: false,
         errorMessage: ''
     })
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
         defaultValues: {
             name: "",
             image: ""
         },
         resolver: yupResolver(categoryValidationSchema)
     })
+    useEffect(() => {
+        if(Number(id) > 0) {
+            const getCategory = categories.find(category => category.id === Number(id))
+            if(getCategory) {
+                setCategoryname(getCategory.name)
+                setValue('name',getCategory.name)
+                setValue('image',getCategory.image)
+            }
+        }
+    },[])
     const categoryExists = (name: string) => {
         return categories.some(category => category.name.toLowerCase() === name.toLowerCase())
     }
@@ -45,8 +57,13 @@ const CategoryForm = () => {
                     error: false,
                     errorMessage: ''
                 });
-                await dispatch(createNewCategory(data))
-                navigate('/')
+                if(Number(id) > 0) {
+                    await dispatch(updateCategory({id: Number(id), name: data.name, image: data.image}))
+                    navigate(-1)
+                }else {
+                    await dispatch(createNewCategory(data))
+                    navigate(-1)
+                }
             }
         } catch(e) {
             const error = e instanceof AxiosError
@@ -92,7 +109,10 @@ const CategoryForm = () => {
                                     />
                                 }
                                 <Typography variant="h4">
-                                        Create New Category
+                                    {categoryName.trim().length ?
+                                        `Update ${categoryName}` :
+                                        "Create New Category"
+                                    }
                                 </Typography>
                                 {formFields.map(field => {
                                     return (
@@ -121,7 +141,7 @@ const CategoryForm = () => {
                                     color="primary"
                                     sx={{ m: 2, fontWeight: "bold" }}
                                 >
-                                    Create
+                                    {categoryName.trim().length ? "Update" : "Create"}
                                 </Button>
                             </Box>
                         </Grid>

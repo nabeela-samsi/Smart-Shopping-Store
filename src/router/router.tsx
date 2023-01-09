@@ -6,10 +6,11 @@ import Layout from "../components/Layout";
 import ProductDetails from "../pages/ProductDetails";
 import CartWishList from "../pages/CartWishList";
 import NotFound from "../pages/NotFoundPage";
-import SignUpForm from "../pages/SignUpForm";
-import UserForm from "../pages/LogInForm";
 import CategoryForm from "../pages/CategoryForm";
 import ProductForm from "../pages/ProductForm";
+import LogInForm from "../pages/LogInForm";
+import UserProfile from "../pages/UserProfile";
+import UserForm from "../pages/UserForm";
 
 const router = createBrowserRouter([
     {
@@ -20,10 +21,21 @@ const router = createBrowserRouter([
                 element: <Home />,
             },{
                 path: '/login',
-                element: <UserForm />
+                element: <LogInForm />
             }, {
                 path: '/signup',
-                element: <SignUpForm />
+                element: <UserForm />
+            }, {
+                path: '/userprofile/',
+                children: [
+                    {
+                        path: ':id',
+                        element: <UserProfile />
+                    }, {
+                        path: 'edit/:id',
+                        element: <UserForm />
+                    }
+                ]
             }, {
                 path: '/product/',
                 children: [
@@ -33,12 +45,18 @@ const router = createBrowserRouter([
                     }, {
                         path: 'create',
                         element: <ProductForm />
+                    }, {
+                        path: 'edit/:id',
+                        element: <ProductForm />
                     }
                 ]
             }, {
                 path: '/products/',
                 children: [
                     {
+                        path: '',
+                        element: <ListOfProducts />
+                    } ,{
                         path: 'searchByCategory',
                         element: <ListOfProducts />
                     }, {
@@ -51,6 +69,9 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: 'create',
+                        element: <CategoryForm />
+                    }, {
+                        path: 'edit/:id',
                         element: <CategoryForm />
                     }
                 ]

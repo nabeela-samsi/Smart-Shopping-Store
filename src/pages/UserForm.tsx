@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { Alert, AlertTitle, Box, Button, Grid, InputAdornment, TextField, Typography } from "@mui/material"
@@ -11,21 +11,22 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 import { signUpValidationSchema } from "../utilities/formValidation";
 import { INewUser } from "../type/User";
-import { createNewUser } from "../redux/methods/userMethods";
+import { createNewUser, updateUser } from "../redux/methods/userMethods";
 import { userFields } from "../utilities/formFields";
 import ErrorMessage from "../components/ErrorMessage";
 
-const SignUpForm = () => {
+const UserForm = () => {
     const formFields = userFields
     const authInfo = useAppSelector(state => state.auth)
     const usersInfo = useAppSelector(state => state.users)
+    const {id} = useParams()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [{ error, errorMessage }, setFormError] = useState({
         error: false,
         errorMessage: ''
     })
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
         defaultValues: {
             name: "",
             email: "",
@@ -35,33 +36,53 @@ const SignUpForm = () => {
         },
         resolver: yupResolver(signUpValidationSchema)
     })
+    useEffect(() => {
+        if(Number(id) > 0) {
+            if(authInfo.userInfo && authInfo.loggedIn) {
+                setValue('name',authInfo.userInfo.name)
+                setValue('avatar',authInfo.userInfo.avatar)
+                setValue('email',authInfo.userInfo.email)
+                setValue('password',authInfo.userInfo.password)
+                setValue('confirmPassword',authInfo.userInfo.password)
+            }
+        }
+    },[])
     const emailExists = (email: string) => {
         return usersInfo.some(user => user.email.toLowerCase() === email.toLowerCase())
     }
     const onSubmitAction = async(data: INewUser) => {
         try{
-            if(emailExists(data.email)) {
+            if(emailExists(data.email) && !authInfo.loggedIn) {
                 setFormError({
                     error: true,
                     errorMessage: "Please provide the unique Email"
                 });
+            } else if(authInfo.loggedIn && data.email.trim() !== authInfo.userInfo?.email.trim()) {
+                if(emailExists(data.email)) {
+                    setFormError({
+                        error: true,
+                        errorMessage: "Please provide the unique Email"
+                    });
+                }
             } else {
                 setFormError({
                     error: false,
                     errorMessage: ''
                 });
-                await dispatch(createNewUser(data))
-                if(authInfo.error){
-                    setFormError({
-                        error: authInfo.error,
-                        errorMessage: authInfo.errorMsg
-                    });
-                } else {
+                if(Number(id) > 0) {
+                    await dispatch(updateUser({id: Number(id), updateInfo: data}))
                     navigate('/')
+                } else {
+                    await dispatch(createNewUser(data))
+                    navigate('/login')
                 }
             }
         } catch(e) {
             const error = e instanceof AxiosError
+            setFormError({
+                error: true,
+                errorMessage: "Something went wrong please try again later"
+            })
             return error
         }
     }
@@ -127,18 +148,24 @@ const SignUpForm = () => {
                         color="primary"
                         sx={{ m: 2, fontWeight: "bold" }}
                     >
-                        Sign Up
+                        {authInfo.loggedIn ? "save" : "Sign Up"}
                     </Button>
-                    <Typography display={"flex"} alignContent="center" justifyContent={"center"} color="red" component="span">
-                        By creating an account, you agree to <br /> Smart Shopping terms and conditions.
-                    </Typography>
-                    <Typography component="span" display={"flex"} alignContent="center" justifyContent={"center"} sx={{ m: 3 }} >
-                        Already have an account? &nbsp; <Link to="/login"> Log In </Link>
-                    </Typography>
+                    {!authInfo.loggedIn &&
+                        (
+                            <>
+                                <Typography display={"flex"} alignContent="center" justifyContent={"center"} color="red" component="span">
+                                    By creating an account, you agree to <br /> Smart Shopping terms and conditions.
+                                </Typography>
+                                <Typography component="span" display={"flex"} alignContent="center" justifyContent={"center"} sx={{ m: 3 }} >
+                                    Already have an account? &nbsp; <Link to="/login"> Log In </Link>
+                                </Typography>
+                            </>
+                        )
+                    }
                 </Box>
             </Grid>
         </Grid>
     )
 }
 
-export default SignUpForm
+export default UserForm

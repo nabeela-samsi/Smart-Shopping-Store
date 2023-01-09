@@ -90,7 +90,7 @@ const handler = [
             return res(
                 ctx.json({
                     ...foundUser,
-                    ...updateUser.updateInfo
+                    ...updateUser
                 })
             )
         }

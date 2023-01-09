@@ -42,13 +42,6 @@ describe("Test all the actions", () => {
         expect(store.getState().products.length).toBe(3)
     })
     test("should create a product" , async () => {
-        // const newproduct: ICreateProduct  = {
-        //     title: "Test Create Product",
-        //     price: 1000,
-        //     description: "Test Create Product",
-        //     categoryId: 1,
-        //     images: ["https://api.lorem.space/image/dummyImage"]
-        // }
         const newproduct: ICreateProduct = {
             categoryId: 2,
             description :"cwhlchwilchiwl",

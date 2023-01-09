@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-import { IconButton, InputAdornment, TextField } from "@mui/material"
+import { Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
 import { Cart, MenuBar, Wishlist } from "./NavItems";
 
 import getIcons from "../utilities/getIcon";
 import { useAppSelector } from "../hooks/reduxHook";
 import { IUser } from "../type/User";
+import { Stack } from "@mui/system";
 
 export const Logo = () => {
     return (
@@ -67,11 +68,19 @@ export const NavigationBar = () => {
     const {loggedIn, userInfo} = useAppSelector((state) => state.auth)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
     return (
-        <div className="header__action">
+        <Stack direction="row" spacing={3} className="header__action">
             <MenuBar
                 loggedIn={loggedIn}
                 isAdmin={isAdmin}
+                userName={(userInfo) ? userInfo.name : ''}
+                userImage={(userInfo) ? userInfo.avatar : ''}
+                userId={(userInfo) ? userInfo.id : 0}
             />
+            <Link to={"/products"} style={{textDecoration: "none", textDecorationColor:"none"}}>
+                <Button variant="contained">
+                    Products
+                </Button>
+            </Link>
             <Link to={loggedIn ? "/cart" : "/login"}>
                 <Cart
                     userInfo={userInfo as IUser}
@@ -82,6 +91,6 @@ export const NavigationBar = () => {
                     userInfo={userInfo as IUser}
                 />
             </Link>
-        </div>
+        </Stack>
     )
 }

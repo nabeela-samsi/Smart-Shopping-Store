@@ -49,10 +49,20 @@ describe("Test all the actions", () => {
             password: "AbTest1234"
         }
         await store.dispatch(createNewUser(newUserData))
-        expect(store.getState().auth.errorMsg).toBe("")
-        expect(store.getState().auth.error).toBe(false)
+        expect(store.getState().users.length).toBe(1)
+    })
+    test("should create the new user without image", async() => {
+        const newUserData: INewUser = {
+            name: "first name",
+            avatar: "",
+            email: "testMail2@domain.com",
+            password: "AbTest1234"
+        }
+        await store.dispatch(createNewUser(newUserData))
+        expect(store.getState().users.length).toBe(1)
     })
     test("should update the user", async() => {
+
         const updateUserInfo: IUpdateUser = {
             id:1,
             updateInfo: {
@@ -60,22 +70,23 @@ describe("Test all the actions", () => {
                 name: "first name"
             }
         }
+        await store.dispatch(getAllUsers())
         await store.dispatch(updateUser(updateUserInfo))
-        expect(store.getState().auth.errorMsg).toBe("")
-        expect(store.getState().auth.error).toBe(false)
+        console.log(store.getState().users)
+        expect(store.getState().users[0].email).toBe("mariaTest@mail.com")
     })
 
     test("should update the user such that no email change", async() => {
         const updateUserInfo: IUpdateUser = {
             id: 1,
             updateInfo: {
-                email: "maria@mail.com",
+                email: "testMail@domain.com",
                 name: "first name"
             }
         }
+        await store.dispatch(getAllUsers())
         await store.dispatch(updateUser(updateUserInfo))
-        expect(store.getState().auth.errorMsg).toBe("")
-        expect(store.getState().auth.error).toBe(false)
+        expect(store.getState().users[0].email).toBe("testMail@domain.com")
     })
 })
 

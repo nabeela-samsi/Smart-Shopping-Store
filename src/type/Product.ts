@@ -14,18 +14,9 @@ export interface ICreateProduct {
     title: string
     price: number
     description: string
-    categoryId: number
+    categoryId: number | string
     images: string | string[]
 }
-
-// export interface INewProduct {
-//     title: string
-//     price: number
-//     description: string
-//     categoryId: number
-//     images: string
-// }
-
 
 export interface IUpdateProduct {
     id: number

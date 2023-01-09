@@ -20,6 +20,7 @@ export const authSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(login.fulfilled, (state = initialState, action) => {
+                console.log("hey here")
                 if(action.payload instanceof AxiosError) {
                     let errorMsg = "Something went wrong please try again"
                     if(action.payload.response?.status === 401) {

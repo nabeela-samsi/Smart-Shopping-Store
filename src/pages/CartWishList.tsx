@@ -45,9 +45,15 @@ const CartWishList = () => {
                     </Box>)
                 :
                 (
-                    <Typography>
-                        No product is added
-                    </Typography>
+                   <>
+                        <Typography
+                            textAlign={"center"}
+                            variant={"h4"}
+                        >
+                            No product is added
+                        </Typography>
+                        <br/>
+                   </>
                 )
             }
         </>

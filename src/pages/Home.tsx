@@ -12,6 +12,7 @@ import {
 
 import { useAppSelector } from "../hooks/reduxHook"
 import getIcons from "../utilities/getIcon"
+import styled from "@emotion/styled"
 
 const Home = () => {
     const categories = useAppSelector(state => state.categories)
@@ -67,9 +68,9 @@ const Home = () => {
                         </Link>
                         {isAdmin && (
                             <>
-                                <IconButton>
+                                <Link to={`/category/edit/${data.id}`}>
                                     {getIcons.edit}
-                                </IconButton>
+                                </Link>
                                 <IconButton>
                                     {getIcons.trash}
                                 </IconButton>

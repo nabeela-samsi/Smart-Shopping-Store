@@ -3,6 +3,7 @@ import { userLogout } from "../redux/reducers/authReducers";
 import { Link } from "react-router-dom";
 
 import { Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
+import Avatar from '@mui/material/Avatar';
 
 import { StyledBadge } from "../utilities/styles";
 
@@ -10,12 +11,26 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import getIcons from "../utilities/getIcon";
 import { IUserInfo } from "../type/CartWishList";
 import { IMenuBar } from "../type/MenuBar";
+import { userInfo } from "os";
 
 export const MenuBar = (props: IMenuBar) => {
-    const {loggedIn, isAdmin} = props
+    const {loggedIn, isAdmin, userName, userImage, userId} = props
     const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
+
+    const setUserImage = () => {
+        if(userImage) {
+            return (
+                <Avatar
+                    alt={userName}
+                    src={userImage}
+                />
+            )
+        } else {
+            return getIcons.user
+        }
+    }
 
     const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget)
@@ -42,7 +57,7 @@ export const MenuBar = (props: IMenuBar) => {
                     variant="text"
                     color="inherit"
                 >
-                   {getIcons.user}
+                   {setUserImage()}
                    Profile
                 </Button>
             </Tooltip>
@@ -81,7 +96,6 @@ export const MenuBar = (props: IMenuBar) => {
                                 <Link
                                     to={`/login`}
                                     style={{textDecoration: 'none'}}
-                                    state={{formType: "Log In" }}
                                 >
                                     Log In / Sign Up
                                 </Link>
@@ -91,7 +105,9 @@ export const MenuBar = (props: IMenuBar) => {
                     </MenuItem>
                 )}
             <MenuItem>
-                My profile
+                <Link to={loggedIn ? `/userprofile/${userId}` :  '/login'}>
+                    My profile
+                </Link>
                 <hr/>
             </MenuItem>
             {isAdmin && (

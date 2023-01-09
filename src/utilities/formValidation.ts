@@ -7,6 +7,7 @@ export const signUpValidationSchema = yup.object(
             .required("Name is required")
             .min(2,"Name should be atleast or more than 2 characters"),
         avatar: yup.string().trim()
+            .required("Profile image is required")
             .url("Please provide the valid Image URL"),
         email: yup.string().trim()
             .required("Email is required")

@@ -13,7 +13,7 @@ const Header = () => {
     const [isForm, setIsForm] = useState(false)
 
     useEffect(() => {
-        if(pathname.includes("login") || pathname.includes("signup")){
+        if(pathname.includes("login") || pathname.includes("signup") || pathname.includes("userprofile")){
             setIsForm(true)
         } else {
             setIsForm(false)
