@@ -15,7 +15,7 @@ const CartWishList = () => {
     const {userInfo} = useAppSelector(state => state.auth)
     const pageInfo = (pathname === '/cart') ? cartInfo : wishListInfo
     let userBasedInfo: IProduct[] = []
-    if(Object.keys(pageInfo).length && userInfo ) {
+    if(Object.keys(pageInfo)?.length && userInfo ) {
         userBasedInfo = pageInfo[userInfo.email]
     }
     return (
@@ -25,7 +25,7 @@ const CartWishList = () => {
                 flexDirection={"column"}
                 alignContent={"center"}
                 justifyContent={"center"}
-                sx={{pr:10, pl:10}}
+                sx={{p:10}}
             >
                 {userBasedInfo.map((data) => (
                     <Box

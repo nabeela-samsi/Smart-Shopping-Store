@@ -15,8 +15,17 @@ export interface ICreateProduct {
     price: number
     description: string
     categoryId: number
-    images: string[]
+    images: string | string[]
 }
+
+// export interface INewProduct {
+//     title: string
+//     price: number
+//     description: string
+//     categoryId: number
+//     images: string
+// }
+
 
 export interface IUpdateProduct {
     id: number

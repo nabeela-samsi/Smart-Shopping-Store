@@ -10,12 +10,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 import { signUpValidationSchema } from "../utilities/formValidation";
-import userFormFields from "../utilities/userFormFields";
 import { INewUser } from "../type/User";
 import { createNewUser } from "../redux/methods/userMethods";
+import { userFields } from "../utilities/formFields";
 
 const SignUpForm = () => {
-    const formFields = userFormFields.userFields
+    const formFields = userFields
     const authInfo = useAppSelector(state => state.auth)
     const usersInfo = useAppSelector(state => state.users)
     const dispatch = useAppDispatch()
@@ -35,7 +35,7 @@ const SignUpForm = () => {
         resolver: yupResolver(signUpValidationSchema)
     })
     const emailExists = (email: string) => {
-        return usersInfo.some(user => user.email === email)
+        return usersInfo.some(user => user.email.toLowerCase() === email.toLowerCase())
     }
     const onSubmitAction = async(data: INewUser) => {
         try{
@@ -59,8 +59,7 @@ const SignUpForm = () => {
                     navigate('/')
                 }
             }
-
-        }catch(e) {
+        } catch(e) {
             const error = e instanceof AxiosError
             return error
         }

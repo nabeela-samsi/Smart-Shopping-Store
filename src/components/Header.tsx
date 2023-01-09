@@ -36,8 +36,6 @@ const Header = () => {
                 <SearchBar />
                 <NavigationBar />
             </Box>)}
-            <br />
-            <br />
         </header>
     )
 }

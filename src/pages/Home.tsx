@@ -15,6 +15,8 @@ import getIcons from "../utilities/getIcon"
 
 const Home = () => {
     const categories = useAppSelector(state => state.categories)
+    const {userInfo} = useAppSelector(state => state.auth)
+    const isAdmin = userInfo?.role.toLowerCase() === 'admin'
 
     return (
         <div className="home">
@@ -41,36 +43,38 @@ const Home = () => {
                         xs={3}
                         key={data.id}
                     >
-                        <Card variant="elevation" >
-                            <CardActionArea>
-                                <Link
-                                    to={`/products/searchByCategory?id=${data.id}`}
-                                    style={{textDecoration: 'none'}}
-                                    color="black"
-                                >
-                                    <CardContent>
-                                        <Typography fontWeight={"bold"} >
-                                            {data.name}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardMedia
-                                        component={"img"}
-                                        image={data.image}
-                                        alt={data.name}
-                                        height="300"
-                                        style={{objectFit:"scale-down"}}
-                                    />
-                                </Link>
-                                <CardContent>
-                                    <IconButton>
-                                        {getIcons.edit}
-                                    </IconButton>
-                                    <IconButton>
-                                        {getIcons.trash}
-                                    </IconButton>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
+                        <Link
+                            to={`/products/searchByCategory?id=${data.id}`}
+                            style={{textDecoration: 'none'}}
+                            color="black"
+                        >
+                            <Card variant="elevation" >
+                                <CardActionArea>
+                                        <CardContent>
+                                            <Typography fontWeight={"bold"} >
+                                                {data.name}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardMedia
+                                            component={"img"}
+                                            image={data.image}
+                                            alt={data.name}
+                                            height="300"
+                                            style={{objectFit:"scale-down"}}
+                                        />
+                                </CardActionArea>
+                            </Card>
+                        </Link>
+                        {isAdmin && (
+                            <>
+                                <IconButton>
+                                    {getIcons.edit}
+                                </IconButton>
+                                <IconButton>
+                                    {getIcons.trash}
+                                </IconButton>
+                            </>
+                        )}
                     </Grid>
                 ))}
             </Grid>

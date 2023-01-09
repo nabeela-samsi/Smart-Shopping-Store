@@ -12,3 +12,9 @@ export interface IButton {
 export interface IRegisterValue {
     registerValue: 'email' |'password' | 'name' | 'avatar' | 'confirmPassword'
 }
+
+export interface IModal {
+    showModal: boolean
+    handleModalAction: () => void
+    formType: string
+}

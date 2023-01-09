@@ -1,36 +1,22 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { categoryValidationSchema } from "../utilities/formValidation"
+import { ICreateCategory } from "../type/Category"
+import { Box } from "@mui/system"
+import { Alert, AlertTitle, Autocomplete, Button, Grid, InputAdornment, TextField, Typography } from "@mui/material"
+import { AxiosError } from "axios"
+import { createNewCategory } from "../redux/methods/categoryMethods"
+import { categoryFields } from "../utilities/formFields"
 
-import {
-    Alert,
-    AlertTitle,
-    Box,
-    Button,
-    Grid,
-    IconButton,
-    InputAdornment,
-    TextField,
-    Typography
-} from "@mui/material"
-
-import { AxiosError } from "axios";
-
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-
-import { login } from "../redux/methods/authMethods";
-
-import { ICredentials } from "../type/Auth";
-import { loginValidationSchema } from "../utilities/formValidation";
-import getIcons from "../utilities/getIcon";
-import { loginFields } from "../utilities/formFields";
-
-const LogInForm = () => {
-    const formFields = loginFields
-    const authInfo = useAppSelector((state) =>  state.auth)
+const CategoryForm = () => {
+    const formFields = categoryFields
+    const authInfo = useAppSelector((state) => state.auth)
+    const categories = useAppSelector((state) => state.categories)
+    const isNotAdmin = authInfo.userInfo?.role.toLowerCase() !== 'admin'
     const navigate =  useNavigate()
-    const [showPassword, setPasswordVisibilty] = useState(false)
     const dispatch = useAppDispatch()
     const [{ error, errorMessage }, setFormError] = useState({
         error: false,
@@ -38,59 +24,44 @@ const LogInForm = () => {
     })
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
-            email: "",
-            password: ""
+            name: "",
+            image: ""
         },
-        resolver: yupResolver(loginValidationSchema)
+        resolver: yupResolver(categoryValidationSchema)
     })
-
-    const handlePasswordVisibility = () => {
-        setPasswordVisibilty(!showPassword)
+    const categoryExists = (name: string) => {
+        return categories.some(category => category.name.toLowerCase() === name.toLowerCase())
     }
-
-    const onSubmitAction = async(data: ICredentials) => {
+    const onSubmitAction = async(data: ICreateCategory) => {
         try{
-            const credentials = {
-                email: data.email,
-                password: data.password,
-            }
-            await dispatch(login(credentials))
-            if(authInfo.error){
+            if(categoryExists(data.name)){
                 setFormError({
-                    error: authInfo.error,
-                    errorMessage: authInfo.errorMsg
+                    error: true,
+                    errorMessage: "Please provide the unique Category Name"
                 });
-            } else  {
+            } else {
                 setFormError({
                     error: false,
                     errorMessage: ''
                 });
+                await dispatch(createNewCategory(data))
                 navigate('/')
             }
-        }catch(e) {
+        } catch(e) {
             const error = e instanceof AxiosError
-            return error
+            setFormError({
+                error: true,
+                errorMessage: "Something went wrong please try again"
+            });
         }
     }
 
     return (
         <>
-            {authInfo.loggedIn ?
+            {isNotAdmin?
                 (
-                    <Box
-                        display={"flex"}
-                        flexDirection={"column"}
-                        justifyContent={"center"}
-                        alignItems={"center"}
-                    >
-
-                        <Typography variant={"h5"} mb={10}>
-                            You are already loggedIn
-                            <Link to="/">
-                                {getIcons.home}
-                            </Link>
-                        </Typography>
-                    </Box>
+                    <>
+                    </>
                 )
                 :
                 (
@@ -117,28 +88,21 @@ const LogInForm = () => {
                                         {errorMessage}
                                     </Alert>
                                 }
+                                <Typography variant="h4">
+                                        Create New Category
+                                </Typography>
                                 {formFields.map(field => {
                                     return (
                                         <TextField
                                             {...register(field.registerValue)}
                                             key={field.label}
-                                            type={field.label === 'Password' ? (showPassword ? 'text' : 'password') : field.type}
+                                            type={field.type}
                                             label={field.label}
                                             placeholder={field.placeholder}
                                             InputProps={{
                                                 endAdornment: (
                                                     <InputAdornment position="end">
-                                                        {
-                                                            ("hidePassword" in field) ?
-                                                            (
-                                                                <IconButton
-                                                                    onClick={handlePasswordVisibility}
-                                                                >
-                                                                {showPassword ? field.displayPassword : field.hidePassword}
-                                                                </IconButton>
-                                                            ) :
-                                                            field.displayIcon
-                                                        }
+                                                        {field.displayIcon}
                                                     </InputAdornment>
                                                 )
                                             }}
@@ -154,11 +118,8 @@ const LogInForm = () => {
                                     color="primary"
                                     sx={{ m: 2, fontWeight: "bold" }}
                                 >
-                                    Log In
+                                    Create
                                 </Button>
-                                <Typography component="span" display={"flex"} alignContent="center" justifyContent={"center"} sx={{m:3}} >
-                                    New to Smart Shopping? &nbsp; <Link to="/signup"> create an account </Link>
-                                </Typography>
                             </Box>
                         </Grid>
                     </Grid>
@@ -168,4 +129,4 @@ const LogInForm = () => {
     )
 }
 
-export default LogInForm
+export default CategoryForm

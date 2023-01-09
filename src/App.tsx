@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import router from "./router/router"
-import { RouterProvider } from "react-router-dom"
+import { RouterProvider, useLocation } from "react-router-dom"
 
 import { ThemeProvider } from "@mui/material"
 

@@ -10,10 +10,11 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import getIcons from "../utilities/getIcon";
 
 export const MenuBar = () => {
-    const loggedUser = useAppSelector(state => state.auth)
+    const {loggedIn, userInfo} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
+    const isAdmin = userInfo?.role.toLowerCase() === 'admin'
 
     const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget)
@@ -63,7 +64,7 @@ export const MenuBar = () => {
                 }}
                 MenuListProps={{onMouseLeave: handleMenuClose}}
             >
-                {!loggedUser.loggedIn && (
+                {!loggedIn && (
                     <MenuItem>
                         <Typography component="span">
                             <Typography fontWeight={"bold"} component="span">
@@ -85,15 +86,30 @@ export const MenuBar = () => {
                                 </Link>
                             </Button>
                         </Typography>
+                        <hr/>
                     </MenuItem>
                 )}
+            <MenuItem>
+                My profile
+                <hr/>
+            </MenuItem>
+            {isAdmin && (
                 <MenuItem>
-                    My profile
+                    <Link to="/product/create" style={{textDecoration: "none"}}>
+                        Add product
+                    </Link>
                 </MenuItem>
-            {loggedUser.loggedIn && (
+            )}
+            {isAdmin && (
+                <MenuItem>
+                    <Link to="/category/create" style={{textDecoration: "none"}}>
+                        Add category
+                    </Link>
+                </MenuItem>
+            )}
+            {loggedIn && (
                 <MenuItem>
                     <Button
-                        sx={{ml:"18%"}}
                         variant="outlined"
                         onClick={handleLogoutAction}
                     >
@@ -110,8 +126,8 @@ export const Cart = () => {
     const cartInfo =  useAppSelector(state => state.cart)
     const {userInfo}  = useAppSelector(state => state.auth)
     let cartCount = 0
-    if(Object.keys(cartInfo).length && userInfo) {
-        cartCount = cartInfo[userInfo.email].length
+    if(Object.keys(cartInfo)?.length && userInfo) {
+        cartCount = (cartInfo[userInfo.email]) ? cartInfo[userInfo.email].length : 0
     }
 
     return (
@@ -128,7 +144,7 @@ export const Wishlist = () => {
     const {userInfo}  = useAppSelector(state => state.auth)
     let wishListCount = 0
     if(Object.keys(wishListInfo).length && userInfo) {
-        wishListCount = wishListInfo[userInfo.email].length
+        wishListCount = (wishListInfo[userInfo.email]) ? wishListInfo[userInfo.email].length : 0
     }
 
     return (

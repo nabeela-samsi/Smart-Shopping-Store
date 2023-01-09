@@ -8,6 +8,7 @@ import {
     CardContent,
     CardMedia,
     Grid,
+    IconButton,
     Pagination,
     Typography
 } from "@mui/material"
@@ -15,8 +16,11 @@ import {
 import { useAppSelector} from "../hooks/reduxHook"
 import { usePagination } from "../hooks/usePagination"
 import { IProduct } from "../type/Product"
+import getIcons from "../utilities/getIcon"
 
 const ListOfProducts = () => {
+    const {userInfo} = useAppSelector(state => state.auth)
+    const isAdmin = userInfo?.role.toLowerCase() === 'admin'
     const {pathname} = useLocation()
     const getLocation = useLocation().search
     const categoryId = new URLSearchParams(getLocation).get("id")
@@ -81,7 +85,7 @@ const ListOfProducts = () => {
                                                 alt={data.title}
                                             />
                                             <CardContent>
-                                                <Typography fontWeight={"bold"}>
+                                                <Typography fontWeight={"bold"} noWrap={true}>
                                                     {data.title}
                                                 </Typography>
                                                 <Typography variant="caption">
@@ -94,6 +98,16 @@ const ListOfProducts = () => {
                                         </CardActionArea>
                                     </Card>
                                 </Link>
+                                {isAdmin && (
+                                    <>
+                                        <IconButton>
+                                            {getIcons.edit}
+                                        </IconButton>
+                                        <IconButton>
+                                            {getIcons.trash}
+                                        </IconButton>
+                                    </>
+                        )}
                             </Grid>
                         ))}
                     </Grid>
