@@ -10,6 +10,7 @@ import { Alert, AlertTitle, Autocomplete, Button, Grid, InputAdornment, TextFiel
 import { AxiosError } from "axios"
 import { createNewCategory } from "../redux/methods/categoryMethods"
 import { categoryFields } from "../utilities/formFields"
+import ErrorMessage from "../components/ErrorMessage"
 
 const CategoryForm = () => {
     const formFields = categoryFields
@@ -60,8 +61,10 @@ const CategoryForm = () => {
         <>
             {isNotAdmin?
                 (
-                    <>
-                    </>
+                    <ErrorMessage
+                        title={"403 Forbidden"}
+                        message={"Only Admins can access the page, you dont have any rights to use it"}
+                    />
                 )
                 :
                 (
@@ -83,10 +86,10 @@ const CategoryForm = () => {
                                 onSubmit={handleSubmit(onSubmitAction)}
                             >
                                 {(error) &&
-                                    <Alert variant="outlined" severity="error">
-                                        <AlertTitle>Error: Login failed</AlertTitle>
-                                        {errorMessage}
-                                    </Alert>
+                                    <ErrorMessage
+                                        title={"400 Bad Request"}
+                                        message={errorMessage}
+                                    />
                                 }
                                 <Typography variant="h4">
                                         Create New Category

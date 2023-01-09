@@ -25,6 +25,7 @@ import { ICredentials } from "../type/Auth";
 import { loginValidationSchema } from "../utilities/formValidation";
 import getIcons from "../utilities/getIcon";
 import { loginFields } from "../utilities/formFields";
+import ErrorMessage from "../components/ErrorMessage";
 
 const LogInForm = () => {
     const formFields = loginFields
@@ -112,10 +113,10 @@ const LogInForm = () => {
                                 onSubmit={handleSubmit(onSubmitAction)}
                             >
                                 {(error) &&
-                                    <Alert variant="outlined" severity="error">
-                                        <AlertTitle>Error: Login failed</AlertTitle>
-                                        {errorMessage}
-                                    </Alert>
+                                    <ErrorMessage
+                                        title={"401 Unauthorized"}
+                                        message={errorMessage}
+                                    />
                                 }
                                 {formFields.map(field => {
                                     return (

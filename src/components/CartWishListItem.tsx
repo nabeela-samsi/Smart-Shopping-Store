@@ -60,7 +60,6 @@ const CartWishListItem = (props: IProduct) => {
             <Link
                 to={`/product/${props.id}`}
                 style={{textDecoration: 'none'}}
-                state={{previousPath: pathname}}
             >
                 <img
                     src={props.images[0]}

@@ -13,6 +13,7 @@ import { signUpValidationSchema } from "../utilities/formValidation";
 import { INewUser } from "../type/User";
 import { createNewUser } from "../redux/methods/userMethods";
 import { userFields } from "../utilities/formFields";
+import ErrorMessage from "../components/ErrorMessage";
 
 const SignUpForm = () => {
     const formFields = userFields
@@ -84,10 +85,10 @@ const SignUpForm = () => {
                     onSubmit={handleSubmit(onSubmitAction)}
                 >
                     {(error) &&
-                        <Alert variant="outlined" severity="error">
-                            <AlertTitle>Error: Login failed</AlertTitle>
-                            {errorMessage}
-                        </Alert>
+                        <ErrorMessage
+                            title={"400 Bad Request"}
+                            message={errorMessage}
+                        />
                     }
                     {formFields.map(field => {
                                     return (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Link, useLocation, useParams } from "react-router-dom"
-import {  Button, Grid, MobileStepper, Typography } from "@mui/material"
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
+import {  Button, Grid, IconButton, MobileStepper, Typography } from "@mui/material"
 
 import { useAppSelector } from "../hooks/reduxHook"
 
@@ -10,11 +10,13 @@ import { addToWishList } from "../redux/reducers/wishListReducers";
 import ButtonHandle from "../components/ButtonHandle";
 import { IProduct } from "../type/Product";
 import getIcons from "../utilities/getIcon";
+import ErrorMessage from "../components/ErrorMessage";
 
 const ProductDetails = () => {
     const dispatch = useDispatch()
     const {userInfo} = useAppSelector(state => state.auth)
-    const {state} =  useLocation()
+    const isAdmin = userInfo?.role.toLowerCase() === 'admin'
+    const navigate = useNavigate()
     const {id} = useParams()
     const products = useAppSelector(state => state.products)
     const [productDetails, setProductDetails] = useState<IProduct>()
@@ -63,16 +65,23 @@ const ProductDetails = () => {
                 <>
                     <Grid container spacing={2} sx={{ alignItems: "center", justifyContent: "center" }}>
                         <Grid>
-                            <Link
-                                to={state.previousPath}
-                                    style={{textDecoration: "none", margin:5}}
-                                >
-                                    {getIcons.arrowBack}
-                            </Link>
+                            <IconButton onClick={() => navigate(-1)}>
+                                {getIcons.arrowBack}
+                            </IconButton>
                             <Typography
                                 variant={"h4"}
                             >
                                 {productDetails.title}
+                                {isAdmin && (
+                                    <>
+                                        <IconButton>
+                                            {getIcons.edit}
+                                        </IconButton>
+                                        <IconButton>
+                                            {getIcons.trash}
+                                        </IconButton>
+                                    </>
+                            )}
                             </Typography>
                             <Typography
                                 variant={"body1"}
@@ -141,7 +150,10 @@ const ProductDetails = () => {
                     </Grid>
                 </>
             :
-            ''
+            <ErrorMessage
+                title={"404 Not Found"}
+                message={"The provided productID is not found in our database."}
+            />
             }
         </>
     )

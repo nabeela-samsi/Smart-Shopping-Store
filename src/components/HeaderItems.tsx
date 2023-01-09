@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-
 import { IconButton, InputAdornment, TextField } from "@mui/material"
 import { Cart, MenuBar, Wishlist } from "./NavItems";
 
 import getIcons from "../utilities/getIcon";
+import { useAppSelector } from "../hooks/reduxHook";
+import { IUser } from "../type/User";
 
 export const Logo = () => {
     return (
@@ -63,14 +64,23 @@ export const SearchBar = () => {
 }
 
 export const NavigationBar = () => {
+    const {loggedIn, userInfo} = useAppSelector((state) => state.auth)
+    const isAdmin = userInfo?.role.toLowerCase() === 'admin'
     return (
         <div className="header__action">
-            <MenuBar />
-            <Link to="/cart">
-                <Cart />
+            <MenuBar
+                loggedIn={loggedIn}
+                isAdmin={isAdmin}
+            />
+            <Link to={loggedIn ? "/cart" : "/login"}>
+                <Cart
+                    userInfo={userInfo as IUser}
+                />
             </Link>
-            <Link to="/wishlist">
-                <Wishlist />
+            <Link to={loggedIn ? "/wishlist" : "/ogin"}>
+                <Wishlist
+                    userInfo={userInfo as IUser}
+                />
             </Link>
         </div>
     )

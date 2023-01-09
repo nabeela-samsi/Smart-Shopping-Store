@@ -6,6 +6,7 @@ import CartWishListItem from "../components/CartWishListItem"
 
 import { useAppSelector } from "../hooks/reduxHook"
 import { IProduct } from "../type/Product"
+import { Typography } from "@mui/material"
 
 
 const CartWishList = () => {
@@ -20,25 +21,35 @@ const CartWishList = () => {
     }
     return (
         <>
-            <Box
-                display= "flex"
-                flexDirection={"column"}
-                alignContent={"center"}
-                justifyContent={"center"}
-                sx={{p:10}}
-            >
-                {userBasedInfo.map((data) => (
+            {userBasedInfo.length ?
+                (
                     <Box
-                        component={"div"}
-                        key={data.id}
+                        display= "flex"
+                        flexDirection={"column"}
+                        alignContent={"center"}
+                        justifyContent={"center"}
+                        sx={{p:10}}
                     >
-                        <CartWishListItem {...data} />
-                        <br />
-                        <hr />
-                        <br  />
-                    </Box>
-                ))}
-            </Box>
+                    {userBasedInfo.map((data) => (
+                        <Box
+                            component={"div"}
+                            key={data.id}
+                        >
+                            <CartWishListItem {...data} />
+                            <br />
+                            <hr />
+                            <br  />
+                        </Box>
+                )
+                    )}
+                    </Box>)
+                :
+                (
+                    <Typography>
+                        No product is added
+                    </Typography>
+                )
+            }
         </>
     )
 }

@@ -8,13 +8,14 @@ import { StyledBadge } from "../utilities/styles";
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import getIcons from "../utilities/getIcon";
+import { IUserInfo } from "../type/CartWishList";
+import { IMenuBar } from "../type/MenuBar";
 
-export const MenuBar = () => {
-    const {loggedIn, userInfo} = useAppSelector(state => state.auth)
+export const MenuBar = (props: IMenuBar) => {
+    const {loggedIn, isAdmin} = props
     const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
-    const isAdmin = userInfo?.role.toLowerCase() === 'admin'
 
     const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget)
@@ -122,9 +123,9 @@ export const MenuBar = () => {
     )
 }
 
-export const Cart = () => {
+export const Cart = (props: IUserInfo) => {
     const cartInfo =  useAppSelector(state => state.cart)
-    const {userInfo}  = useAppSelector(state => state.auth)
+    const {userInfo} = props
     let cartCount = 0
     if(Object.keys(cartInfo)?.length && userInfo) {
         cartCount = (cartInfo[userInfo.email]) ? cartInfo[userInfo.email].length : 0
@@ -139,9 +140,9 @@ export const Cart = () => {
     )
 }
 
-export const Wishlist = () => {
+export const Wishlist = (props: IUserInfo) => {
     const wishListInfo =  useAppSelector(state => state.wishList)
-    const {userInfo}  = useAppSelector(state => state.auth)
+    const {userInfo}  = props
     let wishListCount = 0
     if(Object.keys(wishListInfo).length && userInfo) {
         wishListCount = (wishListInfo[userInfo.email]) ? wishListInfo[userInfo.email].length : 0

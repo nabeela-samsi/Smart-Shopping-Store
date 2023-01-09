@@ -17,11 +17,12 @@ import { useAppSelector} from "../hooks/reduxHook"
 import { usePagination } from "../hooks/usePagination"
 import { IProduct } from "../type/Product"
 import getIcons from "../utilities/getIcon"
+import ErrorMessage from "../components/ErrorMessage"
 
 const ListOfProducts = () => {
     const {userInfo} = useAppSelector(state => state.auth)
+    const categories = useAppSelector(state => state.categories)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
-    const {pathname} = useLocation()
     const getLocation = useLocation().search
     const categoryId = new URLSearchParams(getLocation).get("id")
     const productName = new URLSearchParams(getLocation).get("name")
@@ -31,6 +32,8 @@ const ListOfProducts = () => {
     const pageLimit = 12
     const pagecount = Math.ceil(filteredProducts.length / pageLimit)
     const productsPagination = usePagination(filteredProducts, pageLimit)
+    const [noDataMsg, setNoDataMsg] = useState('')
+    const isIdValid = Number(categoryId) > 0 ? categories.some(category => category.id === Number(categoryId)) : false
 
     const handlePagechange = (_: ChangeEvent<unknown>, p: number) => {
         setCurrentPage(p);
@@ -41,12 +44,13 @@ const ListOfProducts = () => {
         let dataFiltering = products
         if(Number(categoryId) > 0) {
             dataFiltering = products.filter(product => product.category.id === Number(categoryId))
+            setNoDataMsg(`Sorry, the admin forgot to add products for this category. Please do come later. Thank you`)
         } else if(productName) {
             dataFiltering = products.filter(product => product.title.toLowerCase().includes(productName.toLowerCase()))
+            setNoDataMsg("Sorry, no results found!. Please check the spelling or try something else")
         }
         setfilteredProducts(dataFiltering)
     },[categoryId, productName, products])
-
     return (
         <>
             {filteredProducts.length > 0 ?
@@ -75,7 +79,6 @@ const ListOfProducts = () => {
                                 <Link
                                     to={`/product/${data.id}`}
                                     style={{textDecoration: 'none'}}
-                                    state={{previousPath: pathname}}
                                 >
                                     <Card variant="outlined">
                                         <CardActionArea>
@@ -121,14 +124,20 @@ const ListOfProducts = () => {
                     />
                 </>
             :
-                <Alert severity="error">
-                    <AlertTitle>
-                        Sorry, no results found!
-                    </AlertTitle>
-                    <Typography>
-                        Please check the spelling or try searching for something else
+                isIdValid ?
+                (
+                    <Typography variant="h5" textAlign={"center"} pt={10} pb={10}>
+                        {noDataMsg}
                     </Typography>
-                </Alert>
+                )
+                :
+                (
+                    <ErrorMessage
+                        title={"404 Not Found"}
+                        message={"The provided categoryID is not found in our database."}
+                    />
+                )
+
             }
         </>
     )

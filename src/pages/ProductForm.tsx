@@ -10,6 +10,7 @@ import { productValidationSchema } from "../utilities/formValidation"
 import { ICreateProduct } from "../type/Product"
 import { productFields } from "../utilities/formFields"
 import { createNewProduct } from "../redux/methods/productMethods"
+import ErrorMessage from "../components/ErrorMessage"
 
 const ProductForm = () => {
     const formFields = productFields
@@ -62,8 +63,10 @@ const ProductForm = () => {
         <>
             {isNotAdmin?
                 (
-                    <>
-                    </>
+                    <ErrorMessage
+                        title={"403 Forbidden"}
+                        message={"Only Admins can access the page, you dont have any rights to use it"}
+                    />
                 )
                 :
                 (
@@ -85,10 +88,10 @@ const ProductForm = () => {
                                 onSubmit={handleSubmit(onSubmitAction)}
                             >
                                 {(error) &&
-                                    <Alert variant="outlined" severity="error">
-                                        <AlertTitle>Error: Login failed</AlertTitle>
-                                        {errorMessage}
-                                    </Alert>
+                                    <ErrorMessage
+                                        title={"400 Bad Request"}
+                                        message={errorMessage}
+                                    />
                                 }
                                 <Typography variant="h4">
                                         Create New Category
