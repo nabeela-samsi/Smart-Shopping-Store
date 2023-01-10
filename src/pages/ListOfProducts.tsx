@@ -1,8 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import {
-    Alert,
-    AlertTitle,
     Card,
     CardActionArea,
     CardContent,
@@ -18,16 +16,15 @@ import { usePagination } from "../hooks/usePagination"
 import { IProduct } from "../type/Product"
 import getIcons from "../utilities/getIcon"
 import ErrorMessage from "../components/ErrorMessage"
-import ButtonHandle from "../components/ButtonHandle"
 
 const ListOfProducts = () => {
     const {userInfo} = useAppSelector(state => state.auth)
     const categories = useAppSelector(state => state.categories)
+    const products = useAppSelector(state => state.products)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
     const getLocation = useLocation().search
     const categoryId = new URLSearchParams(getLocation).get("id")
     const productName = new URLSearchParams(getLocation).get("name")
-    const products = useAppSelector(state => state.products)
     const [currentPage, setCurrentPage] = useState(1)
     const [filteredProducts, setfilteredProducts] = useState<IProduct[]>([])
     const pageLimit = 12

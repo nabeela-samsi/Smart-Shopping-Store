@@ -45,26 +45,23 @@ export const categoryValidationSchema = yup.object(
     }
 )
 
-export const productValidationSchema = (props: ICategory[]) => {
-    const filteredIds = props.map(category => category.id)
-    const validateSchema = yup.object(
-        {
-            title: yup.string().trim()
-                .required("Title is required")
-                .min(2,"Title should be atleast or more than 2 characters"),
-            description: yup.string().trim()
-                .required("Description is required")
-                .min(2,"Description should be atleast or more than 2 characters"),
-            price: yup.number()
-                .required("Price is required")
-                .typeError("Please enter a valid number")
-                .min(1,"Price cannot be 0 or negative"),
-            images: yup.string()
-                .required("Atleast one image URL required"),
-            categoryId: yup.mixed()
-                .required("Please select one of the category")
-                .oneOf([filteredIds], "Please select one of the category")
-        }
-    )
-    return validateSchema
-}
+export const productValidationSchema = yup.object(
+    {
+        title: yup.string().trim()
+            .required("Title is required")
+            .min(2,"Title should be atleast or more than 2 characters"),
+        description: yup.string().trim()
+            .required("Description is required")
+            .min(2,"Description should be atleast or more than 2 characters"),
+        price: yup.number()
+            .required("Price is required")
+            .typeError("Please enter a valid number")
+            .min(1,"Price cannot be 0 or negative"),
+        images: yup.string()
+            .required("Atleast one image URL required"),
+        // categoryId: yup.string().required("Select your")
+        categoryId: yup.mixed()
+            .required("Please select one of the category")
+            .notOneOf([0], "Please select one of the category")
+    }
+)

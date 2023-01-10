@@ -1,26 +1,28 @@
-import { useNavigate, useParams } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import { useNavigate, useParams } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { categoryValidationSchema } from "../utilities/formValidation"
-import { ICreateCategory } from "../type/Category"
 import { Box } from "@mui/system"
 import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material"
+
+import { categoryValidationSchema } from "../utilities/formValidation"
+import { ICreateCategory } from "../type/Category"
+
 import { createNewCategory, updateCategory } from "../redux/methods/categoryMethods"
 import { categoryFields } from "../utilities/formFields"
 import ErrorMessage from "../components/ErrorMessage"
 
 const CategoryForm = () => {
     const formFields = categoryFields
+    const navigate =  useNavigate()
+    const dispatch = useAppDispatch()
     const authInfo = useAppSelector((state) => state.auth)
     const categories = useAppSelector((state) => state.categories)
     const {id} = useParams()
     const [categoryName, setCategoryname] = useState('')
     const [idValid, setIdValid] = useState(false)
     const isNotAdmin = authInfo.userInfo?.role.toLowerCase() !== 'admin'
-    const navigate =  useNavigate()
-    const dispatch = useAppDispatch()
     const [{ error, errorMessage }, setFormError] = useState({
         error: false,
         errorMessage: ''

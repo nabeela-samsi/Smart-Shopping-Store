@@ -6,14 +6,14 @@ export const addtoCart = (
     state: ICartWishlist,
     action: PayloadAction<Error | IAddCartWishList>
 ) => {
-    if('email' in action.payload) {
-        const {email, productInfo, originalPrice} = action.payload
+    if('userId' in action.payload) {
+        const {userId, productInfo, originalPrice} = action.payload
         const cartInfo = {...state}
-        if(cartInfo[email]){
-            const productExists = cartInfo[email].some(product => product.id === productInfo.id)
+        if(cartInfo[userId]){
+            const productExists = cartInfo[userId].some(product => product.id === productInfo.id)
             let addProductInfo: IProduct[] = []
             if(productExists){
-                addProductInfo = cartInfo[email].map((product: IProduct) => {
+                addProductInfo = cartInfo[userId].map((product: IProduct) => {
                     if(product.id === productInfo.id) {
                         const quantity = (product.quantity) ? product.quantity : 1
                         return {
@@ -26,7 +26,7 @@ export const addtoCart = (
                 })
             } else {
                 addProductInfo = [
-                    ...cartInfo[email],
+                    ...cartInfo[userId],
                     {
                         ...productInfo,
                         quantity:1
@@ -35,12 +35,12 @@ export const addtoCart = (
             }
             return {
                 ...state,
-                [email]: [...addProductInfo]
+                [userId]: [...addProductInfo]
             }
         } else {
             return {
                 ...state,
-                [email]: [{...productInfo, quantity:1}]
+                [userId]: [{...productInfo, quantity:1}]
             }
         }
     }
@@ -52,9 +52,9 @@ export const removeFromcart = (
     action: PayloadAction<Error | IRemoveCartWishList>
 ) => {
     if('productId' in action.payload) {
-        const {email, productId, originalPrice} = action.payload
+        const {userId, productId, originalPrice} = action.payload
         const duplicateState = {...state}
-        const cartInfoArray = duplicateState[email]
+        const cartInfoArray = duplicateState[userId]
         let cartValue: IProduct[] = []
         let checkDeleteType
         for(let item in cartInfoArray ) {
@@ -79,7 +79,7 @@ export const removeFromcart = (
         }
         return {
             ...state,
-            [email]: [...cartValue]
+            [userId]: [...cartValue]
         }
     }
     return state

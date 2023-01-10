@@ -14,8 +14,6 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import getIcons from "../utilities/getIcon"
 import { useEffect } from "react"
 import { getAllCategories } from "../redux/methods/categoryMethods"
-import { getAllProducts } from "../redux/methods/productMethods"
-import { getAllUsers } from "../redux/methods/userMethods"
 
 const Home = () => {
     const categories = useAppSelector(state => state.categories)
@@ -25,8 +23,6 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(getAllCategories())
-        dispatch(getAllProducts())
-        dispatch(getAllUsers())
     },[dispatch])
 
     return (

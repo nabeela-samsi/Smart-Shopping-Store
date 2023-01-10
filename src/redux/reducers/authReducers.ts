@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { login, userlogout } from "../methods/authMethods";
 import { IAuth, } from "../../type/Auth";
-import { AxiosError } from "axios";
 
 const initialState: IAuth = {
     loggedIn: false,
@@ -19,38 +18,31 @@ export const authSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(login.fulfilled, (state = initialState, action) => {
-                console.log("hey here")
-                if(action.payload instanceof AxiosError) {
-                    let errorMsg = "Something went wrong please try again"
-                    if(action.payload.response?.status === 401) {
-                        errorMsg = "Email or Password are incorrect"
+            .addCase(login.fulfilled, (state, action) => {
+                if(action.payload && "error" in action.payload) {
+                    state.error = action.payload.error
+                    state.errorMsg = action.payload.errorMsg
+                    state.loggedIn = false
+                    state.userInfo = null
+                    return state
+                }
+                if( action.payload && "id" in action.payload) {
+                    console.log("there is no error")
+                    const {id, email, password, name, role, avatar} = action.payload
+                    const userData = {
+                        id,
+                        email,
+                        password,
+                        name,
+                        role,
+                        avatar
                     }
-                    return {
-                        ...state,
-                        loggedIn: false,
-                        error: true,
-                        errorMsg: errorMsg,
-                        userInfo: null
-                    }
+                    state.error=false
+                    state.errorMsg=''
+                    state.loggedIn=true
+                    state.userInfo=userData
+                    return state
                 } else {
-                    if(action.payload) {
-                        const {id, email, password, name, role, avatar} = action.payload
-                        const userData = {
-                            id,
-                            email,
-                            password,
-                            name,
-                            role,
-                            avatar
-                        }
-                        return {
-                            ...state,
-                            loggedIn: true,
-                            error: false,
-                            userInfo: userData
-                        }
-                    }
                     return state
                 }
             })

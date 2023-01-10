@@ -1,11 +1,12 @@
-import { useNavigate, useParams } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import { useNavigate, useParams } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Box } from "@mui/system"
-import { Button, Grid, InputAdornment, MenuItem, TextField, Typography } from "@mui/material"
+import { Button, Grid, InputAdornment, MenuItem, NativeSelect, TextField, Typography } from "@mui/material"
 import { AxiosError } from "axios"
+
 import { productValidationSchema } from "../utilities/formValidation"
 import { ICreateProduct } from "../type/Product"
 import { productFields } from "../utilities/formFields"
@@ -13,6 +14,8 @@ import { createNewProduct, updateProduct } from "../redux/methods/productMethods
 import ErrorMessage from "../components/ErrorMessage"
 
 const ProductForm = () => {
+    const navigate =  useNavigate()
+    const dispatch = useAppDispatch()
     const authInfo = useAppSelector((state) => state.auth)
     const categories = useAppSelector((state) => state.categories)
     const products = useAppSelector((state) => state.products)
@@ -21,8 +24,6 @@ const ProductForm = () => {
     const [idValid, setIdValid] = useState(false)
     const formFields = productFields
     const isNotAdmin = authInfo.userInfo?.role.toLowerCase() !== 'admin'
-    const navigate =  useNavigate()
-    const dispatch = useAppDispatch()
     const [{ error, errorMessage }, setFormError] = useState({
         error: false,
         errorMessage: ''
@@ -35,7 +36,7 @@ const ProductForm = () => {
             images: '',
             price: 0
         },
-        resolver: yupResolver(productValidationSchema(categories))
+        resolver: yupResolver(productValidationSchema)
     })
     useEffect(() => {
         if(Number(id) > 0) {
@@ -43,6 +44,7 @@ const ProductForm = () => {
             if(getProduct) {
                 setIdValid(true)
                 const getCategory = categories.findIndex(category => category.id === getProduct.category.id)
+
                 setProductName(getProduct.title)
                 setValue('categoryId', getProduct.category.id, {shouldValidate: true})
                 setValue('title',getProduct.title)
@@ -54,7 +56,7 @@ const ProductForm = () => {
                 setIdValid(false)
             }
         }
-    },[])
+    },[id])
     const onSubmitAction = async(data: ICreateProduct) => {
         try{
             const imageString = data.images as string
@@ -73,7 +75,7 @@ const ProductForm = () => {
                 }
             if(Number(id) > 0) {
                 await dispatch(updateProduct({id: Number(id), updateInfo:productData}))
-                // navigate('-1')
+                navigate(-1)
             } else {
                 await dispatch(createNewProduct({
                     title: data.title,
@@ -141,38 +143,42 @@ const ProductForm = () => {
                                             "Create New Product"
                                         }
                                 </Typography>
-                                {formFields.map(field => {
+                                {formFields.map((field, index) => {
                                     return (
                                         <>
                                             {(field.type === 'select')
-
                                                 ?
-                                                (<TextField
+                                                <TextField
                                                     {...register(field.registerValue)}
-                                                    key={field.label}
+                                                    key={field.label + index }
                                                     select
                                                     defaultValue={0}
                                                     label={field.label}
                                                     placeholder={field.placeholder}
+                                                    SelectProps={{
+                                                        native: true
+                                                    }}
                                                     sx={{ m: 2 }}
                                                     error={!!errors[field.registerValue]}
                                                     helperText={errors[field.registerValue] ? errors[field.registerValue]?.message : null}
                                                 >
-                                                    <MenuItem disabled value={0} key={"choose0"}>
-                                                        Choose Option
-                                                    </MenuItem>
-                                                    {categories.map((category, key) =>
-                                                        <MenuItem key={key} value={category.id}>
-                                                            {category.name}
-                                                        </MenuItem>
+                                                    <option disabled value={0} key={"choose0"}>
+                                                         Choose Option
+                                                     </option>
+                                                     {categories.map((category, key) =>
+                                                         <option key={key} value={category.id}>
+                                                             {category.name}
+                                                         </option>
                                                     )}
-                                                </TextField>)
+                                                </TextField>
                                                 :
-                                                (<TextField
+                                                <TextField
                                                     {...register(field.registerValue)}
-                                                    key={field.label}
+                                                    key={field.label + index}
                                                     type={field.type}
                                                     label={field.label}
+                                                    maxRows={5}
+                                                    minRows={1}
                                                     placeholder={field.placeholder}
                                                     InputProps={{
                                                         endAdornment: (
@@ -185,7 +191,7 @@ const ProductForm = () => {
                                                     error={!!errors[field.registerValue]}
                                                     helperText={errors[field.registerValue] ? errors[field.registerValue]?.message : null}
                                                 />
-                                            )}
+                                            }
                                         </>
                                     )
                                 })}

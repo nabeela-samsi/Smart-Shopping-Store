@@ -1,3 +1,5 @@
+import { ICreateCategory } from "./Category"
+
 export interface LoginForm {
     email: string
     password: string
@@ -17,4 +19,9 @@ export interface IModal {
     showModal: boolean
     handleModalAction: () => void
     formType: string
+}
+
+export interface IFormDisplay {
+    defaultValues: ICreateCategory
+    validationType: ICreateCategory
 }

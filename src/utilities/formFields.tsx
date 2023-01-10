@@ -101,3 +101,19 @@ export const productFields = [
         displayIcon: getIcons.photo
     }
 ]
+
+export const profileFields = [
+    {
+        label: "Name",
+        value: "name"
+    }, {
+        label: "Role",
+        value: "role"
+    }, {
+        label: "Email",
+        value: "name"
+    }, {
+        label: "Password",
+        value: "password"
+    }
+]

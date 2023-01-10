@@ -1,27 +1,28 @@
 import { Link, useLocation } from "react-router-dom"
+import { useDispatch } from "react-redux";
 
 import { Box, Button, ButtonGroup, Typography } from "@mui/material"
 
-import { useDispatch } from "react-redux";
-import { addToCart, removeFromCart } from "../redux/reducers/cartReducers";
 import { useAppSelector } from "../hooks/reduxHook";
-import ButtonHandle from "./ButtonHandle";
+
+import { addToCart, removeFromCart } from "../redux/reducers/cartReducers";
 import { removeFromWishList } from "../redux/reducers/wishListReducers";
+import ButtonHandle from "./ButtonHandle";
 import { IProduct } from "../type/Product";
 import getIcons from "../utilities/getIcon";
 
 const CartWishListItem = (props: IProduct) => {
-    const {pathname} = useLocation()
+    const { pathname } = useLocation()
     const isCart = (pathname === '/cart')
     const dispatch = useDispatch()
-    const {userInfo} = useAppSelector(state => state.auth)
+    const { userInfo } = useAppSelector(state => state.auth)
     const products = useAppSelector(state => state.products)
     const getProduct = products.find(product => product.id === props.id)
 
     const cartRemoveAction = () => {
-        if(userInfo) {
+        if (userInfo) {
             dispatch(removeFromCart({
-                email: userInfo.email,
+                userId: userInfo.id,
                 productId: props.id,
                 originalPrice: getProduct?.price
             }))
@@ -29,22 +30,22 @@ const CartWishListItem = (props: IProduct) => {
     }
 
     const cartAddAction = () => {
-        if(userInfo) {
+        if (userInfo) {
             dispatch(addToCart({
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo: props,
                 originalPrice: getProduct?.price
             }))
-            if(!isCart) {
+            if (!isCart) {
                 wishListRemove()
             }
         }
     }
 
     const wishListRemove = () => {
-        if(userInfo) {
+        if (userInfo) {
             dispatch(removeFromWishList({
-                email: userInfo.email,
+                userId: userInfo.id,
                 productId: props.id,
                 originalPrice: getProduct?.price
             }))
@@ -59,13 +60,12 @@ const CartWishListItem = (props: IProduct) => {
         >
             <Link
                 to={`/product/${props.id}`}
-                style={{textDecoration: 'none'}}
             >
                 <img
                     src={props.images[0]}
                     alt={props.title}
                     height="180"
-                    style={{objectFit:"scale-down"}}
+                    style={{ objectFit: "scale-down" }}
                 />
             </Link>
             <Box
@@ -73,16 +73,20 @@ const CartWishListItem = (props: IProduct) => {
                 marginLeft={"2%"}
                 marginRight={"10%"}
             >
-                <Typography variant={"h4"}>{props.title}</Typography>
+                <Typography variant={"h4"}>
+                    {props.title}
+                </Typography>
                 <Link
                     to={`/products/searchByCategory?id=${props.category.id}`}
                 >
                     in {props.category.name}
                 </Link>
-                <br/>
-                <Typography variant={"h5"}>Price: € {props.price}</Typography>
-                <br/>
-               {isCart ?
+                <br />
+                <Typography variant={"h5"}>
+                    Price: € {props.price}
+                </Typography>
+                <br />
+                {isCart ?
                     <ButtonGroup>
                         <Button
                             aria-label="reduce"

@@ -1,10 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import {
-    Alert,
-    AlertTitle,
     Box,
     Button,
     Grid,
@@ -13,8 +11,6 @@ import {
     TextField,
     Typography
 } from "@mui/material"
-
-import { AxiosError } from "axios";
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
@@ -33,10 +29,12 @@ const LogInForm = () => {
     const navigate =  useNavigate()
     const [showPassword, setPasswordVisibilty] = useState(false)
     const dispatch = useAppDispatch()
-    const [{ error, errorMessage }, setFormError] = useState({
-        error: false,
-        errorMessage: ''
-    })
+
+    useEffect(() => {
+        if(authInfo.loggedIn && !authInfo.error)
+            navigate('/')
+    }, [authInfo.loggedIn])
+
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: "",
@@ -56,21 +54,8 @@ const LogInForm = () => {
                 password: data.password,
             }
             await dispatch(login(credentials))
-            if(authInfo.error){
-                setFormError({
-                    error: authInfo.error,
-                    errorMessage: authInfo.errorMsg
-                });
-            } else  {
-                setFormError({
-                    error: false,
-                    errorMessage: ''
-                });
-                navigate('/')
-            }
         }catch(e) {
-            const error = e instanceof AxiosError
-            return error
+            console.log(e)
         }
     }
 
@@ -112,10 +97,10 @@ const LogInForm = () => {
                                 justifyContent={"center"}
                                 onSubmit={handleSubmit(onSubmitAction)}
                             >
-                                {(error) &&
+                                {(authInfo.error) &&
                                     <ErrorMessage
                                         title={"401 Unauthorized"}
-                                        message={errorMessage}
+                                        message={authInfo.errorMsg}
                                     />
                                 }
                                 {formFields.map(field => {

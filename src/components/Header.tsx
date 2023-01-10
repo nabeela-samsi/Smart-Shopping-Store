@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import { Stack } from '@mui/system';
+
 import { useAppDispatch } from '../hooks/reduxHook';
 import { getAllProducts } from '../redux/methods/productMethods';
-
-import { Box } from "@mui/material";
-import { useLocation } from 'react-router-dom';
 import { Logo, SearchBar, NavigationBar } from './HeaderItems';
 
 const Header = () => {
@@ -26,16 +27,24 @@ const Header = () => {
 
     return (
         <header >
-            { isForm ?
-                <Box sx={{ display: "flex",alignItems:"center", columnGap:'2%', justifyContent:"center", p:1, m:1}}>
+            <Stack
+                direction={"row"}
+                spacing={2}
+                alignItems={"center"}
+                justifyContent={"center"}
+                padding={1}
+            >
+                {   isForm
+                    ?
                     <Logo />
-                </Box>
-            :
-            (<Box sx={{ display: "flex", flexDirection:"row", alignItems:"center", columnGap:'2%', justifyContent:"center", p:1, m:1}}>
-                <Logo />
-                <SearchBar />
-                <NavigationBar />
-            </Box>)}
+                    :
+                    <>
+                        <Logo />
+                        <SearchBar />
+                        <NavigationBar />
+                    </>
+                }
+            </Stack>
         </header>
     )
 }

@@ -1,11 +1,14 @@
-import { Avatar, Box, Button, Card, CardActionArea, IconButton, Input, TextField, Typography } from "@mui/material"
-import { useAppSelector } from "../hooks/reduxHook"
-import ErrorMessage from "../components/ErrorMessage"
-import getIcons from "../utilities/getIcon"
 import { Link } from "react-router-dom"
+import { Avatar, Box, TextField } from "@mui/material"
+import { useAppSelector } from "../hooks/reduxHook"
+import { v4 } from "uuid";
+
+import ErrorMessage from "../components/ErrorMessage"
+import { profileFields } from "../utilities/formFields"
 
 const UserProfile = () => {
     const {userInfo} = useAppSelector(state => state.auth)
+    const formFields = profileFields
     const setUserImage = () => {
         if(userInfo && userInfo.avatar) {
             return (
@@ -17,6 +20,7 @@ const UserProfile = () => {
             )
         }
     }
+
     return (
         <Box
             display={"flex"}
@@ -29,30 +33,27 @@ const UserProfile = () => {
                     <>
                        {setUserImage()}
                        <br/>
-                       <TextField
-                            label="Name"
-                            variant="outlined"
-                            value={userInfo.name}
-                            InputProps={{
-                                readOnly: true
-                            }}
-                       /> <br/>
-                        <TextField
-                            label="Email"
-                            variant="outlined"
-                            value={userInfo.email}
-                            InputProps={{
-                                readOnly: true
-                            }}
-                       /> <br/>
-                        <TextField
-                            label="Role"
-                            variant="outlined"
-                            value={userInfo.role}
-                            InputProps={{
-                                readOnly: true
-                            }}
-                       /><br />
+                       {formFields.map((field) => {
+                            const uniqueKey = v4()
+                            console.log(uniqueKey)
+                            return (
+                                <>
+                                    <TextField
+                                        key={`${uniqueKey}`}
+                                        id={`${uniqueKey}`}
+                                        label={field.label}
+                                        type={field.label === 'Password' ? "password" : "text"}
+                                        variant="outlined"
+                                        value={field.value}
+                                        InputProps={{
+                                            readOnly: true
+                                        }}
+                                    />
+                                    <br/>
+                                </>
+                            )
+
+                       })}
                         <Link to={`/userprofile/edit/${userInfo.id}`}>
                             Edit Profile
                         </Link>

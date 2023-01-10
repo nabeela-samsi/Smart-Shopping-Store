@@ -1,13 +1,11 @@
 
 import { useLocation } from "react-router-dom"
 import { Box } from "@mui/system"
-
-import CartWishListItem from "../components/CartWishListItem"
+import { Typography } from "@mui/material"
 
 import { useAppSelector } from "../hooks/reduxHook"
 import { IProduct } from "../type/Product"
-import { Typography } from "@mui/material"
-
+import CartWishListItem from "../components/CartWishListItem"
 
 const CartWishList = () => {
     const {pathname} = useLocation()
@@ -17,7 +15,7 @@ const CartWishList = () => {
     const pageInfo = (pathname === '/cart') ? cartInfo : wishListInfo
     let userBasedInfo: IProduct[] = []
     if(Object.keys(pageInfo)?.length && userInfo ) {
-        userBasedInfo = pageInfo[userInfo.email]
+        userBasedInfo = pageInfo[userInfo.id]
     }
     return (
         <>

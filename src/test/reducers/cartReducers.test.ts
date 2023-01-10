@@ -46,13 +46,13 @@ describe("Test all the actions", () => {
         const productInfo = testData.allProducts[0]
         store.dispatch(addToCart(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo,
                 originalPrice: productInfo.price
             }
         ))
-        const result = { [userInfo.email]: [{ ...productInfo, quantity: 1 }] }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(result[userInfo.email])
+        const result = { [userInfo.id]: [{ ...productInfo, quantity: 1 }] }
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().cart).length).toBe(1)
     })
 
@@ -62,24 +62,24 @@ describe("Test all the actions", () => {
         const originalPrice = productInfo.price
         store.dispatch(addToCart(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo,
                 originalPrice: productInfo.price
             }
         ))
-        const firstResult = { [userInfo.email]: [{ ...productInfo, quantity: 1 }] }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(firstResult[userInfo.email])
+        const firstResult = { [userInfo.id]: [{ ...productInfo, quantity: 1 }] }
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(firstResult[userInfo.id])
         expect(Object.keys(store.getState().cart).length).toBe(1)
 
         store.dispatch(addToCart(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo,
                 originalPrice
             }
         ))
-        const secondResult = { [userInfo.email]: [{ ...productInfo, quantity: 2, price: (productInfo.price + originalPrice) }] }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(secondResult[userInfo.email])
+        const secondResult = { [userInfo.id]: [{ ...productInfo, quantity: 2, price: (productInfo.price + originalPrice) }] }
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(secondResult[userInfo.id])
         expect(Object.keys(store.getState().cart).length).toBe(1)
     })
 
@@ -88,19 +88,19 @@ describe("Test all the actions", () => {
         const productInfo = testData.allProducts[0]
         store.dispatch(addToCart(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo: productInfo,
                 originalPrice: productInfo.price
             }
         ))
-        let result = { [userInfo.email]: [{ ...productInfo, quantity: 1 }] }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(result[userInfo.email])
+        let result = { [userInfo.id]: [{ ...productInfo, quantity: 1 }] }
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().cart).length).toBe(1)
 
         const productInfo2 = testData.allProducts[1]
         store.dispatch(addToCart(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo: productInfo2,
                 originalPrice: productInfo2.price
             }
@@ -108,9 +108,9 @@ describe("Test all the actions", () => {
         const newProdctInfo = [{ ...productInfo, quantity: 1 }, { ...productInfo2, quantity: 1 }]
         const finalResult = {
             ...result,
-            [userInfo.email]: [...newProdctInfo]
+            [userInfo.id]: [...newProdctInfo]
         }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(finalResult[userInfo.email])
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(finalResult[userInfo.id])
         expect(Object.keys(store.getState().cart).length).toBe(1)
     })
 
@@ -119,21 +119,21 @@ describe("Test all the actions", () => {
         const productInfo = testData.allProducts[0]
         store.dispatch(addToCart(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo,
                 originalPrice: productInfo.price
             }
         ))
-        const result = { [userInfo.email]: [{ ...productInfo, quantity: 1 }] }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(result[userInfo.email])
+        const result = { [userInfo.id]: [{ ...productInfo, quantity: 1 }] }
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().cart).length).toBe(1)
 
         store.dispatch(removeFromCart({
-            email: userInfo.email,
+            userId: userInfo.id,
             productId: productInfo.id,
             originalPrice: productInfo.price
         }))
-        expect(Object.keys(store.getState().cart[userInfo.email]).length).toBe(0)
+        expect(Object.keys(store.getState().cart[userInfo.id]).length).toBe(0)
     })
 
     test("should remove product from cart such that product quantity is 2", () => {
@@ -142,25 +142,25 @@ describe("Test all the actions", () => {
         const originalPrice = productInfo.price
         store.dispatch(addToCart(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo,
                 originalPrice
             }
         ))
-        const result = { [userInfo.email]: [{ ...productInfo, quantity: 1 }] }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(result[userInfo.email])
+        const result = { [userInfo.id]: [{ ...productInfo, quantity: 1 }] }
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().cart).length).toBe(1)
 
         store.dispatch(addToCart(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo,
                 originalPrice
             }
         ))
         const newPrice = productInfo.price + originalPrice
         const secondResult = {
-            [userInfo.email]: [
+            [userInfo.id]: [
                 {
                     ...productInfo,
                     quantity: 2,
@@ -168,16 +168,16 @@ describe("Test all the actions", () => {
                 }
             ]
         }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(secondResult[userInfo.email])
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(secondResult[userInfo.id])
         expect(Object.keys(store.getState().cart).length).toBe(1)
 
         store.dispatch(removeFromCart({
-            email: userInfo.email,
+            userId: userInfo.id,
             productId: productInfo.id,
             originalPrice
         }))
         const finalResult = {
-            [userInfo.email]: [
+            [userInfo.id]: [
                 {
                     ...productInfo,
                     quantity: 1,
@@ -185,8 +185,8 @@ describe("Test all the actions", () => {
                 }
             ]
         }
-        expect(store.getState().cart[userInfo.email]).toStrictEqual(finalResult[userInfo.email])
-        expect(Object.keys(store.getState().cart[userInfo.email]).length).toBe(1)
+        expect(store.getState().cart[userInfo.id]).toStrictEqual(finalResult[userInfo.id])
+        expect(Object.keys(store.getState().cart[userInfo.id]).length).toBe(1)
     })
 })
 

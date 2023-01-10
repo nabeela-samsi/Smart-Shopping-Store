@@ -5,21 +5,21 @@ export const addtoWishList = (
     state: ICartWishlist,
     action: PayloadAction<Error | IAddCartWishList>
 ) => {
-    if('email' in action.payload) {
-        const {email,productInfo} = action.payload
+    if('userId' in action.payload) {
+        const {userId,productInfo} = action.payload
         const wishListInfo = {...state}
-        if(wishListInfo[email]) {
-            const checkDataPresent = wishListInfo[email].some(product => product.id === productInfo.id)
+        if(wishListInfo[userId]) {
+            const checkDataPresent = wishListInfo[userId].some(product => product.id === productInfo.id)
             if(!checkDataPresent){
                 return {
                     ...state,
-                    [email]: [...state[email], productInfo]
+                    [userId]: [...state[userId], productInfo]
                 }
             }
         } else {
             return {
                 ...state,
-                [email]: [productInfo]
+                [userId]: [productInfo]
             }
         }
     }
@@ -31,12 +31,12 @@ export const removeFromWishlist = (
     action: PayloadAction<Error | IRemoveCartWishList>
 ) => {
     if('productId' in action.payload) {
-        const {email, productId} = action.payload
+        const {userId, productId} = action.payload
         const wishListInfo = {...state}
-        const filteredData = wishListInfo[email].filter(product => product.id !== productId)
+        const filteredData = wishListInfo[userId].filter(product => product.id !== productId)
         return {
             ...state,
-            [email]: [...filteredData]
+            [userId]: [...filteredData]
         }
     }
     return state

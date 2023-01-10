@@ -2,18 +2,19 @@ import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import { IconButton, InputAdornment, TextField } from "@mui/material"
+import { Stack } from "@mui/system";
+
 import { Cart, MenuBar, Wishlist } from "./NavItems";
 
 import getIcons from "../utilities/getIcon";
 import { useAppSelector } from "../hooks/reduxHook";
 import { IUser } from "../type/User";
-import { Stack } from "@mui/system";
 
 export const Logo = () => {
     return (
         <div className="header__logo">
             <Link to={"/"}>
-                <img src="/logo.svg" alt="Brand Logo" width={200}/>
+                <img src="/logo.svg" alt="Brand Logo" width={200} />
             </Link>
         </div>
     )
@@ -25,15 +26,15 @@ export const SearchBar = () => {
     const getLocation = useLocation().search
     let navigateURL = `/products/searchByProductName?name=${inputValue}`
 
-    useEffect(()=>{
+    useEffect(() => {
         const productName = new URLSearchParams(getLocation).get("name")
-        if(productName && productName.trim().length > 0) {
+        if (productName && productName.trim().length > 0) {
             setInputValue(productName)
         }
-    },[getLocation])
+    }, [getLocation])
 
     const handleOnKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if(e.key === 'Enter') {
+        if (e.key === 'Enter') {
             navigate(navigateURL)
         }
     }
@@ -48,7 +49,7 @@ export const SearchBar = () => {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyUp={handleOnKeyPress}
                 InputProps={{
-                    style:{width:"45vw"},
+                    style: { width: "45vw" },
                     endAdornment: (
                         <InputAdornment position="start">
                             <IconButton>
@@ -65,7 +66,7 @@ export const SearchBar = () => {
 }
 
 export const NavigationBar = () => {
-    const {loggedIn, userInfo} = useAppSelector((state) => state.auth)
+    const { loggedIn, userInfo } = useAppSelector((state) => state.auth)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
     return (
         <Stack direction="row" spacing={3} className="header__action">
@@ -76,7 +77,7 @@ export const NavigationBar = () => {
                 userImage={(userInfo) ? userInfo.avatar : ''}
                 userId={(userInfo) ? userInfo.id : 0}
             />
-            <Link to={"/products"} style={{textDecoration: "none", textDecorationColor:"none"}}>
+            <Link to={"/products"} className="link-nodecoration">
                 <IconButton>
                     Products
                 </IconButton>
@@ -86,7 +87,7 @@ export const NavigationBar = () => {
                     userInfo={userInfo as IUser}
                 />
             </Link>
-            <Link to={loggedIn ? "/wishlist" : "/ogin"}>
+            <Link to={loggedIn ? "/wishlist" : "/login"}>
                 <Wishlist
                     userInfo={userInfo as IUser}
                 />

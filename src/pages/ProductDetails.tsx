@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import {  Button, Grid, IconButton, MobileStepper, Typography } from "@mui/material"
 
-import { useAppSelector } from "../hooks/reduxHook"
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 
-import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/reducers/cartReducers";
 import { addToWishList } from "../redux/reducers/wishListReducers";
 import ButtonHandle from "../components/ButtonHandle";
@@ -13,7 +12,7 @@ import getIcons from "../utilities/getIcon";
 import ErrorMessage from "../components/ErrorMessage";
 
 const ProductDetails = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const {userInfo} = useAppSelector(state => state.auth)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
     const navigate = useNavigate()
@@ -43,7 +42,7 @@ const ProductDetails = () => {
     const handleCartAction = () => {
         if(userInfo && productDetails) {
             dispatch(addToCart({
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo: productDetails,
                 originalPrice: productDetails.price
             }))
@@ -53,7 +52,7 @@ const ProductDetails = () => {
     const handleWishListAction = () => {
         if(userInfo && productDetails) {
             dispatch(addToWishList({
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo: productDetails
             }))
         }

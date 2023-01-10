@@ -2,18 +2,18 @@ import { IProduct } from "./Product"
 import { IUser } from "./User"
 
 export interface ICartWishlist {
-    [key: string] : IProduct[]
+    [userId: number] : IProduct[]
 }
 
 export interface IAddCartWishList {
-    email: string
+    userId: number
     productInfo: IProduct
     originalPrice?: number
 }
 
 export interface IRemoveCartWishList {
     productId: number
-    email: string
+    userId: number
     originalPrice?: number
 }
 

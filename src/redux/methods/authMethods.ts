@@ -28,12 +28,19 @@ export const login = createAsyncThunk(
                     }
                 }
                 const response = await axiosInstance.get('/auth/profile', headerConfig)
-                const responseData: IUser = response.data
+                const responseData: IUser = await response.data
                 return responseData
             }
         } catch(e) {
             const error = e as AxiosError
-            return error
+            let errorMsg = "Something went wrong please try again"
+            if(error.response?.status === 401) {
+                errorMsg = "Email or Password are incorrect"
+            }
+            return {
+                error: true,
+                errorMsg
+            }
         }
     }
 )

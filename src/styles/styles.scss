@@ -1,2 +1,4 @@
-@use "./layouts/home";
-@use "./layouts/footer";
+@use "./layouts/_home";
+@use "./layouts/_footer";
+
+@use "./common/_common";

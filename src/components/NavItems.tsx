@@ -1,24 +1,24 @@
 import { useState } from "react";
-import { userLogout } from "../redux/reducers/authReducers";
 import { Link } from "react-router-dom";
 
 import { Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import Avatar from '@mui/material/Avatar';
+import { StyledBadge } from "../muistyles/StyledBadge";
 
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
+import { userLogout } from "../redux/reducers/authReducers";
 import getIcons from "../utilities/getIcon";
 import { IUserInfo } from "../type/CartWishList";
 import { IMenuBar } from "../type/MenuBar";
-import { StyledBadge } from "../muistyles/StyledBadge";
 
 export const MenuBar = (props: IMenuBar) => {
-    const {loggedIn, isAdmin, userName, userImage, userId} = props
+    const { loggedIn, isAdmin, userName, userImage, userId } = props
     const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
 
     const setUserImage = () => {
-        if(userImage) {
+        if (userImage) {
             return (
                 <Avatar
                     alt={userName}
@@ -32,7 +32,7 @@ export const MenuBar = (props: IMenuBar) => {
 
     const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget)
-     }
+    }
 
     const handleMenuClose = () => {
         setAnchorEl(null)
@@ -49,14 +49,14 @@ export const MenuBar = (props: IMenuBar) => {
             >
                 <Button
                     aria-controls={open ? "simple-menu" : undefined}
-                    aria-expanded = {open ? 'true' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
                     arai-haspopup="true"
                     onMouseOver={handleMenuOpen}
                     variant="text"
                     color="inherit"
                 >
-                   {setUserImage()}
-                   Profile
+                    {setUserImage()}
+                    Profile
                 </Button>
             </Tooltip>
             <Menu
@@ -76,79 +76,79 @@ export const MenuBar = (props: IMenuBar) => {
                     horizontal: 'right',
                     vertical: 'bottom'
                 }}
-                MenuListProps={{onMouseLeave: handleMenuClose}}
+                MenuListProps={{ onMouseLeave: handleMenuClose }}
             >
                 {!loggedIn && (
                     <MenuItem>
                         <Typography component="span">
                             <Typography fontWeight={"bold"} component="span">
-                                Welcome <br/>
+                                Welcome <br />
                             </Typography>
                             <Typography variant="subtitle2" component="span">
-                                To access wishlist and cart please login <br/>
+                                To access wishlist and cart please login <br />
                             </Typography>
                             <Button
-                                sx={{ml:"18%"}}
+                                sx={{ ml: "18%" }}
                                 variant="outlined"
                             >
                                 <Link
                                     to={`/login`}
-                                    style={{textDecoration: 'none'}}
+                                    style={{ textDecoration: 'none' }}
                                 >
                                     Log In / Sign Up
                                 </Link>
                             </Button>
                         </Typography>
-                        <hr/>
+                        <hr />
                     </MenuItem>
                 )}
-            <MenuItem>
-                <Link to={loggedIn ? `/userprofile/${userId}` :  '/login'} style={{textDecoration: "none"}}>
-                    <Button color="secondary">
-                        My profile
-                    </Button>
-                </Link>
-                <hr/>
-            </MenuItem>
-            {isAdmin && (
                 <MenuItem>
-                    <Link to="/product/create" style={{textDecoration: "none"}}>
+                    <Link to={loggedIn ? `/userprofile/` : '/login'} style={{ textDecoration: "none" }}>
                         <Button color="secondary">
-                            Add product
+                            My profile
                         </Button>
                     </Link>
+                    <hr />
                 </MenuItem>
-            )}
-            {isAdmin && (
-                <MenuItem>
-                    <Link to="/category/create" style={{textDecoration: "none"}}>
-                        <Button color="secondary">
-                            Add category
+                {isAdmin && (
+                    <MenuItem>
+                        <Link to="/product/create" style={{ textDecoration: "none" }}>
+                            <Button color="secondary">
+                                Add product
+                            </Button>
+                        </Link>
+                    </MenuItem>
+                )}
+                {isAdmin && (
+                    <MenuItem>
+                        <Link to="/category/create" style={{ textDecoration: "none" }}>
+                            <Button color="secondary">
+                                Add category
+                            </Button>
+                        </Link>
+                    </MenuItem>
+                )}
+                {loggedIn && (
+                    <MenuItem>
+                        <Button
+                            variant="outlined"
+                            onClick={handleLogoutAction}
+                        >
+                            Log out
                         </Button>
-                    </Link>
-                </MenuItem>
-            )}
-            {loggedIn && (
-                <MenuItem>
-                    <Button
-                        variant="outlined"
-                        onClick={handleLogoutAction}
-                    >
-                        Log out
-                    </Button>
-                </MenuItem>
-            )}
+                    </MenuItem>
+                )}
             </Menu>
         </>
     )
 }
 
 export const Cart = (props: IUserInfo) => {
-    const cartInfo =  useAppSelector(state => state.cart)
-    const {userInfo} = props
+    const cartInfo = useAppSelector(state => state.cart)
+    const { userInfo } = props
     let cartCount = 0
-    if(Object.keys(cartInfo)?.length && userInfo) {
-        cartCount = (cartInfo[userInfo.email]) ? cartInfo[userInfo.email].length : 0
+    if (Object.keys(cartInfo)?.length && userInfo) {
+        cartCount = (cartInfo[userInfo.id]) ? cartInfo[userInfo.id].length : 0
     }
 
     return (
@@ -161,11 +161,11 @@ export const Cart = (props: IUserInfo) => {
 }
 
 export const Wishlist = (props: IUserInfo) => {
-    const wishListInfo =  useAppSelector(state => state.wishList)
-    const {userInfo}  = props
+    const wishListInfo = useAppSelector(state => state.wishList)
+    const { userInfo } = props
     let wishListCount = 0
-    if(Object.keys(wishListInfo).length && userInfo) {
-        wishListCount = (wishListInfo[userInfo.email]) ? wishListInfo[userInfo.email].length : 0
+    if (Object.keys(wishListInfo).length && userInfo) {
+        wishListCount = (wishListInfo[userInfo.id]) ? wishListInfo[userInfo.id].length : 0
     }
 
     return (

@@ -45,12 +45,12 @@ describe("Test all the actions", () => {
         const productInfo = testData.allProducts[0]
         store.dispatch(addToWishList(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo
             }
         ))
-        const result = { [userInfo.email]: [{ ...productInfo }] }
-        expect(store.getState().wishList[userInfo.email]).toStrictEqual(result[userInfo.email])
+        const result = { [userInfo.id]: [{ ...productInfo }] }
+        expect(store.getState().wishList[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().wishList).length).toBe(1)
     })
 
@@ -59,21 +59,21 @@ describe("Test all the actions", () => {
         const productInfo = testData.allProducts[0]
         store.dispatch(addToWishList(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo
             }
         ))
-        const result = { [userInfo.email]: [{ ...productInfo }] }
-        expect(store.getState().wishList[userInfo.email]).toStrictEqual(result[userInfo.email])
+        const result = { [userInfo.id]: [{ ...productInfo }] }
+        expect(store.getState().wishList[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().wishList).length).toBe(1)
 
         store.dispatch(addToWishList(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo
             }
         ))
-        expect(store.getState().wishList[userInfo.email]).toStrictEqual(result[userInfo.email])
+        expect(store.getState().wishList[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().wishList).length).toBe(1)
     })
 
@@ -83,22 +83,22 @@ describe("Test all the actions", () => {
         const productInfo2 = testData.allProducts[1]
         store.dispatch(addToWishList(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo: productInfo1
             }
         ))
-        const result = { [userInfo.email]: [{ ...productInfo1 }] }
-        expect(store.getState().wishList[userInfo.email]).toStrictEqual(result[userInfo.email])
+        const result = { [userInfo.id]: [{ ...productInfo1 }] }
+        expect(store.getState().wishList[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().wishList).length).toBe(1)
 
         store.dispatch(addToWishList(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo: productInfo2
             }
         ))
-        const secondResult = { [userInfo.email]: [{ ...productInfo1 }, {...productInfo2}] }
-        expect(store.getState().wishList[userInfo.email]).toStrictEqual(secondResult[userInfo.email])
+        const secondResult = { [userInfo.id]: [{ ...productInfo1 }, {...productInfo2}] }
+        expect(store.getState().wishList[userInfo.id]).toStrictEqual(secondResult[userInfo.id])
         expect(Object.keys(store.getState().wishList).length).toBe(1)
     })
 
@@ -107,21 +107,21 @@ describe("Test all the actions", () => {
         const productInfo = testData.allProducts[0]
         store.dispatch(addToWishList(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productInfo
             }
         ))
-        const result = { [userInfo.email]: [{ ...productInfo }] }
-        expect(store.getState().wishList[userInfo.email]).toStrictEqual(result[userInfo.email])
+        const result = { [userInfo.id]: [{ ...productInfo }] }
+        expect(store.getState().wishList[userInfo.id]).toStrictEqual(result[userInfo.id])
         expect(Object.keys(store.getState().wishList).length).toBe(1)
 
         store.dispatch(removeFromWishList(
             {
-                email: userInfo.email,
+                userId: userInfo.id,
                 productId: productInfo.id
             }
         ))
-        expect(Object.keys(store.getState().wishList[userInfo.email]).length).toBe(0)
+        expect(Object.keys(store.getState().wishList[userInfo.id]).length).toBe(0)
     })
 })
 

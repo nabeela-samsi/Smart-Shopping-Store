@@ -1,8 +1,10 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import ButtonHandle from "../components/ButtonHandle"
+
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
 import { useDispatch } from "react-redux"
+
+import ButtonHandle from "../components/ButtonHandle"
 import { deleteProduct } from "../redux/methods/productMethods"
 import { deletecategory } from "../redux/methods/categoryMethods"
 import { useAppSelector } from "../hooks/reduxHook"
@@ -10,20 +12,16 @@ import ErrorMessage from "../components/ErrorMessage"
 
 const DeleteAction = () => {
     const dispatch = useDispatch()
+    const {id} = useParams()
+    const navigate = useNavigate()
+    const {pathname, state} = useLocation()
+    const [errorMessage, setFormError] = useState('')
+    const [openDialog, setOpenDialog] = useState(true)
     const {loggedIn, userInfo} = useAppSelector((state) => state.auth)
     const categories = useAppSelector((state) => state.categories)
     const products = useAppSelector((state) => state.products)
     const [idValid, setIdValid] = useState(false)
     const isNotAdmin = userInfo?.role.toLowerCase() !== 'admin'
-    const {id} = useParams()
-    const navigate = useNavigate()
-    const {pathname, state} = useLocation()
-    const [openDialog, setOpenDialog] = useState(true)
-    const catlogType = (pathname.includes("product")) ? "ProductID" : "CategroyID"
-    const [{ error, errorMessage }, setFormError] = useState({
-        error: false,
-        errorMessage: ''
-    })
 
     useEffect(() => {
         if(Number(id) > 0 && pathname.includes("product")) {
@@ -52,16 +50,12 @@ const DeleteAction = () => {
                 }
             }
         } catch(e) {
-            setFormError({
-                error: true,
-                errorMessage: "Something went wrong please try again later"
-            })
+            setFormError("Something went wrong please try again later")
         }
     }
 
     return(
         <Dialog open={openDialog} onClose={handleOpenAction}>
-
             {isNotAdmin ?
                 (
                     <ErrorMessage
@@ -74,7 +68,7 @@ const DeleteAction = () => {
                     idValid ?
                     (
                         <>
-                            {(error) &&
+                            {(errorMessage.trim().length) &&
                                 <ErrorMessage
                                     title={"400 Bad Request"}
                                     message={errorMessage}
@@ -104,7 +98,7 @@ const DeleteAction = () => {
                     (
                         <ErrorMessage
                             title={"404 Not Found"}
-                            message={`The provided ${catlogType} is not found in our database.`}
+                            message={`The provided ${pathname.includes("product") ? "ProductID" : "CategoryID"} is not found in our database.`}
                         />
                     )
                 )
