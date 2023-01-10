@@ -8,6 +8,7 @@ import authReducer from './reducers/authReducers';
 import cartReducer from './reducers/cartReducers';
 import wishListReducer from './reducers/wishListReducers';
 import userReducer from './reducers/userReducers';
+import themeReducer from './reducers/themeReducers';
 
 const persistConfig = {
   key: 'root',
@@ -22,7 +23,8 @@ const reducers = combineReducers(
     auth: authReducer,
     cart: cartReducer,
     wishList: wishListReducer,
-    users: userReducer
+    users: userReducer,
+    theme: themeReducer
   }
 )
 const persistedReducer = persistReducer(persistConfig, reducers)

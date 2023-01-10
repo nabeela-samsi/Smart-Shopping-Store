@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Box } from "@mui/system"
-import { Button, Grid, InputAdornment, MenuItem, NativeSelect, TextField, Typography } from "@mui/material"
+import { Button, Grid, InputAdornment, MenuItem, NativeSelect, TextField, TextareaAutosize, Typography } from "@mui/material"
 import { AxiosError } from "axios"
 
 import { productValidationSchema } from "../utilities/formValidation"
@@ -177,8 +177,6 @@ const ProductForm = () => {
                                                     key={field.label + index}
                                                     type={field.type}
                                                     label={field.label}
-                                                    maxRows={5}
-                                                    minRows={1}
                                                     placeholder={field.placeholder}
                                                     InputProps={{
                                                         endAdornment: (

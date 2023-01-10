@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { IconButton, InputAdornment, TextField } from "@mui/material"
 import { Stack } from "@mui/system";
 
-import { Cart, MenuBar, Wishlist } from "./NavItems";
+import { Cart, MenuBar, ModeToggle, Wishlist } from "./NavItems";
 
 import getIcons from "../utilities/getIcon";
 import { useAppSelector } from "../hooks/reduxHook";
@@ -92,6 +92,8 @@ export const NavigationBar = () => {
                     userInfo={userInfo as IUser}
                 />
             </Link>
+            <ModeToggle
+            />
         </Stack>
     )
 }

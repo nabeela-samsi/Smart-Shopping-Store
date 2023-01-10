@@ -84,6 +84,8 @@ const ListOfProducts = () => {
                                                 component={"img"}
                                                 image={data.images[0]}
                                                 alt={data.title}
+                                                height="300"
+                                                style={{objectFit:"scale-down"}}
                                             />
                                             <CardContent>
                                                 <Typography fontWeight={"bold"} noWrap={true}>

@@ -1,23 +1,26 @@
 import router from "./router/router"
 import { RouterProvider } from "react-router-dom"
 
-import { ThemeProvider } from "@mui/material"
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material"
 
 import "./compiled/styles.css"
-import { appTheme } from "./muistyles/appTheme"
-import { useAppDispatch } from "./hooks/reduxHook"
+
+import { useAppDispatch, useAppSelector } from "./hooks/reduxHook"
 import { useEffect } from "react"
 import { getAllUsers } from "./redux/methods/userMethods"
+import { AppTheme } from "./muistyles/AppTheme"
 
 const App = () => {
   const dispatch = useAppDispatch()
-
+  const theme = useAppSelector((state) => state.theme)
     useEffect(() => {
         dispatch(getAllUsers())
     },[dispatch])
+    const apptheme = AppTheme(theme)
   return (
     <>
-      <ThemeProvider theme={appTheme}>
+      <ThemeProvider theme={apptheme}>
+      <CssBaseline />
         <RouterProvider router={router} />
       </ThemeProvider>
     </>

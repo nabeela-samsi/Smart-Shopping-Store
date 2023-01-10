@@ -16,6 +16,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined'
 import EuroIcon from '@mui/icons-material/Euro';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
 
 const gitHub = (
     <GitHub fontSize="medium" />
@@ -97,5 +98,9 @@ const euro = (
     <EuroIcon />
 )
 
-const getIcons = { gitHub, linkedIn, email, showPassword, hidePassword, home, user, photo, remove, add, search, cart, wishList, notFound, arrowBack, arrowLeft, arrowRight, trash, edit, euro }
+const modeSwitcher = (
+    <Brightness4Icon />
+)
+
+const getIcons = { gitHub, linkedIn, email, showPassword, hidePassword, home, user, photo, remove, add, search, cart, wishList, notFound, arrowBack, arrowLeft, arrowRight, trash, edit, euro, modeSwitcher }
 export default getIcons

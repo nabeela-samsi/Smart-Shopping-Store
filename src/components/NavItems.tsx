@@ -10,6 +10,7 @@ import { userLogout } from "../redux/reducers/authReducers";
 import getIcons from "../utilities/getIcon";
 import { IUserInfo } from "../type/CartWishList";
 import { IMenuBar } from "../type/MenuBar";
+import { switchTheme } from "../redux/reducers/themeReducers";
 
 export const MenuBar = (props: IMenuBar) => {
     const { loggedIn, isAdmin, userName, userImage, userId } = props
@@ -173,6 +174,18 @@ export const Wishlist = (props: IUserInfo) => {
             <StyledBadge badgeContent={wishListCount} color="secondary">
                 {getIcons.wishList}
             </StyledBadge>
+        </IconButton>
+    )
+}
+
+export const ModeToggle = () => {
+    const dispatch = useAppDispatch()
+    const handleSwitch = () => {
+        dispatch(switchTheme())
+    }
+    return (
+        <IconButton aria-label="darkMode" onClick={handleSwitch}>
+            {getIcons.modeSwitcher}
         </IconButton>
     )
 }

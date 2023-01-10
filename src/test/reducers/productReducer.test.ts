@@ -4,13 +4,14 @@ import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore"
 
 import { createNewProduct, deleteProduct, getAllProducts, updateProduct } from "../../redux/methods/productMethods";
 import { createStore } from "../../redux/store"
-import server from "../shared/server"
 import { PersistPartial } from "redux-persist/es/persistReducer"
 import { ICreateProduct, IProduct, IUpdateProduct } from "../../type/Product";
 import { ICategory } from "../../type/Category";
 import { IAuth } from "../../type/Auth";
 import { ICartWishlist } from "../../type/CartWishList";
 import { IUser } from "../../type/User";
+import { ISwitchTheme } from "../../type/Theme";
+import productServer from "../shared/productServer";
 
 let store: ToolkitStore<EmptyObject & {
     products: IProduct[];
@@ -19,14 +20,15 @@ let store: ToolkitStore<EmptyObject & {
     cart: ICartWishlist;
     wishList: ICartWishlist;
     users: IUser[];
+    theme: ISwitchTheme;
 } & PersistPartial, AnyAction>
 
 beforeAll(() => {
-    server.listen()
+    productServer.listen()
 })
 
 afterAll(() => {
-    server.close()
+    productServer.close()
 })
 
 beforeEach(() => {
