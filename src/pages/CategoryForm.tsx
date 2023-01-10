@@ -6,8 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { categoryValidationSchema } from "../utilities/formValidation"
 import { ICreateCategory } from "../type/Category"
 import { Box } from "@mui/system"
-import { Alert, AlertTitle, Autocomplete, Button, Grid, InputAdornment, TextField, Typography } from "@mui/material"
-import { AxiosError } from "axios"
+import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material"
 import { createNewCategory, updateCategory } from "../redux/methods/categoryMethods"
 import { categoryFields } from "../utilities/formFields"
 import ErrorMessage from "../components/ErrorMessage"
@@ -18,6 +17,7 @@ const CategoryForm = () => {
     const categories = useAppSelector((state) => state.categories)
     const {id} = useParams()
     const [categoryName, setCategoryname] = useState('')
+    const [idValid, setIdValid] = useState(false)
     const isNotAdmin = authInfo.userInfo?.role.toLowerCase() !== 'admin'
     const navigate =  useNavigate()
     const dispatch = useAppDispatch()
@@ -36,22 +36,25 @@ const CategoryForm = () => {
         if(Number(id) > 0) {
             const getCategory = categories.find(category => category.id === Number(id))
             if(getCategory) {
+                setIdValid(true)
                 setCategoryname(getCategory.name)
                 setValue('name',getCategory.name)
                 setValue('image',getCategory.image)
+            } else {
+                setIdValid(false)
             }
         }
-    },[])
+    },[categories, id, setValue])
     const categoryExists = (name: string) => {
         return categories.some(category => category.name.toLowerCase() === name.toLowerCase())
     }
     const onSubmitAction = async(data: ICreateCategory) => {
         try{
-            if(categoryExists(data.name)){
-                setFormError({
-                    error: true,
-                    errorMessage: "Please provide the unique Category Name"
-                });
+            if(categoryName.trim() !== data.name.trim() && categoryExists(data.name)) {
+                    setFormError({
+                        error: true,
+                        errorMessage: "Please provide the unique Category Name"
+                    });
             } else {
                 setFormError({
                     error: false,
@@ -66,7 +69,6 @@ const CategoryForm = () => {
                 }
             }
         } catch(e) {
-            const error = e instanceof AxiosError
             setFormError({
                 error: true,
                 errorMessage: "Something went wrong please try again"
@@ -85,6 +87,14 @@ const CategoryForm = () => {
                 )
                 :
                 (
+                    Number(id) > 0 && !idValid ?
+                    (
+                        <ErrorMessage
+                            title={"404 Not Found"}
+                            message={"The provided categoryID is not found in our database."}
+                        />
+                    )
+                    :
                     <Grid
                         container
                         spacing={0}

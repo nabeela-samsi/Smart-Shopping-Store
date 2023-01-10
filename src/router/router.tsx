@@ -11,6 +11,7 @@ import ProductForm from "../pages/ProductForm";
 import LogInForm from "../pages/LogInForm";
 import UserProfile from "../pages/UserProfile";
 import UserForm from "../pages/UserForm";
+import DeleteAction from "../pages/DeleteAction";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +49,9 @@ const router = createBrowserRouter([
                     }, {
                         path: 'edit/:id',
                         element: <ProductForm />
+                    }, {
+                        path: 'delete/:id',
+                        element: <DeleteAction />
                     }
                 ]
             }, {
@@ -73,6 +77,9 @@ const router = createBrowserRouter([
                     }, {
                         path: 'edit/:id',
                         element: <CategoryForm />
+                    }, {
+                        path: 'delete/:id',
+                        element: <DeleteAction />
                     }
                 ]
             }, {

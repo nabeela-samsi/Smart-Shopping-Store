@@ -10,14 +10,24 @@ import {
     Typography
 } from "@mui/material"
 
-import { useAppSelector } from "../hooks/reduxHook"
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import getIcons from "../utilities/getIcon"
-import styled from "@emotion/styled"
+import { useEffect } from "react"
+import { getAllCategories } from "../redux/methods/categoryMethods"
+import { getAllProducts } from "../redux/methods/productMethods"
+import { getAllUsers } from "../redux/methods/userMethods"
 
 const Home = () => {
     const categories = useAppSelector(state => state.categories)
     const {userInfo} = useAppSelector(state => state.auth)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(getAllCategories())
+        dispatch(getAllProducts())
+        dispatch(getAllUsers())
+    },[dispatch])
 
     return (
         <div className="home">
@@ -68,12 +78,16 @@ const Home = () => {
                         </Link>
                         {isAdmin && (
                             <>
-                                <Link to={`/category/edit/${data.id}`}>
-                                    {getIcons.edit}
+                                <Link to={`/category/edit/${data.id}`} style={{textDecoration: "none"}}>
+                                    <IconButton>
+                                        {getIcons.edit}
+                                    </IconButton>
                                 </Link>
-                                <IconButton>
-                                    {getIcons.trash}
-                                </IconButton>
+                                <Link to={`/category/delete/${data.id}`} style={{textDecoration: "none"}} state={{title: data.name}}>
+                                    <IconButton>
+                                        {getIcons.trash}
+                                    </IconButton>
+                                </Link>
                             </>
                         )}
                     </Grid>

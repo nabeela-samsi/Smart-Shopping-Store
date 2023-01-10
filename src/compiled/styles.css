@@ -8,8 +8,10 @@
   position: "fixed";
   bottom: 0;
   text-align: center;
-  padding-bottom: 10;
+  padding: 10px 10px 0px 10px;
+  bottom: 0;
   margin-right: 10;
+  width: "100vw";
 }
 
 /*# sourceMappingURL=styles.css.map */

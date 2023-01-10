@@ -104,12 +104,16 @@ const ListOfProducts = () => {
                                 </Link>
                                 {isAdmin && (
                                     <>
-                                        <Link to={`/product/edit/${data.id}`}>
-                                            {getIcons.edit}
+                                        <Link to={`/product/edit/${data.id}`} style={{textDecoration: "none"}}>
+                                            <IconButton>
+                                                {getIcons.edit}
+                                            </IconButton>
                                         </Link>
-                                        <IconButton>
-                                            {getIcons.trash}
-                                        </IconButton>
+                                        <Link to={`/product/delete/${data.id}`} style={{textDecoration: "none"}} state={{title:data.title}}>
+                                            <IconButton>
+                                                {getIcons.trash}
+                                            </IconButton>
+                                        </Link>
                                     </>
                         )}
                             </Grid>

@@ -5,13 +5,11 @@ import { Link } from "react-router-dom";
 import { Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import Avatar from '@mui/material/Avatar';
 
-import { StyledBadge } from "../utilities/styles";
-
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import getIcons from "../utilities/getIcon";
 import { IUserInfo } from "../type/CartWishList";
 import { IMenuBar } from "../type/MenuBar";
-import { userInfo } from "os";
+import { StyledBadge } from "../MUi Styles/StyledBadge";
 
 export const MenuBar = (props: IMenuBar) => {
     const {loggedIn, isAdmin, userName, userImage, userId} = props
@@ -105,22 +103,28 @@ export const MenuBar = (props: IMenuBar) => {
                     </MenuItem>
                 )}
             <MenuItem>
-                <Link to={loggedIn ? `/userprofile/${userId}` :  '/login'}>
-                    My profile
+                <Link to={loggedIn ? `/userprofile/${userId}` :  '/login'} style={{textDecoration: "none"}}>
+                    <Button color="secondary">
+                        My profile
+                    </Button>
                 </Link>
                 <hr/>
             </MenuItem>
             {isAdmin && (
                 <MenuItem>
                     <Link to="/product/create" style={{textDecoration: "none"}}>
-                        Add product
+                        <Button color="secondary">
+                            Add product
+                        </Button>
                     </Link>
                 </MenuItem>
             )}
             {isAdmin && (
                 <MenuItem>
                     <Link to="/category/create" style={{textDecoration: "none"}}>
-                        Add category
+                        <Button color="secondary">
+                            Add category
+                        </Button>
                     </Link>
                 </MenuItem>
             )}

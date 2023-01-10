@@ -7,7 +7,7 @@ import { Box } from "@mui/system"
 import { Button, Grid, InputAdornment, MenuItem, TextField, Typography } from "@mui/material"
 import { AxiosError } from "axios"
 import { productValidationSchema } from "../utilities/formValidation"
-import { ICreateProduct, IProduct } from "../type/Product"
+import { ICreateProduct } from "../type/Product"
 import { productFields } from "../utilities/formFields"
 import { createNewProduct, updateProduct } from "../redux/methods/productMethods"
 import ErrorMessage from "../components/ErrorMessage"
@@ -18,6 +18,7 @@ const ProductForm = () => {
     const products = useAppSelector((state) => state.products)
     const {id} = useParams()
     const [productName, setProductName] = useState('')
+    const [idValid, setIdValid] = useState(false)
     const formFields = productFields
     const isNotAdmin = authInfo.userInfo?.role.toLowerCase() !== 'admin'
     const navigate =  useNavigate()
@@ -40,6 +41,7 @@ const ProductForm = () => {
         if(Number(id) > 0) {
             const getProduct = products.find(product => product.id === Number(id))
             if(getProduct) {
+                setIdValid(true)
                 const getCategory = categories.findIndex(category => category.id === getProduct.category.id)
                 setProductName(getProduct.title)
                 setValue('categoryId', getProduct.category.id, {shouldValidate: true})
@@ -48,6 +50,8 @@ const ProductForm = () => {
                 setValue('price',getProduct.price)
                 const imageToString = getProduct.images.toString()
                 setValue('images',imageToString)
+            } else {
+                setIdValid(false)
             }
         }
     },[])
@@ -99,6 +103,15 @@ const ProductForm = () => {
                 )
                 :
                 (
+                    Number(id) > 0 && !idValid ?
+                    (
+                        <ErrorMessage
+                            title={"404 Not Found"}
+                            message={"The provided categoryID is not found in our database."}
+                        />
+
+                    )
+                    :
                     <Grid
                         container
                         spacing={0}

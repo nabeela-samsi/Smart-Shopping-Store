@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-import { Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
+import { IconButton, InputAdornment, TextField } from "@mui/material"
 import { Cart, MenuBar, Wishlist } from "./NavItems";
 
 import getIcons from "../utilities/getIcon";
@@ -77,9 +77,9 @@ export const NavigationBar = () => {
                 userId={(userInfo) ? userInfo.id : 0}
             />
             <Link to={"/products"} style={{textDecoration: "none", textDecorationColor:"none"}}>
-                <Button variant="contained">
+                <IconButton>
                     Products
-                </Button>
+                </IconButton>
             </Link>
             <Link to={loggedIn ? "/cart" : "/login"}>
                 <Cart

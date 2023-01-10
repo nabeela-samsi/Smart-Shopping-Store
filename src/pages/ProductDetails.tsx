@@ -74,12 +74,16 @@ const ProductDetails = () => {
                                 {productDetails.title}
                                 {isAdmin && (
                                     <>
-                                        <IconButton>
-                                            {getIcons.edit}
-                                        </IconButton>
-                                        <IconButton>
-                                            {getIcons.trash}
-                                        </IconButton>
+                                        <Link to={`/product/edit/${productDetails.id}`} style={{textDecoration: "none"}}>
+                                            <IconButton>
+                                                {getIcons.edit}
+                                            </IconButton>
+                                        </Link>
+                                        <Link to={`/product/delete/${productDetails.id}`} style={{textDecoration: "none"}} state={{title:productDetails.title}}>
+                                            <IconButton>
+                                                {getIcons.trash}
+                                            </IconButton>
+                                        </Link>
                                     </>
                             )}
                             </Typography>
