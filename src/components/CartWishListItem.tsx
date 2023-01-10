@@ -1,9 +1,8 @@
 import { Link, useLocation } from "react-router-dom"
-import { useDispatch } from "react-redux";
 
 import { Box, Button, ButtonGroup, Typography } from "@mui/material"
 
-import { useAppSelector } from "../hooks/reduxHook";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 
 import { addToCart, removeFromCart } from "../redux/reducers/cartReducers";
 import { removeFromWishList } from "../redux/reducers/wishListReducers";
@@ -14,7 +13,7 @@ import getIcons from "../utilities/getIcon";
 const CartWishListItem = (props: IProduct) => {
     const { pathname } = useLocation()
     const isCart = (pathname === '/cart')
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const { userInfo } = useAppSelector(state => state.auth)
     const products = useAppSelector(state => state.products)
     const getProduct = products.find(product => product.id === props.id)

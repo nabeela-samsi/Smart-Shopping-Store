@@ -2,16 +2,15 @@ import { useEffect, useState } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 
 import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"
-import { useDispatch } from "react-redux"
 
 import ButtonHandle from "../components/ButtonHandle"
 import { deleteProduct } from "../redux/methods/productMethods"
 import { deletecategory } from "../redux/methods/categoryMethods"
-import { useAppSelector } from "../hooks/reduxHook"
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import ErrorMessage from "../components/ErrorMessage"
 
 const DeleteAction = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const {id} = useParams()
     const navigate = useNavigate()
     const {pathname, state} = useLocation()
