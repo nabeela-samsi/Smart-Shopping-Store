@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router-dom"
 import { ThemeProvider } from "@mui/material"
 
 import "./compiled/styles.css"
-import { appTheme } from "./MUi Styles/appTheme"
+import { appTheme } from "./muistyles/appTheme"
 
 const App = () => {
   return (

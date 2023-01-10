@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import getIcons from "../utilities/getIcon";
 import { IUserInfo } from "../type/CartWishList";
 import { IMenuBar } from "../type/MenuBar";
-import { StyledBadge } from "../MUi Styles/StyledBadge";
+import { StyledBadge } from "../muistyles/StyledBadge";
 
 export const MenuBar = (props: IMenuBar) => {
     const {loggedIn, isAdmin, userName, userImage, userId} = props
