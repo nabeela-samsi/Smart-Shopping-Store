@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login, userlogout } from "../methods/authMethods";
 import { IAuth, } from "../../type/Auth";
-import { AxiosError } from "axios";
 
 const initialState: IAuth = {
     loggedIn: false,
