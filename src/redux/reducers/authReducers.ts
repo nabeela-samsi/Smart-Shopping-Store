@@ -27,7 +27,6 @@ export const authSlice = createSlice({
                     return state
                 }
                 if( action.payload && "id" in action.payload) {
-                    console.log("there is no error")
                     const {id, email, password, name, role, avatar} = action.payload
                     const userData = {
                         id,

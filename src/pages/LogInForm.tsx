@@ -55,7 +55,7 @@ const LogInForm = () => {
             }
             await dispatch(login(credentials))
         }catch(e) {
-            console.log(e)
+            return e
         }
     }
 

@@ -1,8 +1,8 @@
 const allProducts = [
     {
         id: 1,
-        title: "Handmade Steel Shirt",
-        price: 491,
+        title: "Jacket",
+        price: 1000,
         description: "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
         category: {
         id: 1,
@@ -17,8 +17,8 @@ const allProducts = [
     },
     {
         id: 2,
-        title: "Handmade Steel Shirt2",
-        price: 491,
+        title: "shirt",
+        price: 1,
         description: "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
         category: {
         id: 2,
@@ -34,7 +34,7 @@ const allProducts = [
     {
         id: 3,
         title: "Handmade Steel Shirt3",
-        price: 491,
+        price: 20,
         description: "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
         category: {
         id: 1,

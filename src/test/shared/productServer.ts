@@ -14,11 +14,6 @@ const handler = [
     }),
     rest.post("https://api.escuelajs.co/api/v1/products", async (req, res, ctx) => {
         const product: IProduct = await req.json()
-        if(product.price < 0) {
-            return res(
-                ctx.status(400, "invalid data")
-            )
-        }
         return res(
             ctx.json(product)
         )

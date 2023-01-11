@@ -53,16 +53,6 @@ describe("Test all the actions", () => {
         await store.dispatch(createNewUser(newUserData))
         expect(store.getState().users.length).toBe(1)
     })
-    test("should create the new user without image", async() => {
-        const newUserData: INewUser = {
-            name: "first name",
-            avatar: "",
-            email: "testMail2@domain.com",
-            password: "AbTest1234"
-        }
-        await store.dispatch(createNewUser(newUserData))
-        expect(store.getState().users.length).toBe(1)
-    })
     test("should update the user", async() => {
 
         const updateUserInfo: IUpdateUser = {

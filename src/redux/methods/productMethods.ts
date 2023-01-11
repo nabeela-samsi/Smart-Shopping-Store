@@ -3,8 +3,6 @@ import { PayloadAction, createAsyncThunk } from "@reduxjs/toolkit"
 import { ICreateProduct, IProduct, IUpdateProduct} from "../../type/Product"
 import axiosInstance from "../../common/axiosInstance"
 import { AxiosError } from "axios"
-import { ICategory } from "../../type/Category"
-import { Action } from "@remix-run/router"
 
 export const getAllProducts = createAsyncThunk(
     "getAllProducts",
