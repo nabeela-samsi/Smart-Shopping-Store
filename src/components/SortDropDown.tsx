@@ -1,4 +1,4 @@
-import { InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material"
+import { InputLabel, MenuItem, Select } from "@mui/material"
 import { Stack } from "@mui/system"
 
 import { ISortDropDown } from "../type/SortDropDown"

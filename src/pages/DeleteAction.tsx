@@ -30,7 +30,8 @@ const DeleteAction = () => {
             const checkCategoryId = categories.some(category => category.id === Number(id))
             setIdValid(checkCategoryId)
         }
-    },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[ id, pathname])
 
     const handleOpenAction = () => {
         setOpenDialog(!openDialog)

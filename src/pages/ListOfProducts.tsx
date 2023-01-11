@@ -53,7 +53,8 @@ const ListOfProducts = () => {
             setNoDataMsg("Sorry, no results found!. Please check the spelling or try something else")
         }
         setfilteredProducts(dataFiltering)
-    }, [categoryId, productName, products, filteredProducts])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [categoryId, productName, products])
 
     const handleSortingAction = (e: SelectChangeEvent) => {
         e.preventDefault()

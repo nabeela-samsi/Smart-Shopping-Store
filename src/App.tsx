@@ -1,7 +1,7 @@
 import router from "./router/router"
 import { RouterProvider } from "react-router-dom"
 
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material"
+import { CssBaseline, ThemeProvider } from "@mui/material"
 
 import "./compiled/styles.css"
 

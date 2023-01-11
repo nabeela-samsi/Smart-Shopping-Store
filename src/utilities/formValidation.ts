@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import { ICategory } from '../type/Category';
 
 export const signUpValidationSchema = yup.object(
     {

@@ -4,7 +4,13 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Box } from "@mui/system"
-import { Button, Grid, InputAdornment, MenuItem, NativeSelect, TextField, TextareaAutosize, Typography } from "@mui/material"
+import {
+    Button,
+    Grid,
+    InputAdornment,
+    TextField,
+    Typography
+} from "@mui/material"
 import { AxiosError } from "axios"
 
 import { productValidationSchema } from "../utilities/formValidation"
@@ -43,8 +49,6 @@ const ProductForm = () => {
             const getProduct = products.find(product => product.id === Number(id))
             if(getProduct) {
                 setIdValid(true)
-                const getCategory = categories.findIndex(category => category.id === getProduct.category.id)
-
                 setProductName(getProduct.title)
                 setValue('categoryId', getProduct.category.id, {shouldValidate: true})
                 setValue('title',getProduct.title)
@@ -56,6 +60,7 @@ const ProductForm = () => {
                 setIdValid(false)
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[id])
     const onSubmitAction = async(data: ICreateProduct) => {
         try{
@@ -88,10 +93,12 @@ const ProductForm = () => {
             }
         } catch(e) {
             const error = e instanceof AxiosError
-            setFormError({
-                error: true,
-                errorMessage: "Something went wrong please try again"
-            });
+            if(error) {
+                setFormError({
+                    error: true,
+                    errorMessage: "Something went wrong please try again"
+                });
+            }
         }
     }
     return (

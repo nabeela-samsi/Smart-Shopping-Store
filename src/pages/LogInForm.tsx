@@ -33,7 +33,8 @@ const LogInForm = () => {
     useEffect(() => {
         if(authInfo.loggedIn && !authInfo.error)
             navigate('/')
-    }, [authInfo.loggedIn])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authInfo.loggedIn, authInfo.error])
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {

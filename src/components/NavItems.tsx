@@ -13,7 +13,7 @@ import { IMenuBar } from "../type/MenuBar";
 import { switchTheme } from "../redux/reducers/themeReducers";
 
 export const MenuBar = (props: IMenuBar) => {
-    const { loggedIn, isAdmin, userName, userImage, userId } = props
+    const { loggedIn, isAdmin, userName, userImage } = props
     const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
