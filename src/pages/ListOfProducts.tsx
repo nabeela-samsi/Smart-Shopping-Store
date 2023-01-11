@@ -8,17 +8,21 @@ import {
     Grid,
     IconButton,
     Pagination,
+    SelectChangeEvent,
     Typography
 } from "@mui/material"
 
-import { useAppSelector} from "../hooks/reduxHook"
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import { usePagination } from "../hooks/usePagination"
 import { IProduct } from "../type/Product"
 import getIcons from "../utilities/getIcon"
 import ErrorMessage from "../components/ErrorMessage"
+import { sortProduct } from "../redux/reducers/productReducer"
+import SortDropDown from "../components/SortDropDown"
 
 const ListOfProducts = () => {
-    const {userInfo} = useAppSelector(state => state.auth)
+    const dispatch = useAppDispatch()
+    const { userInfo } = useAppSelector(state => state.auth)
     const categories = useAppSelector(state => state.categories)
     const products = useAppSelector(state => state.products)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
@@ -27,6 +31,7 @@ const ListOfProducts = () => {
     const productName = new URLSearchParams(getLocation).get("name")
     const [currentPage, setCurrentPage] = useState(1)
     const [filteredProducts, setfilteredProducts] = useState<IProduct[]>([])
+    const [sortValue, setSortValue] = useState('')
     const pageLimit = 12
     const pagecount = Math.ceil(filteredProducts.length / pageLimit)
     const productsPagination = usePagination(filteredProducts, pageLimit)
@@ -38,24 +43,36 @@ const ListOfProducts = () => {
         productsPagination.jumpToPage(p)
     }
 
-    useEffect (() => {
+    useEffect(() => {
         let dataFiltering = products
-        if(Number(categoryId) > 0) {
+        if (Number(categoryId) > 0) {
             dataFiltering = products.filter(product => product.category.id === Number(categoryId))
             setNoDataMsg(`Sorry, the admin forgot to add products for this category. Please do come later. Thank you`)
-        } else if(productName) {
+        } else if (productName) {
             dataFiltering = products.filter(product => product.title.toLowerCase().includes(productName.toLowerCase()))
             setNoDataMsg("Sorry, no results found!. Please check the spelling or try something else")
         }
         setfilteredProducts(dataFiltering)
-    },[categoryId, productName, products])
+    }, [categoryId, productName, products, filteredProducts])
+
+    const handleSortingAction = (e: SelectChangeEvent) => {
+        e.preventDefault()
+        const { target } = e
+        setSortValue(target.value)
+        dispatch(sortProduct({ type: target.value }))
+    }
+
     return (
         <>
             {filteredProducts.length > 0 ?
                 <>
+                    <SortDropDown
+                        sortValue={sortValue}
+                        handleSortingAction={handleSortingAction}
+                    />
                     <Pagination
                         className="pagination"
-                        count = {pagecount}
+                        count={pagecount}
                         size="large"
                         page={currentPage}
                         variant="outlined"
@@ -66,7 +83,7 @@ const ListOfProducts = () => {
                         container
                         spacing={4}
                         direction="row"
-                        sx={{pr:10, pl:10}}
+                        sx={{ pr: 10, pl: 10 }}
                     >
                         {productsPagination.currentPageData().map((data) => (
                             <Grid
@@ -76,7 +93,7 @@ const ListOfProducts = () => {
                             >
                                 <Link
                                     to={`/product/${data.id}`}
-                                    style={{textDecoration: 'none'}}
+                                    style={{ textDecoration: 'none' }}
                                 >
                                     <Card variant="outlined">
                                         <CardActionArea>
@@ -85,7 +102,7 @@ const ListOfProducts = () => {
                                                 image={data.images[0]}
                                                 alt={data.title}
                                                 height="300"
-                                                style={{objectFit:"scale-down"}}
+                                                style={{ objectFit: "scale-down" }}
                                             />
                                             <CardContent>
                                                 <Typography fontWeight={"bold"} noWrap={true}>
@@ -103,23 +120,23 @@ const ListOfProducts = () => {
                                 </Link>
                                 {isAdmin && (
                                     <>
-                                        <Link to={`/product/edit/${data.id}`} style={{textDecoration: "none"}}>
+                                        <Link to={`/product/edit/${data.id}`} style={{ textDecoration: "none" }}>
                                             <IconButton>
                                                 {getIcons.edit}
                                             </IconButton>
                                         </Link>
-                                        <Link to={`/product/delete/${data.id}`} style={{textDecoration: "none"}} state={{title:data.title}}>
+                                        <Link to={`/product/delete/${data.id}`} style={{ textDecoration: "none" }} state={{ title: data.title }}>
                                             <IconButton>
                                                 {getIcons.trash}
                                             </IconButton>
                                         </Link>
                                     </>
-                        )}
+                                )}
                             </Grid>
                         ))}
                     </Grid>
                     <Pagination
-                        count = {pagecount}
+                        count={pagecount}
                         size="large"
                         page={currentPage}
                         variant="outlined"
@@ -127,20 +144,20 @@ const ListOfProducts = () => {
                         onChange={handlePagechange}
                     />
                 </>
-            :
-                isIdValid ?
-                (
-                    <Typography variant="h5" textAlign={"center"} pt={10} pb={10}>
-                        {noDataMsg}
-                    </Typography>
-                )
                 :
-                (
-                    <ErrorMessage
-                        title={"404 Not Found"}
-                        message={"The provided categoryID is not found in our database."}
-                    />
-                )
+                isIdValid ?
+                    (
+                        <Typography variant="h5" textAlign={"center"} pt={10} pb={10}>
+                            {noDataMsg}
+                        </Typography>
+                    )
+                    :
+                    (
+                        <ErrorMessage
+                            title={"404 Not Found"}
+                            message={"Sorry no data present in our database."}
+                        />
+                    )
 
             }
         </>

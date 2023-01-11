@@ -35,7 +35,6 @@ const UserProfile = () => {
                        <br/>
                        {formFields.map((field) => {
                             const uniqueKey = v4()
-                            console.log(uniqueKey)
                             return (
                                 <>
                                     <TextField

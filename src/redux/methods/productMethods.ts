@@ -3,6 +3,8 @@ import { PayloadAction, createAsyncThunk } from "@reduxjs/toolkit"
 import { ICreateProduct, IProduct, IUpdateProduct} from "../../type/Product"
 import axiosInstance from "../../common/axiosInstance"
 import { AxiosError } from "axios"
+import { ICategory } from "../../type/Category"
+import { Action } from "@remix-run/router"
 
 export const getAllProducts = createAsyncThunk(
     "getAllProducts",
@@ -59,3 +61,20 @@ export const deleteProduct = createAsyncThunk(
     }
 )
 
+export const productsort = (
+    state:IProduct[],
+    action:PayloadAction<{type: string}>
+) => {
+    switch (action.payload.type) {
+        case 'LOW_TO_HIGH_PRICE':
+            return [...state].sort((a,b) => (a.price > b.price ? 1: -1))
+        case 'HIGH_TO_LOW_PRICE':
+            return [...state].sort((a,b) => (a.price > b.price ? -1: 1))
+        case 'A-Z':
+            return [...state].sort((a,b) => (a.title.toLowerCase() > b.title.toLowerCase() ? 1: -1))
+        case 'Z-A':
+            return [...state].sort((a,b) => (a.title.toLowerCase() > b.title.toLowerCase() ? -1: 1))
+        default:
+            return state
+    }
+}

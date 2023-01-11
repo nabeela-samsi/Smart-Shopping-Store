@@ -74,7 +74,6 @@ describe("Test all the actions", () => {
         }
         await store.dispatch(getAllUsers())
         await store.dispatch(updateUser(updateUserInfo))
-        console.log(store.getState().users)
         expect(store.getState().users[0].email).toBe("mariaTest@mail.com")
     })
 

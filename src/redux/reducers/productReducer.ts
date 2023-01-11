@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { createNewProduct, deleteProduct, getAllProducts, updateProduct } from "../methods/productMethods";
+import { createNewProduct, deleteProduct, getAllProducts, productsort, updateProduct } from "../methods/productMethods";
 import { IProduct } from "../../type/Product";
 import { AxiosError } from "axios";
 
@@ -10,6 +10,7 @@ export const productSlice = createSlice({
     name: 'productSlice',
     initialState,
     reducers: {
+        sortProduct: productsort
     },
     extraReducers: (builder) => {
         builder
@@ -24,7 +25,6 @@ export const productSlice = createSlice({
                 if(action.payload instanceof AxiosError) {
                     return state
                 } else {
-                    console.log(action.payload)
                     return [...state, action.payload]
                 }
             })
@@ -53,4 +53,5 @@ export const productSlice = createSlice({
 })
 
 const productReducer = productSlice.reducer
+export const {sortProduct} = productSlice.actions
 export default productReducer
