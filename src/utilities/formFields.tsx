@@ -3,17 +3,17 @@ import getIcons from "./getIcon"
 export const loginFields = [
     {
         label: "Email Address",
-        registerValue: 'email' as 'email' |'password',
+        registerValue: 'email' as 'email' | 'password',
         placeholder: "john@domain.com",
         type: "email",
         displayIcon: getIcons.email
     },
     {
         label: "Password",
-        registerValue: 'password' as 'email' |'password',
+        registerValue: 'password' as 'email' | 'password',
         placeholder: "*********",
         type: "password",
-        displayPassword : getIcons.showPassword,
+        displayPassword: getIcons.showPassword,
         hidePassword: getIcons.hidePassword
     }
 ]
@@ -21,34 +21,34 @@ export const loginFields = [
 export const userFields = [
     {
         label: "Your Name",
-        registerValue: 'name' as 'email' |'password' | 'name' | 'avatar' | 'confirmPassword',
+        registerValue: 'name' as 'email' | 'password' | 'name' | 'avatar' | 'confirmPassword',
         placeholder: "First and Last name",
         type: "text",
         displayIcon: getIcons.user
     },
     {
         label: "Profile Image",
-        registerValue: 'avatar' as 'email' |'password' | 'name' | 'avatar' | 'confirmPassword',
+        registerValue: 'avatar' as 'email' | 'password' | 'name' | 'avatar' | 'confirmPassword',
         placeholder: "https://profileImage",
         type: "url",
         displayIcon: getIcons.photo
     },
     {
         label: "Email Address",
-        registerValue: 'email' as 'email' |'password' | 'name' | 'avatar' | 'confirmPassword',
+        registerValue: 'email' as 'email' | 'password' | 'name' | 'avatar' | 'confirmPassword',
         placeholder: "john@domain.com",
         type: "email",
         displayIcon: getIcons.email
     },
     {
         label: "Password",
-        registerValue: 'password' as 'email' |'password' | 'name' | 'avatar' | 'confirmPassword',
+        registerValue: 'password' as 'email' | 'password' | 'name' | 'avatar' | 'confirmPassword',
         placeholder: "*********",
         type: "password"
     },
     {
         label: "Confirm Password",
-        registerValue: 'confirmPassword' as 'email' |'password' | 'name' | 'avatar' | 'confirmPassword',
+        registerValue: 'confirmPassword' as 'email' | 'password' | 'name' | 'avatar' | 'confirmPassword',
         placeholder: "*********",
         type: "password"
     }
@@ -86,12 +86,12 @@ export const productFields = [
         label: "Select Category",
         registerValue: 'categoryId' as 'title' | 'description' | 'categoryId' | 'price' | 'images',
         placeholder: "",
-        type:"select"
+        type: "select"
     }, {
         label: "Price",
         registerValue: 'price' as 'title' | 'description' | 'categoryId' | 'price' | 'images',
         placeholder: "",
-        type:"number",
+        type: "number",
         displayIcon: getIcons.euro
     }, {
         label: "Product Image(s)",

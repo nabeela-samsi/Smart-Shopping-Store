@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-
 import {
     Card,
     CardActionArea,
@@ -9,7 +8,6 @@ import {
     IconButton,
     Typography
 } from "@mui/material"
-
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import getIcons from "../utilities/getIcon"
 import { useEffect } from "react"
@@ -17,14 +15,12 @@ import { getAllCategories } from "../redux/methods/categoryMethods"
 
 const Home = () => {
     const categories = useAppSelector(state => state.categories)
-    const {userInfo} = useAppSelector(state => state.auth)
+    const { userInfo } = useAppSelector(state => state.auth)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
     const dispatch = useAppDispatch()
-
     useEffect(() => {
         dispatch(getAllCategories())
-    },[dispatch])
-
+    }, [dispatch])
     return (
         <div className="home">
             <Grid
@@ -42,7 +38,7 @@ const Home = () => {
                 container
                 spacing={4}
                 direction="row"
-                sx={{p:10}}
+                sx={{ p: 10 }}
             >
                 {categories.map((data) => (
                     <Grid
@@ -52,34 +48,34 @@ const Home = () => {
                     >
                         <Link
                             to={`/products/searchByCategory?id=${data.id}`}
-                            style={{textDecoration: 'none'}}
+                            style={{ textDecoration: 'none' }}
                             color="black"
                         >
                             <Card variant="elevation" >
                                 <CardActionArea>
-                                        <CardContent>
-                                            <Typography fontWeight={"bold"} >
-                                                {data.name}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardMedia
-                                            component={"img"}
-                                            image={data.image}
-                                            alt={data.name}
-                                            height="300"
-                                            style={{objectFit:"scale-down"}}
-                                        />
+                                    <CardContent>
+                                        <Typography fontWeight={"bold"} >
+                                            {data.name}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardMedia
+                                        component={"img"}
+                                        image={data.image}
+                                        alt={data.name}
+                                        height="300"
+                                        style={{ objectFit: "scale-down" }}
+                                    />
                                 </CardActionArea>
                             </Card>
                         </Link>
                         {isAdmin && (
                             <>
-                                <Link to={`/category/edit/${data.id}`} style={{textDecoration: "none"}}>
+                                <Link to={`/category/edit/${data.id}`} style={{ textDecoration: "none" }}>
                                     <IconButton>
                                         {getIcons.edit}
                                     </IconButton>
                                 </Link>
-                                <Link to={`/category/delete/${data.id}`} style={{textDecoration: "none"}} state={{title: data.name}}>
+                                <Link to={`/category/delete/${data.id}`} style={{ textDecoration: "none" }} state={{ title: data.name }}>
                                     <IconButton>
                                         {getIcons.trash}
                                     </IconButton>

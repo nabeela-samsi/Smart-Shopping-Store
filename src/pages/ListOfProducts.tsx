@@ -11,7 +11,6 @@ import {
     SelectChangeEvent,
     Typography
 } from "@mui/material"
-
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook"
 import { usePagination } from "../hooks/usePagination"
 import { IProduct } from "../type/Product"
@@ -37,12 +36,10 @@ const ListOfProducts = () => {
     const productsPagination = usePagination(filteredProducts, pageLimit)
     const [noDataMsg, setNoDataMsg] = useState('')
     const isIdValid = Number(categoryId) > 0 ? categories.some(category => category.id === Number(categoryId)) : false
-
     const handlePagechange = (_: ChangeEvent<unknown>, p: number) => {
         setCurrentPage(p);
         productsPagination.jumpToPage(p)
     }
-
     useEffect(() => {
         let dataFiltering = products
         if (Number(categoryId) > 0) {
@@ -53,16 +50,14 @@ const ListOfProducts = () => {
             setNoDataMsg("Sorry, no results found!. Please check the spelling or try something else")
         }
         setfilteredProducts(dataFiltering)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoryId, productName, products])
-
     const handleSortingAction = (e: SelectChangeEvent) => {
         e.preventDefault()
         const { target } = e
         setSortValue(target.value)
         dispatch(sortProduct({ type: target.value }))
     }
-
     return (
         <>
             {filteredProducts.length > 0 ?

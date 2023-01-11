@@ -37,10 +37,7 @@ export const login = createAsyncThunk(
             if(error.response?.status === 401) {
                 errorMsg = "Email or Password are incorrect"
             }
-            return {
-                error: true,
-                errorMsg
-            }
+            return {...error, message: errorMsg}
         }
     }
 )

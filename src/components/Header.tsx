@@ -1,30 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { Stack } from '@mui/system';
-
 import { useAppDispatch } from '../hooks/reduxHook';
 import { getAllProducts } from '../redux/methods/productMethods';
 import { Logo, SearchBar, NavigationBar } from './HeaderItems';
 
 const Header = () => {
     const dispatch = useAppDispatch()
-    // const {isDarkTheme, toggleTheme} = useContext(ThemeContext)
-    const {pathname} = useLocation()
+    const { pathname } = useLocation()
     const [isForm, setIsForm] = useState(false)
-
     useEffect(() => {
-        if(pathname.includes("login") || pathname.includes("signup") || pathname.includes("userprofile")){
+        if (pathname.includes("login") || pathname.includes("signup") || pathname.includes("userprofile")) {
             setIsForm(true)
         } else {
             setIsForm(false)
         }
-    },[pathname])
-
+    }, [pathname])
     useEffect(() => {
         dispatch(getAllProducts())
-    },[dispatch])
-
+    }, [dispatch])
     return (
         <header >
             <Stack
@@ -34,7 +28,7 @@ const Header = () => {
                 justifyContent={"center"}
                 padding={1}
             >
-                {   isForm
+                {isForm
                     ?
                     <Logo />
                     :

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 import {
     Box,
     Button,
@@ -11,12 +10,9 @@ import {
     TextField,
     Typography
 } from "@mui/material"
-
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-
 import { login } from "../redux/methods/authMethods";
-
 import { ICredentials } from "../type/Auth";
 import { loginValidationSchema } from "../utilities/formValidation";
 import getIcons from "../utilities/getIcon";
@@ -25,17 +21,15 @@ import ErrorMessage from "../components/ErrorMessage";
 
 const LogInForm = () => {
     const formFields = loginFields
-    const authInfo = useAppSelector((state) =>  state.auth)
-    const navigate =  useNavigate()
+    const authInfo = useAppSelector((state) => state.auth)
+    const navigate = useNavigate()
     const [showPassword, setPasswordVisibilty] = useState(false)
     const dispatch = useAppDispatch()
-
     useEffect(() => {
-        if(authInfo.loggedIn && !authInfo.error)
+        if (authInfo.loggedIn && !authInfo.error)
             navigate('/')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authInfo.loggedIn, authInfo.error])
-
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: "",
@@ -43,23 +37,20 @@ const LogInForm = () => {
         },
         resolver: yupResolver(loginValidationSchema)
     })
-
     const handlePasswordVisibility = () => {
         setPasswordVisibilty(!showPassword)
     }
-
-    const onSubmitAction = async(data: ICredentials) => {
-        try{
+    const onSubmitAction = async (data: ICredentials) => {
+        try {
             const credentials = {
                 email: data.email,
                 password: data.password,
             }
             await dispatch(login(credentials))
-        }catch(e) {
+        } catch (e) {
             return e
         }
     }
-
     return (
         <>
             {authInfo.loggedIn ?
@@ -117,14 +108,14 @@ const LogInForm = () => {
                                                     <InputAdornment position="end">
                                                         {
                                                             ("hidePassword" in field) ?
-                                                            (
-                                                                <IconButton
-                                                                    onClick={handlePasswordVisibility}
-                                                                >
-                                                                {showPassword ? field.displayPassword : field.hidePassword}
-                                                                </IconButton>
-                                                            ) :
-                                                            field.displayIcon
+                                                                (
+                                                                    <IconButton
+                                                                        onClick={handlePasswordVisibility}
+                                                                    >
+                                                                        {showPassword ? field.displayPassword : field.hidePassword}
+                                                                    </IconButton>
+                                                                ) :
+                                                                field.displayIcon
                                                         }
                                                     </InputAdornment>
                                                 )
@@ -143,7 +134,7 @@ const LogInForm = () => {
                                 >
                                     Log In
                                 </Button>
-                                <Typography component="span" display={"flex"} alignContent="center" justifyContent={"center"} sx={{m:3}} >
+                                <Typography component="span" display={"flex"} alignContent="center" justifyContent={"center"} sx={{ m: 3 }} >
                                     New to Smart Shopping? &nbsp; <Link to="/signup"> create an account </Link>
                                 </Typography>
                             </Box>

@@ -1,9 +1,6 @@
 import { Link, useLocation } from "react-router-dom"
-
 import { Box, Button, ButtonGroup, Typography } from "@mui/material"
-
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
-
 import { addToCart, removeFromCart } from "../redux/reducers/cartReducers";
 import { removeFromWishList } from "../redux/reducers/wishListReducers";
 import ButtonHandle from "./ButtonHandle";
@@ -17,7 +14,6 @@ const CartWishListItem = (props: IProduct) => {
     const { userInfo } = useAppSelector(state => state.auth)
     const products = useAppSelector(state => state.products)
     const getProduct = products.find(product => product.id === props.id)
-
     const cartRemoveAction = () => {
         if (userInfo) {
             dispatch(removeFromCart({
@@ -27,7 +23,6 @@ const CartWishListItem = (props: IProduct) => {
             }))
         }
     }
-
     const cartAddAction = () => {
         if (userInfo) {
             dispatch(addToCart({
@@ -40,7 +35,6 @@ const CartWishListItem = (props: IProduct) => {
             }
         }
     }
-
     const wishListRemove = () => {
         if (userInfo) {
             dispatch(removeFromWishList({
@@ -50,7 +44,6 @@ const CartWishListItem = (props: IProduct) => {
             }))
         }
     }
-
     return (
         <Box
             component={"div"}
@@ -113,7 +106,7 @@ const CartWishListItem = (props: IProduct) => {
                         &emsp;
                         &emsp;
                         <ButtonHandle
-                            color={"inherit"}
+                            color={"secondary"}
                             handleToggle={wishListRemove}
                             buttonLabel={"Remove From Wishlist"}
                         />

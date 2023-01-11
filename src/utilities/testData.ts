@@ -5,14 +5,14 @@ const allProducts = [
         price: 1000,
         description: "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
         category: {
-        id: 1,
-        name: "Shoes",
-        image: "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
+            id: 1,
+            name: "Shoes",
+            image: "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
         },
         images: [
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
         ]
     },
     {
@@ -21,14 +21,14 @@ const allProducts = [
         price: 1,
         description: "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
         category: {
-        id: 2,
-        name: "Shoes",
-        image: "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
+            id: 2,
+            name: "Shoes",
+            image: "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
         },
         images: [
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
         ]
     },
     {
@@ -37,14 +37,14 @@ const allProducts = [
         price: 20,
         description: "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
         category: {
-        id: 1,
-        name: "Shoes",
-        image: "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
+            id: 1,
+            name: "Shoes",
+            image: "https://api.lorem.space/image/shoes?w=640&h=480&r=8827"
         },
         images: [
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
-        "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=1877",
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=312",
+            "https://api.lorem.space/image/shoes?w=640&h=480&r=5418"
         ]
     }
 ]
@@ -101,5 +101,5 @@ const allUsers = [
     }
 ]
 
-const testData ={ allProducts, allCategories, allUsers}
+const testData = { allProducts, allCategories, allUsers }
 export default testData

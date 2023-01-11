@@ -1,11 +1,10 @@
 import { InputLabel, MenuItem, Select } from "@mui/material"
 import { Stack } from "@mui/system"
-
 import { ISortDropDown } from "../type/SortDropDown"
 
-const SortDropDown = (props:ISortDropDown) => {
+const SortDropDown = (props: ISortDropDown) => {
     return (
-       <Stack
+        <Stack
             alignItems={"flex-start"}
             paddingLeft={10}
             paddingTop={5}
@@ -15,7 +14,7 @@ const SortDropDown = (props:ISortDropDown) => {
                 labelId={"sort-by"}
                 value={props.sortValue}
                 onChange={props.handleSortingAction}
-                sx={{width:"20vw"}}
+                sx={{ width: "20vw" }}
             >
                 <MenuItem value={"LOW_TO_HIGH_PRICE"}>
                     price low to high
@@ -30,7 +29,7 @@ const SortDropDown = (props:ISortDropDown) => {
                     name Z-A
                 </MenuItem>
             </Select>
-       </Stack>
+        </Stack>
     )
 }
 

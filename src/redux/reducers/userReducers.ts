@@ -13,26 +13,24 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllUsers.fulfilled, (state, action) => {
-                if(action.payload instanceof AxiosError) {
+                if (action.payload instanceof AxiosError) {
                     return state
                 } else {
                     return action.payload
                 }
             })
             .addCase(createNewUser.fulfilled, (state, action) => {
-                if(action.payload instanceof AxiosError) {
+                if (action.payload instanceof AxiosError) {
                     return state
                 } else {
                     return [...state, action.payload]
                 }
             })
             .addCase(updateUser.fulfilled, (state, action) => {
-                if(action.payload instanceof AxiosError) {
+                if (action.payload instanceof AxiosError) {
                     return state
                 } else {
-                    const modifyState = [...state]
-                    const result = modifyState.map(user => user.id === action.payload.id ? action.payload : user)
-                    return result
+                    return state.map(user => user.id === action.payload.id ? action.payload : user)
                 }
             })
     }

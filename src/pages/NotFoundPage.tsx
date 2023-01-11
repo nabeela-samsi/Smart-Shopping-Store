@@ -10,7 +10,7 @@ const NotFound = () => {
             alignItems={"center"}
         >
             {getIcons.notFound}
-            <Typography variant={"h4"} sx={{mb:10}}>404: Page Not Found.</Typography>
+            <Typography variant={"h4"} sx={{ mb: 10 }}>404: Page Not Found.</Typography>
         </Box>
     )
 }

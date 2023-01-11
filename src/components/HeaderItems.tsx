@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-
 import { IconButton, InputAdornment, TextField } from "@mui/material"
 import { Stack } from "@mui/system";
-
 import { Cart, MenuBar, ModeToggle, Wishlist } from "./NavItems";
-
 import getIcons from "../utilities/getIcon";
 import { useAppSelector } from "../hooks/reduxHook";
 import { IUser } from "../type/User";
@@ -25,20 +22,17 @@ export const SearchBar = () => {
     const navigate = useNavigate()
     const getLocation = useLocation().search
     let navigateURL = `/products/searchByProductName?name=${inputValue}`
-
     useEffect(() => {
         const productName = new URLSearchParams(getLocation).get("name")
         if (productName && productName.trim().length > 0) {
             setInputValue(productName)
         }
     }, [getLocation])
-
     const handleOnKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter') {
             navigate(navigateURL)
         }
     }
-
     return (
         <div className="header__query">
             <TextField

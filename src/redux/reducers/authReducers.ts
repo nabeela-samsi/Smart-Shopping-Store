@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 import { login, userlogout } from "../methods/authMethods";
 import { IAuth, } from "../../type/Auth";
+import { AxiosError } from "axios";
 
 const initialState: IAuth = {
     loggedIn: false,
@@ -19,9 +19,9 @@ export const authSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(login.fulfilled, (state, action) => {
-                if(action.payload && "error" in action.payload) {
-                    state.error = action.payload.error
-                    state.errorMsg = action.payload.errorMsg
+                if(action.payload && "message" in action.payload) {
+                    state.error = true
+                    state.errorMsg = action.payload.message
                     state.loggedIn = false
                     state.userInfo = null
                     return state

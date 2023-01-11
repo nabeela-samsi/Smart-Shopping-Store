@@ -23,7 +23,7 @@ const gitHub = (
 )
 
 const linkedIn = (
-    <LinkedIn color="info" fontSize="medium"/>
+    <LinkedIn color="info" fontSize="medium" />
 )
 
 const email = (
@@ -51,11 +51,11 @@ const photo = (
 )
 
 const remove = (
-    <RemoveIcon fontSize="small"/>
+    <RemoveIcon fontSize="small" />
 )
 
 const add = (
-    <AddIcon fontSize="small"/>
+    <AddIcon fontSize="small" />
 )
 
 const search = (
@@ -71,11 +71,11 @@ const wishList = (
 )
 
 const notFound = (
-    <NotInterestedOutlinedIcon color="error" style={{fontSize: "15vw"}}/>
+    <NotInterestedOutlinedIcon color="error" style={{ fontSize: "15vw" }} />
 )
 
 const arrowBack = (
-    <ArrowBackIcon fontSize="large" sx={{mt:2,mb:2}} />
+    <ArrowBackIcon fontSize="large" sx={{ mt: 2, mb: 2 }} />
 )
 
 const arrowLeft = (

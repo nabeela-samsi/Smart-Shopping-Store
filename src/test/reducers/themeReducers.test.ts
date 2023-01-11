@@ -1,7 +1,6 @@
 import { AnyAction, EmptyObject} from "@reduxjs/toolkit"
 import type {} from 'redux-thunk/extend-redux';
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore"
-
 import { createStore } from "../../redux/store"
 import server from "../shared/server"
 import { PersistPartial } from "redux-persist/es/persistReducer"
@@ -36,11 +35,9 @@ beforeEach(() => {
 })
 
 describe("Test all the actions", () => {
-
     test("should return initial state", () => {
         expect(store.getState().theme.isModeDark).toBe(false)
     })
-
     test("should add the product in wishlist", () => {
         store.dispatch(switchTheme())
         expect(store.getState().theme.isModeDark).toBe(true)

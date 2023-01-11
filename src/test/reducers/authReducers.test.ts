@@ -1,15 +1,13 @@
 import { AnyAction, EmptyObject } from "@reduxjs/toolkit"
 import type { } from 'redux-thunk/extend-redux';
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore"
-
 import { createStore } from "../../redux/store"
 import { PersistPartial } from "redux-persist/es/persistReducer"
-
 import { IProduct } from "../../type/Product";
 import { ICategory } from "../../type/Category";
 import { IAuth } from "../../type/Auth";
 import { ICartWishlist } from "../../type/CartWishList";
-import {login} from "../../redux/methods/authMethods";
+import { login } from "../../redux/methods/authMethods";
 import testData from "../../utilities/testData";
 import { IUser } from "../../type/User";
 import { userLogout } from "../../redux/reducers/authReducers";
@@ -39,7 +37,6 @@ beforeEach(() => {
 })
 
 describe("Test all the actions", () => {
-
     test("should return initial state", () => {
         const initialState = {
             loggedIn: false,
@@ -50,7 +47,7 @@ describe("Test all the actions", () => {
         expect(Object.keys(store.getState().auth).length).toBe(4)
         expect(store.getState().auth).toStrictEqual(initialState)
     })
-    test("should login user with right credentials", async() => {
+    test("should login user with right credentials", async () => {
         const credentials = {
             email: "testMail@domain.com",
             password: "password",
@@ -64,7 +61,7 @@ describe("Test all the actions", () => {
         }
         expect(store.getState().auth).toStrictEqual(result)
     })
-    test("should login user with wrong credentials", async() => {
+    test("should login user with wrong credentials", async () => {
         const credentials = {
             email: "testMail.co",
             password: "password",
@@ -76,10 +73,9 @@ describe("Test all the actions", () => {
             errorMsg: "Email or Password are incorrect",
             userInfo: null
         }
-
         expect(store.getState().auth).toStrictEqual(result)
     })
-    test("should log out successfully", async() => {
+    test("should log out successfully", async () => {
         const credentials = {
             email: "testMail@domain.com",
             password: "password",
@@ -92,7 +88,6 @@ describe("Test all the actions", () => {
             userInfo: testData.allUsers[0]
         }
         expect(store.getState().auth).toStrictEqual(loginResult)
-
         store.dispatch(userLogout())
         const loggoutResult = {
             loggedIn: false,

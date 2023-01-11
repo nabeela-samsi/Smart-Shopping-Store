@@ -1,7 +1,7 @@
 import { Alert, AlertTitle } from "@mui/material"
 import { IError } from "../type/Error"
 
-const ErrorMessage = (props:IError) => {
+const ErrorMessage = (props: IError) => {
     return (
         <Alert severity="error" variant="outlined">
             <AlertTitle>

@@ -1,7 +1,6 @@
 import { AnyAction, EmptyObject} from "@reduxjs/toolkit"
 import type {} from 'redux-thunk/extend-redux';
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore"
-
 import { createStore } from "../../redux/store"
 import { PersistPartial } from "redux-persist/es/persistReducer"
 import { IProduct } from "../../type/Product";
@@ -66,7 +65,6 @@ describe("Test all the actions", () => {
         await store.dispatch(updateUser(updateUserInfo))
         expect(store.getState().users[0].email).toBe("mariaTest@mail.com")
     })
-
     test("should update the user such that no email change", async() => {
         const updateUserInfo: IUpdateUser = {
             id: 1,

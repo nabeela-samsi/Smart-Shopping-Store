@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-
 import { createStore } from './redux/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -16,9 +15,9 @@ let persistor = persistStore(store);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-        <PersistGate persistor={persistor} loading={null}>
-          <App />
-          </PersistGate>
+      <PersistGate persistor={persistor} loading={null}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

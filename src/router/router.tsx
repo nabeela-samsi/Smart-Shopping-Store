@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-
 import Home from "../pages/Home";
 import ListOfProducts from "../pages/ListOfProducts";
 import Layout from "../components/Layout";
@@ -16,11 +15,11 @@ import DeleteAction from "../pages/DeleteAction";
 const router = createBrowserRouter([
     {
         element: <Layout />,
-        children:[
+        children: [
             {
                 path: '/',
                 element: <Home />,
-            },{
+            }, {
                 path: '/login',
                 element: <LogInForm />
             }, {
@@ -60,7 +59,7 @@ const router = createBrowserRouter([
                     {
                         path: '',
                         element: <ListOfProducts />
-                    } ,{
+                    }, {
                         path: 'searchByCategory',
                         element: <ListOfProducts />
                     }, {

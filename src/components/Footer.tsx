@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom"
-
 import { Grid, IconButton, Typography } from "@mui/material"
-
 import getIcons from "../utilities/getIcon"
 
 const Footer = () => {

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 import { ICategory } from "../../type/Category";
 import { createNewCategory, deletecategory, getAllCategories, updateCategory } from "../methods/categoryMethods";
 import { AxiosError } from "axios";
@@ -13,36 +12,32 @@ export const categorySlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllCategories.fulfilled, (state, action) => {
-                if(action.payload instanceof AxiosError) {
+                if (action.payload instanceof AxiosError) {
                     return state
                 } else {
                     return action.payload
                 }
             })
             .addCase(createNewCategory.fulfilled, (state, action) => {
-                if(action.payload instanceof AxiosError) {
+                if (action.payload instanceof AxiosError) {
                     return state
                 } else {
                     return [...state, action.payload]
                 }
             })
             .addCase(updateCategory.fulfilled, (state, action) => {
-                if(action.payload instanceof AxiosError) {
+                if (action.payload instanceof AxiosError) {
                     return state
                 } else {
-                    const modifyState = [...state]
-                    const result = modifyState.map(category => category.id === action.payload.id ? action.payload : category)
-                    return result
+                    return state.map(category => category.id === action.payload.id ? action.payload : category)
                 }
             })
             .addCase(deletecategory.fulfilled, (state, action) => {
-                if(action.payload instanceof AxiosError) {
+                if (action.payload instanceof AxiosError) {
                     return state
                 }
-                if(action.payload > 0) {
-                    const modifyState = [...state]
-                    const result = modifyState.filter(category => category.id !== action.payload)
-                    return result
+                if (action.payload > 0) {
+                    return state.filter(category => category.id !== action.payload)
                 } else {
                     return state
                 }

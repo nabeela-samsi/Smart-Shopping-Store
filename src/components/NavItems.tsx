@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
 import { Button, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import Avatar from '@mui/material/Avatar';
 import { StyledBadge } from "../muistyles/StyledBadge";
-
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { userLogout } from "../redux/reducers/authReducers";
 import getIcons from "../utilities/getIcon";
@@ -17,7 +15,6 @@ export const MenuBar = (props: IMenuBar) => {
     const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
-
     const setUserImage = () => {
         if (userImage) {
             return (
@@ -30,15 +27,12 @@ export const MenuBar = (props: IMenuBar) => {
             return getIcons.user
         }
     }
-
     const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget)
     }
-
     const handleMenuClose = () => {
         setAnchorEl(null)
     }
-
     const handleLogoutAction = () => {
         dispatch(userLogout())
     }
@@ -90,7 +84,8 @@ export const MenuBar = (props: IMenuBar) => {
                             </Typography>
                             <Button
                                 sx={{ ml: "18%" }}
-                                variant="outlined"
+                                variant="contained"
+                                color="inherit"
                             >
                                 <Link
                                     to={`/login`}
@@ -132,8 +127,9 @@ export const MenuBar = (props: IMenuBar) => {
                 {loggedIn && (
                     <MenuItem>
                         <Button
-                            variant="outlined"
+                            variant="contained"
                             onClick={handleLogoutAction}
+                            color="inherit"
                         >
                             Log out
                         </Button>
@@ -151,7 +147,6 @@ export const Cart = (props: IUserInfo) => {
     if (Object.keys(cartInfo)?.length && userInfo) {
         cartCount = (cartInfo[userInfo.id]) ? cartInfo[userInfo.id].length : 0
     }
-
     return (
         <IconButton aria-label="cart">
             <StyledBadge badgeContent={cartCount} color="secondary">
@@ -168,7 +163,6 @@ export const Wishlist = (props: IUserInfo) => {
     if (Object.keys(wishListInfo).length && userInfo) {
         wishListCount = (wishListInfo[userInfo.id]) ? wishListInfo[userInfo.id].length : 0
     }
-
     return (
         <IconButton aria-label="cart">
             <StyledBadge badgeContent={wishListCount} color="secondary">

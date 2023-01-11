@@ -1,7 +1,6 @@
 import { AnyAction, EmptyObject} from "@reduxjs/toolkit"
 import type {} from 'redux-thunk/extend-redux';
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore"
-
 import { createNewProduct, deleteProduct, getAllProducts, updateProduct } from "../../redux/methods/productMethods";
 import { createStore } from "../../redux/store"
 import { PersistPartial } from "redux-persist/es/persistReducer"
