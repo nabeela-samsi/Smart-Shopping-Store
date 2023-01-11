@@ -1,6 +1,6 @@
 import { GitHub, LinkedIn } from "@mui/icons-material"
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material"
-import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined'
+import {EmailOutlinedIcon} from '@material-ui/icons'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
