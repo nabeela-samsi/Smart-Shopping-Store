@@ -1,35 +1,10 @@
-import { AnyAction, EmptyObject} from "@reduxjs/toolkit"
 import type {} from 'redux-thunk/extend-redux';
-import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore"
 import { createStore } from "../../redux/store"
-import server from "../shared/server"
-import { PersistPartial } from "redux-persist/es/persistReducer"
 import testData from "../../utilities/testData";
 import { addToWishList, removeFromWishList } from "../../redux/reducers/wishListReducers";
-import { IProduct } from "../../type/Product";
-import { ICategory } from "../../type/Category";
-import { IAuth } from "../../type/Auth";
-import { ICartWishlist } from "../../type/CartWishList";
-import { IUser } from "../../type/User";
-import { ISwitchTheme } from "../../type/Theme";
+import { TStore } from "../../type/Store";
 
-let store: ToolkitStore<EmptyObject & {
-    products: IProduct[]
-    categories: ICategory[];
-    auth: IAuth;
-    cart: ICartWishlist;
-    wishList: ICartWishlist;
-    users: IUser[];
-    theme: ISwitchTheme;
-} & PersistPartial, AnyAction>
-
-beforeAll(() => {
-    server.listen()
-})
-
-afterAll(() => {
-    server.close()
-})
+let store: TStore
 
 beforeEach(() => {
     store = createStore()
