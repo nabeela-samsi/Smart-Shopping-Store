@@ -20,13 +20,13 @@ const Header = () => {
         dispatch(getAllProducts())
     }, [dispatch])
     return (
-        <header >
+        <header>
             <Stack
                 direction={"row"}
-                spacing={2}
+                spacing={5}
                 alignItems={"center"}
                 justifyContent={"center"}
-                padding={1}
+                padding={3}
             >
                 {isForm
                     ?

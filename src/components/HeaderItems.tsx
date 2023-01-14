@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { IconButton, InputAdornment, TextField } from "@mui/material"
+import { IconButton, InputAdornment, TextField, Typography } from "@mui/material"
 import { Stack } from "@mui/system";
 import { Cart, MenuBar, ModeToggle, Wishlist } from "./NavItems";
 import getIcons from "../utilities/getIcon";
@@ -63,7 +63,7 @@ export const NavigationBar = () => {
     const { loggedIn, userInfo } = useAppSelector((state) => state.auth)
     const isAdmin = userInfo?.role.toLowerCase() === 'admin'
     return (
-        <Stack direction="row" spacing={3} className="header__action">
+        <Stack direction="row" spacing={1} className="header__action">
             <MenuBar
                 loggedIn={loggedIn}
                 isAdmin={isAdmin}
@@ -71,9 +71,11 @@ export const NavigationBar = () => {
                 userImage={(userInfo) ? userInfo.avatar : ''}
                 userId={(userInfo) ? userInfo.id : 0}
             />
-            <Link to={"/products"} className="link-nodecoration">
+            <Link to={"/products"}>
                 <IconButton>
-                    Products
+                    <Typography fontSize={18}>
+                        Products
+                    </Typography>
                 </IconButton>
             </Link>
             <Link to={loggedIn ? "/cart" : "/login"}>

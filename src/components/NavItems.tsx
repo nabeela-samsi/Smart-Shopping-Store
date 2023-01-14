@@ -9,6 +9,7 @@ import getIcons from "../utilities/getIcon";
 import { IUserInfo } from "../type/CartWishList";
 import { IMenuBar } from "../type/MenuBar";
 import { switchTheme } from "../redux/reducers/themeReducers";
+import { Box } from "@mui/system";
 
 export const MenuBar = (props: IMenuBar) => {
     const { loggedIn, isAdmin, userName, userImage } = props
@@ -21,10 +22,15 @@ export const MenuBar = (props: IMenuBar) => {
                 <Avatar
                     alt={userName}
                     src={userImage}
+                    sizes="small"
                 />
             )
         } else {
-            return getIcons.user
+            return (
+                <Avatar>
+                    {getIcons.user}
+                </Avatar>
+            )
         }
     }
     const handleMenuOpen = (e: React.MouseEvent<HTMLElement>) => {
@@ -50,8 +56,9 @@ export const MenuBar = (props: IMenuBar) => {
                     variant="text"
                     color="inherit"
                 >
-                    {setUserImage()}
-                    Profile
+                   <Typography>
+                        {setUserImage()}
+                   </Typography>
                 </Button>
             </Tooltip>
             <Menu
@@ -178,8 +185,10 @@ export const ModeToggle = () => {
         dispatch(switchTheme())
     }
     return (
-        <IconButton aria-label="darkMode" onClick={handleSwitch}>
-            {getIcons.modeSwitcher}
-        </IconButton>
+       <Box>
+             <IconButton aria-label="darkMode" onClick={handleSwitch}>
+                {getIcons.modeSwitcher}
+            </IconButton>
+       </Box>
     )
 }

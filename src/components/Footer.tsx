@@ -6,7 +6,7 @@ const Footer = () => {
     const navigate = useNavigate()
     return (
         <footer className="footer">
-            <Grid container textAlign="center" justifyContent="center" alignItems={"center"}>
+            <Grid container textAlign="center" justifyContent="center" alignItems={"center"} pt={5}>
                 <Typography component="span">
                     &copy; Nabeela Samsi 2022
                 </Typography>

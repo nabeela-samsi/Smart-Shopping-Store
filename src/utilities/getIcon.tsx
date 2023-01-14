@@ -43,7 +43,7 @@ const home = (
 )
 
 const user = (
-    <AccountCircleOutlinedIcon />
+    <AccountCircleOutlinedIcon fontSize="large"/>
 )
 
 const photo = (
