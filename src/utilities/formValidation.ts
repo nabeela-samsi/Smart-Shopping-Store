@@ -58,7 +58,6 @@ export const productValidationSchema = yup.object(
             .min(1, "Price cannot be 0 or negative"),
         images: yup.string()
             .required("Atleast one image URL required"),
-        // categoryId: yup.string().required("Select your")
         categoryId: yup.mixed()
             .required("Please select one of the category")
             .notOneOf([0], "Please select one of the category")
