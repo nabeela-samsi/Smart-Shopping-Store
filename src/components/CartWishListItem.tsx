@@ -14,12 +14,13 @@ const CartWishListItem = (props: IProduct) => {
     const { userInfo } = useAppSelector(state => state.auth)
     const products = useAppSelector(state => state.products)
     const getProduct = products.find(product => product.id === props.id)
-    const cartRemoveAction = () => {
+    const cartRemoveAction = (isDelete:boolean) => {
         if (userInfo) {
             dispatch(removeFromCart({
                 userId: userInfo.id,
                 productId: props.id,
-                originalPrice: getProduct?.price
+                originalPrice: getProduct?.price,
+                isDelete
             }))
         }
     }
@@ -52,12 +53,13 @@ const CartWishListItem = (props: IProduct) => {
         >
             <Link
                 to={`/product/${props.id}`}
+                style={{pointerEvents: props.inStock ? 'auto' : 'none'}}
             >
                 <img
                     src={props.images[0]}
                     alt={props.title}
                     height="180"
-                    style={{ objectFit: "scale-down" }}
+                    style={{ objectFit: "scale-down"}}
                 />
             </Link>
             <Box
@@ -78,11 +80,13 @@ const CartWishListItem = (props: IProduct) => {
                     Price: € {props.price}
                 </Typography>
                 <br />
-                {isCart ?
+                {props.inStock
+                ?
+                isCart ?
                     <ButtonGroup>
                         <Button
                             aria-label="reduce"
-                            onClick={cartRemoveAction}
+                            onClick={() => cartRemoveAction(false)}
                         >
                             {getIcons.remove}
                         </Button>
@@ -94,6 +98,12 @@ const CartWishListItem = (props: IProduct) => {
                             onClick={cartAddAction}
                         >
                             {getIcons.add}
+                        </Button>
+                        <Button
+                            aria-label="increment"
+                            onClick={() => cartRemoveAction(true)}
+                        >
+                            {getIcons.trash}
                         </Button>
                     </ButtonGroup>
                     :
@@ -111,6 +121,17 @@ const CartWishListItem = (props: IProduct) => {
                             buttonLabel={"Remove From Wishlist"}
                         />
                     </>
+                :
+                <Typography color={"error"}>
+                    Out Of Stock!
+                    &emsp;
+                    &emsp;
+                    <ButtonHandle
+                        color={"secondary"}
+                        handleToggle={isCart ? () => cartRemoveAction(true) : wishListRemove}
+                        buttonLabel={`Remove From ${isCart ? 'Cart' : 'WishList'}`}
+                    />
+                </Typography>
                 }
             </Box>
         </Box>

@@ -15,6 +15,7 @@ export interface IRemoveCartWishList {
     productId: number
     userId: number
     originalPrice?: number
+    isDelete?: boolean
 }
 
 export interface IUserInfo{

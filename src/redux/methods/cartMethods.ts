@@ -52,7 +52,7 @@ export const removeFromcart = (
     action: PayloadAction<Error | IRemoveCartWishList>
 ) => {
     if('productId' in action.payload) {
-        const {userId, productId, originalPrice} = action.payload
+        const {userId, productId, originalPrice, isDelete} = action.payload
         const duplicateState = {...state}
         const cartInfoArray = duplicateState[userId]
         let cartValue: IProduct[] = []
@@ -62,7 +62,7 @@ export const removeFromcart = (
                 checkDeleteType = (cartInfoArray[item].quantity === 1)
             }
         }
-        if(checkDeleteType) {
+        if(checkDeleteType || isDelete) {
             cartValue = cartInfoArray.filter(product => product.id !== productId)
         } else{
             cartValue = cartInfoArray.map(product => {

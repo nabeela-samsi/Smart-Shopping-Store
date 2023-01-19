@@ -62,7 +62,7 @@ const DeleteAction = () => {
                     idValid ?
                         (
                             <>
-                                {(errorMessage.trim().length) &&
+                                {(errorMessage.trim().length > 0) &&
                                     <ErrorMessage
                                         title={"400 Bad Request"}
                                         message={errorMessage}

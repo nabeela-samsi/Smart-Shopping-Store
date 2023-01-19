@@ -8,6 +8,7 @@ export interface IProduct {
     category: ICategory
     images: string[]
     quantity?: number
+    inStock?: boolean
 }
 
 export interface ICreateProduct {

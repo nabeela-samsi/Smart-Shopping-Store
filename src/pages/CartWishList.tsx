@@ -11,10 +11,14 @@ const CartWishList = () => {
     const cartInfo = useAppSelector(state => state.cart)
     const wishListInfo = useAppSelector(state => state.wishList)
     const { userInfo } = useAppSelector(state => state.auth)
+    const products = useAppSelector(state => state.products)
     const pageInfo = (pathname === '/cart') ? cartInfo : wishListInfo
     let userBasedInfo: IProduct[] = []
     if (Object.keys(pageInfo)?.length && userInfo) {
-        userBasedInfo = pageInfo[userInfo.id]
+        userBasedInfo = pageInfo[userInfo.id].map(data => {
+            const isInStock = products.some(product => product.id === data.id)
+            return {...data, inStock: isInStock}
+        })
     }
     return (
         <>
