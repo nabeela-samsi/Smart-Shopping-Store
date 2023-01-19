@@ -38,9 +38,10 @@ Welcome to the Smart Shopping website :)
     - In single product page if user is logged in can add product either in cart or wishlist or he will be redirected to login page
     - User can navigate to cart or wishlist by clicking the icon present in header.
     - If user is logged in then only can get navigated to the cart or wishlist page else he will be redirected to login page.
-    - If user logged in and goes to cart page then he can increment or dercrement the product quantity. If quantity is 0 it will get removed from cart
+    - If user logged in and goes to cart page then he can increment or dercrement the product quantity. If quantity is 0 it will get removed from cart or he can remove the product from cart by clicking on remove from cart button.
     - If user logged in and goes to wishlist page then he will be able to add the product on cart or remove from wishlist
     - The cart and wishlist data of respective users are stored so that whenever they come back they will be able to view and modify it.
+    - In both cart and wishlist if the present prodduct is deleted then it will show out of stock text and remove button
 
 ## Features planning to implement
 
